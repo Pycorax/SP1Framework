@@ -5,13 +5,6 @@ void mainMenu()
 
 }
 
-void gameScreen(gameState &game)
-{
-
-
-	game = QUIT_MENU;
-}
-
 bool quit(gameState &game)
 {
 	char input;

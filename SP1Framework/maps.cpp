@@ -41,55 +41,119 @@ void renderMap(vector<vector<char>> processedMap)
 	const char space = ' ';
 	const char obstacle = 176;
 	const char pellet = 'o';
-	const size_t spriteHeight = 3;
-	const size_t spriteWidth = 3;
 
 	//Controls Rows
 	for (size_t coord_y = 0; coord_y < processedMap.size(); ++coord_y)
 	{
-		//Controls height of each tile
-		for (int j = 0; j < spriteHeight; ++j)
-		{
-			//Controls Columns
-			for (size_t coord_x = 0; coord_x < processedMap[coord_y].size(); ++coord_x)
-			{	
-				//Controls width of each tile
-				for (int i = 0; i < spriteWidth; ++i)
+		//Controls Columns
+		for (size_t coord_x = 0; coord_x < processedMap[coord_y].size(); ++coord_x)
+		{	
+			COORD tileLocation;
+			tileLocation.X = coord_x * TILE_WIDTH;
+			tileLocation.Y = coord_y * TILE_HEIGHT + HUD_OFFSET;
+			printTile(processedMap[coord_y][coord_x], tileLocation);
+		}
+	}
+}
+
+void printTile(char tile, COORD tileLocation)
+{
+	const char border = 176;
+	const char space = ' ';
+	const char obstacle = 176;
+	const char pellet = 'o';
+
+	switch(tile)
+	{
+		case'#':
+			for (size_t height = 0; height < TILE_HEIGHT; ++height)
+			{
+				gotoXY(tileLocation.X, tileLocation.Y + height);
+
+				for (size_t width = 0; width < TILE_WIDTH; ++ width)
 				{
-					switch(processedMap[coord_y][coord_x])
+					cout << border;
+				}
+			}
+			break;
+		case'O':
+			for (size_t height = 0; height < TILE_HEIGHT; ++height)
+			{
+				gotoXY(tileLocation.X, tileLocation.Y + height);
+
+				for (size_t width = 0; width < TILE_WIDTH; ++ width)
+				{
+					cout << obstacle;
+				}
+			}
+			break;
+		case '.':
+			for (size_t height = 0; height < TILE_HEIGHT; ++height)
+			{
+				gotoXY(tileLocation.X, tileLocation.Y + height);
+
+				for (size_t width = 0; width < TILE_WIDTH; ++ width)
+				{
+					if (height == 1 && width == 1)
 					{
-						case'#':
-							cout << border;
-							break;
-						case'O':
-							cout << obstacle;
-							break;
-						case '.':
-							if (j == spriteWidth/2)
-							{
-								if(i == spriteWidth/2)
-								{
-									cout << pellet;
-								}
-								else
-								{
-									cout << " ";
-								}
-							}
-							else
-							{
-								cout << " ";
-							}
-							break;
-						default:
-							cout << space;
-							break;
+						cout << pellet;
+					}
+					else
+					{
+						cout << space;
 					}
 				}
-			
 			}
+			break;
+		default:
+			for (size_t height = 0; height < TILE_HEIGHT; ++height)
+			{
+				gotoXY(tileLocation.X, tileLocation.Y + height);
 
-			cout << endl;
-		}
+				for (size_t width = 0; width < TILE_WIDTH; ++ width)
+				{
+					cout << space;
+				}
+			}
+			break;
+	}
+}
+
+void printPlayer(COORD charLocation, direction charDirection)
+{
+	switch(charDirection)
+	{
+		case UP:
+			gotoXY(charLocation);
+			cout << "o//";
+			gotoXY(charLocation.X, charLocation.Y + 1);
+			cout << "|";
+			gotoXY(charLocation.X, charLocation.Y + 2);
+			cout << "_//";
+			break;
+		case DOWN:
+			gotoXY(charLocation);
+			cout << "o//";
+			gotoXY(charLocation.X, charLocation.Y + 1);
+			cout << "|";
+			gotoXY(charLocation.X, charLocation.Y + 2);
+			cout << "_//";
+			break;
+		case LEFT:
+			gotoXY(charLocation);
+			cout << "\\\\o";
+			gotoXY(charLocation.X + 2, charLocation.Y + 1);
+			cout << "|";
+			gotoXY(charLocation.X, charLocation.Y + 2);
+			cout << "\\\\_";
+			break;
+		case RIGHT:
+			gotoXY(charLocation);
+			cout << "o//";
+			gotoXY(charLocation.X, charLocation.Y + 1);
+			cout << "|";
+			gotoXY(charLocation.X, charLocation.Y + 2);
+			cout << "_//";
+			break;
 	}
 }
