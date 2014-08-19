@@ -42,7 +42,7 @@
     <ClCompile Include="maps.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="characters.cpp">
+    <ClCompile Include="character.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
