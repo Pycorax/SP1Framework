@@ -42,6 +42,9 @@
     <ClCompile Include="maps.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="characters.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework\console.h">
@@ -57,6 +60,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="maps.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="characters.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
