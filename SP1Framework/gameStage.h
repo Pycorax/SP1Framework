@@ -21,6 +21,6 @@ enum gameState
 
 void mainMenu();
 void gameScreen(gameState &game);
-void quit(gameState &game);
+bool quit(gameState &game);
 
 #endif

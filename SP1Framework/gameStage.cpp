@@ -7,16 +7,12 @@ void mainMenu()
 
 void gameScreen(gameState &game)
 {
-	vector<vector<char>> processedMap;
 
-	processMap("testing.map", processedMap);
-
-	renderMap(processedMap);
 
 	game = QUIT_MENU;
 }
 
-void quit(gameState &game)
+bool quit(gameState &game)
 {
 	char input;
 
@@ -28,5 +24,8 @@ void quit(gameState &game)
 	if(input == 'Y')
 	{
 		game = EXIT;
+		return true;
 	}
+
+	return false;
 }

@@ -3,6 +3,7 @@
 #include "Framework\timer.h"
 #include "game.h"
 #include "gameStage.h"
+#include "maps.h"
 
 
 StopWatch g_timer;            // Timer function to keep track of time and the frame rate
@@ -10,7 +11,7 @@ bool g_quitGame = false;      // Set to true if you want to quit the game
 const unsigned char FPS = 5; // FPS of this game
 const unsigned int frameTime = 1000 / FPS; // time for each frame
 
-void mainLoop();
+void gameLoop();
 
 // TODO:
 // Bug in waitUnitil. it waits for the time from getElapsedTime to waitUntil, but should be insignificant.
@@ -18,10 +19,6 @@ void mainLoop();
 int main()
 {
 	init();      // initialize your variables
-    mainLoop();  // main loop
-    shutdown();  // do clean up, if any. free memory.
-
-	/*
 	gameState game = GAME;
 
 	while(game != EXIT)
@@ -32,28 +29,36 @@ int main()
 				mainMenu();
 				break;
 			case GAME:
-				gameScreen(game);
+				gameLoop();
+				game = MAIN_MENU;
 				break;
 			case QUIT_MENU:
-				quit(game);
+				if(quit(game))
+				{
+					shutdown(); // do clean up, if any. free memory.
+				}
 				break;
 		}
 	}
-	*/
 	
 	return 0;
 }
 
 // This main loop calls functions to get input, update and render the game
 // at a specific frame rate
-void mainLoop()
+void gameLoop()
 {
+	vector<vector<char>> processedMap;
+
+	//Load & Print Map
+	processMap("testing.map", processedMap);
+	renderMap(processedMap);
+
     g_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
     while (!g_quitGame)      // run this loop until user wants to quit 
 	{        
         getInput();                         // get keyboard input
         update(g_timer.getElapsedTime());   // update the game
-        render();                           // render the graphics output to screen
         g_timer.waitUntil(frameTime);       // Frame rate limiter. Limits each frame to a specified time in ms.      
 	}    
 }

@@ -14,5 +14,6 @@ using std::endl;
 
 bool processMap(const char mapName[], vector<vector<char>> &processedMap);
 void renderMap(vector<vector<char>> processedMap);
+void loadMap(const char mapName[], vector<vector<char>> &processedMap);
 
 #endif
