@@ -56,14 +56,14 @@ void gameLoop()
 	renderMap(processedMap);
 
 	// set the character position
-    charLocation.X = 1 * TILE_WIDTH;
-    charLocation.Y = 1 * TILE_HEIGHT + HUD_OFFSET;
+    charLocation.X = 3 * TILE_WIDTH;
+    charLocation.Y = 3 * TILE_HEIGHT + HUD_OFFSET;
 
     g_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
     while (!g_quitGame)      // run this loop until user wants to quit 
 	{        
         getInput();                         // get keyboard input
-        update(g_timer.getElapsedTime());   // update the game
+        update(g_timer.getElapsedTime(), processedMap);   // update the game
 		render(processedMap);
         g_timer.waitUntil(frameTime);       // Frame rate limiter. Limits each frame to a specified time in ms.      
 	}    

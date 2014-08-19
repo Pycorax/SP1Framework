@@ -48,7 +48,7 @@ void getInput()
     keyPressed[K_ESCAPE] = isKeyPressed(VK_ESCAPE);
 }
 
-void update(double dt)
+void update(double dt, vector<vector<char>> processedMap)
 {
     // get the delta time
     elapsedTime += dt;
@@ -58,44 +58,60 @@ void update(double dt)
     // Updating the location of the character based on the key press
     if (keyPressed[K_UP] && charLocation.Y > 0)
     {
-        Beep(1440, 30);
-        charLocation.Y -= 3;
-		charDirection = UP;
+		if(processedMap[(charLocation.Y - TILE_HEIGHT - HUD_OFFSET)/TILE_HEIGHT][(charLocation.X)/TILE_WIDTH] != '#')
+		{
+			Beep(1440, 30);
+			charLocation.Y -= TILE_HEIGHT;
+			charDirection = UP;
+		}
     }
     if (keyPressed[K_LEFT] && charLocation.X > 0)
     {
-        Beep(1440, 30);
-        charLocation.X -= 3;
-		charDirection = LEFT;
-    }
+		if(processedMap[(charLocation.Y - HUD_OFFSET)/TILE_HEIGHT][(charLocation.X - TILE_WIDTH)/TILE_WIDTH] != '#')
+		{
+			Beep(1440, 30);
+			charLocation.X -= TILE_WIDTH;
+			charDirection = LEFT;
+		}
+	}
     if (keyPressed[K_DOWN] && charLocation.Y < consoleSize.Y - 1)
     {
-        Beep(1440, 30);
-        charLocation.Y += 3;
-		charDirection = DOWN;
+		if(processedMap[(charLocation.Y + TILE_HEIGHT - HUD_OFFSET)/TILE_HEIGHT][(charLocation.X)/TILE_WIDTH] != '#')
+		{
+			Beep(1440, 30);
+			charLocation.Y += TILE_HEIGHT;
+			charDirection = DOWN;
+		}
     }
     if (keyPressed[K_RIGHT] && charLocation.X < consoleSize.X - 1)
     {
-        Beep(1440, 30);
-        charLocation.X += 3;
-		charDirection = RIGHT;
+		if(processedMap[(charLocation.Y - HUD_OFFSET)/TILE_HEIGHT][(charLocation.X + TILE_WIDTH)/TILE_WIDTH] != '#')
+		{
+			Beep(1440, 30);
+			charLocation.X += TILE_WIDTH;
+			charDirection = RIGHT;
+		}
     }
 
     // quits the game if player hits the escape key
     if (keyPressed[K_ESCAPE])
-        g_quitGame = true;    
+	{
+        g_quitGame = true;
+	}
 }
 
 void render(vector<vector<char>> &processedMap)
 {
+	/*
     // render time taken to calculate this frame
-    gotoXY(70, 0);
+    gotoXY(72, 0);
     colour(0x1A);
     std::cout << 1.0 / deltaTime << "fps" << std::endl;
   
     gotoXY(0, 0);
     colour(0x59);
     std::cout << elapsedTime << "secs" << std::endl;
+	*/
 
 	// wipe old character
 	colour(FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED);
