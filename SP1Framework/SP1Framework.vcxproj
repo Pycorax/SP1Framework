@@ -88,6 +88,7 @@
     <ClInclude Include="game.h" />
     <ClInclude Include="gameStage.h" />
     <ClInclude Include="maps.h" />
+    <ClInclude Include="userInterface.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="testing.map" />

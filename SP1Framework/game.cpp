@@ -5,11 +5,14 @@
 #include "Framework\console.h"
 #include <iostream>
 #include <iomanip>
+#include <vector>
+#include "maps.h"
 
 double elapsedTime;
 double deltaTime;
 bool keyPressed[K_COUNT];
 COORD charLocation;
+COORD oldCharLocation;
 COORD consoleSize;
 
 void init()
@@ -29,10 +32,6 @@ void init()
     GetConsoleScreenBufferInfo( GetStdHandle( STD_OUTPUT_HANDLE ), &csbi );
     consoleSize.X = csbi.srWindow.Right + 1;
     consoleSize.Y = csbi.srWindow.Bottom + 1;
-
-    // set the character to be in the center of the screen.
-    charLocation.X = consoleSize.X / 2;
-    charLocation.Y = consoleSize.Y / 2;
 
     elapsedTime = 0.0;
 }
@@ -57,27 +56,28 @@ void update(double dt)
     // get the delta time
     elapsedTime += dt;
     deltaTime = dt;
+	oldCharLocation = charLocation;
 
     // Updating the location of the character based on the key press
     if (keyPressed[K_UP] && charLocation.Y > 0)
     {
         Beep(1440, 30);
-        charLocation.Y--; 
+        charLocation.Y -= 3; 
     }
     if (keyPressed[K_LEFT] && charLocation.X > 0)
     {
         Beep(1440, 30);
-        charLocation.X--; 
+        charLocation.X -= 3; 
     }
     if (keyPressed[K_DOWN] && charLocation.Y < consoleSize.Y - 1)
     {
         Beep(1440, 30);
-        charLocation.Y++; 
+        charLocation.Y += 3; 
     }
     if (keyPressed[K_RIGHT] && charLocation.X < consoleSize.X - 1)
     {
         Beep(1440, 30);
-        charLocation.X++; 
+        charLocation.X += 3; 
     }
 
     // quits the game if player hits the escape key
@@ -85,27 +85,8 @@ void update(double dt)
         g_quitGame = true;    
 }
 
-void render()
+void render(vector<vector<char>> &processedMap)
 {
-    // clear previous screen
-    colour(0x0F);
-    cls();
-
-    //render the game
-
-    //render test screen code (not efficient at all)
-    const WORD colors[] =   {
-	                        0x1A, 0x2B, 0x3C, 0x4D, 0x5E, 0x6F,
-	                        0xA1, 0xB2, 0xC3, 0xD4, 0xE5, 0xF6
-	                        };
-	
-	for (int i = 0; i < 12; ++i)
-	{
-		gotoXY(3*i,i+1);
-		colour(colors[i]);
-		std::cout << "WOW";
-	}
-
     // render time taken to calculate this frame
     gotoXY(70, 0);
     colour(0x1A);
@@ -115,10 +96,11 @@ void render()
     colour(0x59);
     std::cout << elapsedTime << "secs" << std::endl;
 
+	// wipe old character
+	colour(FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED);
+	printTile(processedMap[oldCharLocation.Y/TILE_HEIGHT - HUD_OFFSET/TILE_HEIGHT][oldCharLocation.X/TILE_WIDTH], oldCharLocation);
     // render character
     gotoXY(charLocation);
     colour(0x0C);
     std::cout << (char)1;
-
-    
 }
