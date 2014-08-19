@@ -2,11 +2,7 @@
 //
 //
 #include "game.h"
-#include "Framework\console.h"
-#include <iostream>
-#include <iomanip>
-#include <vector>
-#include "maps.h"
+
 
 double elapsedTime;
 double deltaTime;
@@ -14,6 +10,7 @@ bool keyPressed[K_COUNT];
 COORD charLocation;
 COORD oldCharLocation;
 COORD consoleSize;
+direction charDirection;
 
 void init()
 {
@@ -62,22 +59,26 @@ void update(double dt)
     if (keyPressed[K_UP] && charLocation.Y > 0)
     {
         Beep(1440, 30);
-        charLocation.Y -= 3; 
+        charLocation.Y -= 3;
+		charDirection = UP;
     }
     if (keyPressed[K_LEFT] && charLocation.X > 0)
     {
         Beep(1440, 30);
-        charLocation.X -= 3; 
+        charLocation.X -= 3;
+		charDirection = LEFT;
     }
     if (keyPressed[K_DOWN] && charLocation.Y < consoleSize.Y - 1)
     {
         Beep(1440, 30);
-        charLocation.Y += 3; 
+        charLocation.Y += 3;
+		charDirection = DOWN;
     }
     if (keyPressed[K_RIGHT] && charLocation.X < consoleSize.X - 1)
     {
         Beep(1440, 30);
-        charLocation.X += 3; 
+        charLocation.X += 3;
+		charDirection = RIGHT;
     }
 
     // quits the game if player hits the escape key
@@ -102,5 +103,5 @@ void render(vector<vector<char>> &processedMap)
     // render character
     gotoXY(charLocation);
     colour(0x0C);
-    std::cout << (char)1;
+    printPlayer(charLocation, charDirection);
 }

@@ -41,57 +41,6 @@ void renderMap(vector<vector<char>> processedMap)
 	const char space = ' ';
 	const char obstacle = 176;
 	const char pellet = 'o';
-	const size_t spriteHeight = 3;
-	const size_t spriteWidth = 3;
-
-	////Controls Rows
-	//for (size_t coord_y = 0; coord_y < processedMap.size(); ++coord_y)
-	//{
-	//	//Controls height of each tile
-	//	for (int j = 0; j < spriteHeight; ++j)
-	//	{
-	//		//Controls Columns
-	//		for (size_t coord_x = 0; coord_x < processedMap[coord_y].size(); ++coord_x)
-	//		{	
-	//			//Controls width of each tile
-	//			for (int i = 0; i < spriteWidth; ++i)
-	//			{
-	//				switch(processedMap[coord_y][coord_x])
-	//				{
-	//					case'#':
-	//						cout << border;
-	//						break;
-	//					case'O':
-	//						cout << obstacle;
-	//						break;
-	//					case '.':
-	//						if (j == spriteWidth/2)
-	//						{
-	//							if(i == spriteWidth/2)
-	//							{
-	//								cout << pellet;
-	//							}
-	//							else
-	//							{
-	//								cout << " ";
-	//							}
-	//						}
-	//						else
-	//						{
-	//							cout << " ";
-	//						}
-	//						break;
-	//					default:
-	//						cout << space;
-	//						break;
-	//				}
-	//			}
-	//		
-	//		}
-
-	//		cout << endl;
-	//	}
-	//}
 
 	//Controls Rows
 	for (size_t coord_y = 0; coord_y < processedMap.size(); ++coord_y)
@@ -166,6 +115,45 @@ void printTile(char tile, COORD tileLocation)
 					cout << space;
 				}
 			}
+			break;
+	}
+}
+
+void printPlayer(COORD charLocation, direction charDirection)
+{
+	switch(charDirection)
+	{
+		case UP:
+			gotoXY(charLocation);
+			cout << "o//";
+			gotoXY(charLocation.X, charLocation.Y + 1);
+			cout << "|";
+			gotoXY(charLocation.X, charLocation.Y + 2);
+			cout << "_//";
+			break;
+		case DOWN:
+			gotoXY(charLocation);
+			cout << "o//";
+			gotoXY(charLocation.X, charLocation.Y + 1);
+			cout << "|";
+			gotoXY(charLocation.X, charLocation.Y + 2);
+			cout << "_//";
+			break;
+		case LEFT:
+			gotoXY(charLocation);
+			cout << "\\\\o";
+			gotoXY(charLocation.X + 2, charLocation.Y + 1);
+			cout << "|";
+			gotoXY(charLocation.X, charLocation.Y + 2);
+			cout << "\\\\_";
+			break;
+		case RIGHT:
+			gotoXY(charLocation);
+			cout << "o//";
+			gotoXY(charLocation.X, charLocation.Y + 1);
+			cout << "|";
+			gotoXY(charLocation.X, charLocation.Y + 2);
+			cout << "_//";
 			break;
 	}
 }

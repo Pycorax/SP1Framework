@@ -2,7 +2,11 @@
 #define _GAME_H
 
 #include "Framework\timer.h"
+#include "Framework\console.h"
+#include <iostream>
+#include <iomanip>
 #include <vector>
+#include "maps.h"
 
 using std::vector;
 
