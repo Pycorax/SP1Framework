@@ -17,7 +17,7 @@ void init()
     // Set precision for floating point output
     std::cout << std::fixed << std::setprecision(3);
 
-    SetConsoleTitle(L"SP1 Framework");
+    SetConsoleTitle(L"PacGun");
 
     // Sets the console size, this is the biggest so far.
     setConsoleSize(79, 28);

@@ -2,6 +2,7 @@
 
 #include "Framework\timer.h"
 #include "game.h"
+#include "gameStage.h"
 
 
 StopWatch g_timer;            // Timer function to keep track of time and the frame rate
@@ -19,6 +20,26 @@ int main()
 	init();      // initialize your variables
     mainLoop();  // main loop
     shutdown();  // do clean up, if any. free memory.
+
+	/*
+	gameState game = GAME;
+
+	while(game != EXIT)
+	{
+		switch(game)
+		{
+			case MAIN_MENU:
+				mainMenu();
+				break;
+			case GAME:
+				gameScreen(game);
+				break;
+			case QUIT_MENU:
+				quit(game);
+				break;
+		}
+	}
+	*/
 	
 	return 0;
 }
