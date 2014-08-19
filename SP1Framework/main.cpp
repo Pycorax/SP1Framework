@@ -4,6 +4,7 @@
 #include "game.h"
 #include "gameStage.h"
 #include "maps.h"
+#include "characters.h"
 
 extern COORD charLocation;
 
@@ -59,12 +60,15 @@ void gameLoop()
     charLocation.X = 3 * TILE_WIDTH;
     charLocation.Y = 3 * TILE_HEIGHT + HUD_OFFSET;
 
+	Ghost ghost(1, 1, 1, 3, 3);
+
     g_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
     while (!g_quitGame)      // run this loop until user wants to quit 
 	{        
         getInput();                         // get keyboard input
         update(g_timer.getElapsedTime(), processedMap);   // update the game
 		render(processedMap);
+		ghost.printGhost();
         g_timer.waitUntil(frameTime);       // Frame rate limiter. Limits each frame to a specified time in ms.      
 	}    
 }

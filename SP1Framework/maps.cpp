@@ -125,7 +125,7 @@ void printPlayer(COORD charLocation, direction charDirection)
 	{
 		case UP:
 			gotoXY(charLocation);
-			cout << "o//";
+			cout << "\\o\\";
 			gotoXY(charLocation.X, charLocation.Y + 1);
 			cout << "|";
 			gotoXY(charLocation.X, charLocation.Y + 2);
@@ -133,7 +133,7 @@ void printPlayer(COORD charLocation, direction charDirection)
 			break;
 		case DOWN:
 			gotoXY(charLocation);
-			cout << "o//";
+			cout << "\\o\\";
 			gotoXY(charLocation.X, charLocation.Y + 1);
 			cout << "|";
 			gotoXY(charLocation.X, charLocation.Y + 2);
@@ -141,15 +141,15 @@ void printPlayer(COORD charLocation, direction charDirection)
 			break;
 		case LEFT:
 			gotoXY(charLocation);
-			cout << "\\\\o";
+			cout << "/o" << (char)184;
 			gotoXY(charLocation.X + 2, charLocation.Y + 1);
-			cout << "|";
+			cout << (char)186;
 			gotoXY(charLocation.X, charLocation.Y + 2);
-			cout << "\\\\_";
+			cout << "\\_" << (char)190;
 			break;
 		case RIGHT:
 			gotoXY(charLocation);
-			cout << "o//";
+			cout << "\\o\\";
 			gotoXY(charLocation.X, charLocation.Y + 1);
 			cout << "|";
 			gotoXY(charLocation.X, charLocation.Y + 2);
