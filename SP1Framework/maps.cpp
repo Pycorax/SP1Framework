@@ -29,6 +29,14 @@ bool Map::processMap(const char mapName[])
 					skipLine = true;
 					break;
 				}
+				else if(readChar == 'Z')
+				{
+					--coord_y;
+					getline(mapFile, readLine);
+					zones = atoi(readLine.c_str());
+					skipLine = true;
+					break;
+				}
 				else
 				{
 					ptr->push_back(readChar);
