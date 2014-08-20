@@ -30,5 +30,6 @@ void renderMap(vector<vector<char>> processedMap);
 void loadMap(const char mapName[], vector<vector<char>> &processedMap);
 void printTile(char tile, COORD tileLocation);
 void printPlayer(COORD charLocation, direction charDirection);
+void printGhost(COORD ghostLocation, direction ghostDirection);
 
 #endif

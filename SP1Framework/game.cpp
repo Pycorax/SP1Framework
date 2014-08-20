@@ -11,6 +11,8 @@ COORD charLocation;
 COORD oldCharLocation;
 COORD consoleSize;
 direction charDirection;
+COORD ghostLocation;
+direction ghostDirection;
 
 void init()
 {
@@ -120,4 +122,9 @@ void render(vector<vector<char>> &processedMap)
     gotoXY(charLocation);
     colour(0x0C);
     printPlayer(charLocation, charDirection);
+
+    // render character
+    gotoXY(ghostLocation);
+    colour(0x0D);
+    //printPlayer(ghostLocation, ghostDirection);
 }

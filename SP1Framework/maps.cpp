@@ -121,39 +121,87 @@ void printTile(char tile, COORD tileLocation)
 
 void printPlayer(COORD charLocation, direction charDirection)
 {
+	static bool even = true;
 	switch(charDirection)
 	{
 		case UP:
-			gotoXY(charLocation);
-			cout << "o//";
-			gotoXY(charLocation.X, charLocation.Y + 1);
-			cout << "|";
-			gotoXY(charLocation.X, charLocation.Y + 2);
-			cout << "_//";
+					if(even)
+					{
+						gotoXY(charLocation);
+						cout << "___";
+						gotoXY(charLocation.X, charLocation.Y + 1);
+						cout << "(*<";
+						even = false;
+					}
+					else
+					{
+						gotoXY(charLocation);
+						cout << "___";
+						gotoXY(charLocation.X, charLocation.Y + 1);
+						cout << "(*=";
+						even = true;
+					}
+				
 			break;
-		case DOWN:
-			gotoXY(charLocation);
-			cout << "o//";
-			gotoXY(charLocation.X, charLocation.Y + 1);
-			cout << "|";
-			gotoXY(charLocation.X, charLocation.Y + 2);
-			cout << "_//";
+
+		case DOWN:	
+					if(even)
+					{
+						gotoXY(charLocation);
+						cout << "___";
+						gotoXY(charLocation.X, charLocation.Y + 1);
+						cout << "(*<";
+						even = false;
+					}
+					else
+					{
+						gotoXY(charLocation);
+						cout << "___";
+						gotoXY(charLocation.X, charLocation.Y + 1);
+						cout << "(*=";
+						even = true;
+					}
+				 
 			break;
+
 		case LEFT:
-			gotoXY(charLocation);
-			cout << "\\\\o";
-			gotoXY(charLocation.X + 2, charLocation.Y + 1);
-			cout << "|";
-			gotoXY(charLocation.X, charLocation.Y + 2);
-			cout << "\\\\_";
+					if(even)
+					{
+						gotoXY(charLocation);
+						cout << "___";
+						gotoXY(charLocation.X, charLocation.Y + 1);
+						cout << ">*)";
+						even = false;
+					}
+					else
+					{
+						gotoXY(charLocation);
+						cout << "___";
+						gotoXY(charLocation.X, charLocation.Y + 1);
+						cout << "=*)";
+						even = true;
+					}
+				 
 			break;
-		case RIGHT:
-			gotoXY(charLocation);
-			cout << "o//";
-			gotoXY(charLocation.X, charLocation.Y + 1);
-			cout << "|";
-			gotoXY(charLocation.X, charLocation.Y + 2);
-			cout << "_//";
+
+		case RIGHT:	
+					if(even)
+					{
+						gotoXY(charLocation);
+						cout << "___";
+						gotoXY(charLocation.X, charLocation.Y + 1);
+						cout << "(*<";
+						even = false;
+					}
+					else
+					{
+						gotoXY(charLocation);
+						cout << "___";
+						gotoXY(charLocation.X, charLocation.Y + 1);
+						cout << "(*=";
+						even = true;
+					}
+				 
 			break;
 	}
 }
