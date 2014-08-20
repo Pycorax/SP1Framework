@@ -50,7 +50,7 @@ struct Ghost
 
 	void move()
 	{
-		for(int i = 0; i > coord.X && i < coord.Y; --i)
+		/*for(int i = 0; i > coord.X && i < coord.Y; --i)
 		{
 			if(coord.X != 0 && coord.Y != 0)
 			{
@@ -61,7 +61,9 @@ struct Ghost
 			{
 				++coord.Y;
 			}
-		}
+		}*/
+
+		
 	}
 };
 
