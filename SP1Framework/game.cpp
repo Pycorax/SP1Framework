@@ -51,7 +51,7 @@ void getInput()
     keyPressed[K_ESCAPE] = isKeyPressed(VK_ESCAPE);
 }
 
-void update(double dt, vector<vector<char>> processedMap)
+void update(double dt, vector<vector<char>> &processedMap)
 {
     // get the delta time
     elapsedTime += dt;
@@ -66,7 +66,10 @@ void update(double dt, vector<vector<char>> processedMap)
 			Beep(1440, 30);
 			charLocation.Y -= TILE_HEIGHT;
 			charDirection = UP;
+
 		}
+		
+	
     }
 	else if (keyPressed[K_LEFT] && charLocation.X > 0)
     {
@@ -75,7 +78,9 @@ void update(double dt, vector<vector<char>> processedMap)
 			Beep(1440, 30);
 			charLocation.X -= TILE_WIDTH;
 			charDirection = LEFT;
+	
 		}
+		
 	}
     else if (keyPressed[K_DOWN] && charLocation.Y < consoleSize.Y - 1)
     {
@@ -84,7 +89,7 @@ void update(double dt, vector<vector<char>> processedMap)
 			Beep(1440, 30);
 			charLocation.Y += TILE_HEIGHT;
 			charDirection = DOWN;
-		}
+		}	
     }
     else if (keyPressed[K_RIGHT] && charLocation.X < consoleSize.X - 1)
     {
@@ -95,6 +100,11 @@ void update(double dt, vector<vector<char>> processedMap)
 			charDirection = RIGHT;
 		}
     }
+
+	if(processedMap[(charLocation.Y - HUD_OFFSET)/TILE_HEIGHT][(charLocation.X)/TILE_WIDTH] == '.')
+	{
+		processedMap[(charLocation.Y - HUD_OFFSET)/TILE_HEIGHT][(charLocation.X)/TILE_WIDTH] = ' ';
+	}
 
     // quits the game if player hits the escape key
     if (keyPressed[K_ESCAPE])
