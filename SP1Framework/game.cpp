@@ -48,6 +48,7 @@ void getInput()
     keyPressed[K_LEFT] = isKeyPressed(VK_LEFT);
     keyPressed[K_RIGHT] = isKeyPressed(VK_RIGHT);
     keyPressed[K_ESCAPE] = isKeyPressed(VK_ESCAPE);
+	keyPressed[K_SPACE] = isKeyPressed(VK_SPACE);
 }
 
 void update(double dt, vector<vector<char>> &processedMap)
