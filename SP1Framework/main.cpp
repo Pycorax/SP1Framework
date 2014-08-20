@@ -50,6 +50,8 @@ int main()
 // at a specific frame rate
 void gameLoop()
 {
+	Ghost *newGhost = NULL;
+
 	//Load & Print Map
 	Map currentMap("testing.map", "testing.aimap");
 	currentMap.renderMap();
@@ -60,8 +62,11 @@ void gameLoop()
 
 	vector<Ghost> ghostStorage;
 
-
-	Ghost ghost(1, 1, 1, 3, 3);
+	for(size_t i = 0; i < currentMap.ghosts; ++i)
+	{
+		newGhost = new Ghost(1,1,1);
+		ghostStorage.push_back(*newGhost);
+	}
 
     g_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
     while (!g_quitGame)      // run this loop until user wants to quit 
@@ -70,8 +75,6 @@ void gameLoop()
 
         update(g_timer.getElapsedTime(), currentMap.processedMap, ghostStorage);   // update the game
 		render(currentMap.processedMap, ghostStorage);
-
-		ghost.printGhost();
         g_timer.waitUntil(frameTime);       // Frame rate limiter. Limits each frame to a specified time in ms.      
 	}    
 }

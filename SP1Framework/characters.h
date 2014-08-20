@@ -21,7 +21,7 @@ struct Ghost
 	direction direct;
 	short zoneID;
 
-	Ghost(int healthPoints, int speedPoints, short givenZoneID, unsigned int coord_X, unsigned int coord_Y)
+	Ghost(int healthPoints, int speedPoints, short givenZoneID)
 	{
 		health = healthPoints;
 		speed = speedPoints;
@@ -30,6 +30,8 @@ struct Ghost
 		srand(time(NULL));
 		srand(time(NULL));
 
+		//TODO: 
+		//Rand not wokring seemingly
 		coord.X = rand() % 3 * TILE_WIDTH;
 		coord.Y = rand() % 3 * TILE_HEIGHT + HUD_OFFSET;
 	}
