@@ -1,6 +1,58 @@
 #include "maps.h"
 
-bool processMap(const char mapName[], vector<vector<char>> &processedMap)
+bool Map::processMap(const char mapName[])
+{
+	string readLine;
+	char readChar;
+	bool skipLine = false;
+
+	ifstream mapFile;
+	mapFile.open(mapName);
+
+	if(mapFile.is_open())
+	{
+		for (int coord_y = 0; !mapFile.eof() ; ++coord_y)
+		{
+			getline(mapFile, readLine);
+			
+			vector<char> *ptr = new vector<char>;
+
+			for (size_t coord_x = 0; coord_x < readLine.length() ; ++coord_x)
+			{
+				skipLine = false;
+				readChar = readLine[coord_x];
+				if(readChar == 'G')
+				{
+					--coord_y;
+					getline(mapFile, readLine);
+					ghosts = atoi(readLine.c_str());
+					skipLine = true;
+					break;
+				}
+				else
+				{
+					ptr->push_back(readChar);
+			
+				}
+			}
+
+			if(!skipLine)
+			{
+				processedMap.push_back(*ptr);
+			}
+		}
+
+		mapFile.close();
+
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+bool Map::processAIMap(const char mapName[])
 {
 	string readLine;
 	char readChar;
@@ -22,7 +74,7 @@ bool processMap(const char mapName[], vector<vector<char>> &processedMap)
 				ptr->push_back(readChar);
 			}
 
-			processedMap.push_back(*ptr);
+			processedAIMap.push_back(*ptr);
 		}
 
 		mapFile.close();
@@ -35,7 +87,7 @@ bool processMap(const char mapName[], vector<vector<char>> &processedMap)
 	}
 }
 
-void renderMap(vector<vector<char>> processedMap)
+void Map::renderMap()
 {
 	const char border = 176;
 	const char space = ' ';
@@ -125,82 +177,82 @@ void printPlayer(COORD charLocation, direction charDirection)
 	switch(charDirection)
 	{
 		case UP:
-					if(even)
-					{
-						gotoXY(charLocation);
-						cout << "___";
-						gotoXY(charLocation.X, charLocation.Y + 1);
-						cout << "(*<";
-						even = false;
-					}
-					else
-					{
-						gotoXY(charLocation);
-						cout << "___";
-						gotoXY(charLocation.X, charLocation.Y + 1);
-						cout << "(*=";
-						even = true;
-					}
+			if(even)
+			{
+				gotoXY(charLocation);
+				cout << "___";
+				gotoXY(charLocation.X, charLocation.Y + 1);
+				cout << "(*<";
+				even = false;
+			}
+			else
+			{
+				gotoXY(charLocation);
+				cout << "___";
+				gotoXY(charLocation.X, charLocation.Y + 1);
+				cout << "(*=";
+				even = true;
+			}
 				
 			break;
 
 		case DOWN:	
-					if(even)
-					{
-						gotoXY(charLocation);
-						cout << "___";
-						gotoXY(charLocation.X, charLocation.Y + 1);
-						cout << "(*<";
-						even = false;
-					}
-					else
-					{
-						gotoXY(charLocation);
-						cout << "___";
-						gotoXY(charLocation.X, charLocation.Y + 1);
-						cout << "(*=";
-						even = true;
-					}
+			if(even)
+			{
+				gotoXY(charLocation);
+				cout << "___";
+				gotoXY(charLocation.X, charLocation.Y + 1);
+				cout << "(*<";
+				even = false;
+			}
+			else
+			{
+				gotoXY(charLocation);
+				cout << "___";
+				gotoXY(charLocation.X, charLocation.Y + 1);
+				cout << "(*=";
+				even = true;
+			}
 				 
 			break;
 
 		case LEFT:
-					if(even)
-					{
-						gotoXY(charLocation);
-						cout << "___";
-						gotoXY(charLocation.X, charLocation.Y + 1);
-						cout << ">*)";
-						even = false;
-					}
-					else
-					{
-						gotoXY(charLocation);
-						cout << "___";
-						gotoXY(charLocation.X, charLocation.Y + 1);
-						cout << "=*)";
-						even = true;
-					}
+			if(even)
+			{
+				gotoXY(charLocation);
+				cout << "___";
+				gotoXY(charLocation.X, charLocation.Y + 1);
+				cout << ">*)";
+				even = false;
+			}
+			else
+			{
+				gotoXY(charLocation);
+				cout << "___";
+				gotoXY(charLocation.X, charLocation.Y + 1);
+				cout << "=*)";
+				even = true;
+			}
 				 
 			break;
 
 		case RIGHT:	
-					if(even)
-					{
-						gotoXY(charLocation);
-						cout << "___";
-						gotoXY(charLocation.X, charLocation.Y + 1);
-						cout << "(*<";
-						even = false;
-					}
-					else
-					{
-						gotoXY(charLocation);
-						cout << "___";
-						gotoXY(charLocation.X, charLocation.Y + 1);
-						cout << "(*=";
-						even = true;
-					}
+			if(even)
+			{
+				gotoXY(charLocation);
+				cout << "___";
+				gotoXY(charLocation.X, charLocation.Y + 1);
+				cout << "(*<";
+				even = false;
+			}
+			else
+			{
+				gotoXY(charLocation);
+				cout << "___";
+				gotoXY(charLocation.X, charLocation.Y + 1);
+				cout << "(*=";
+				even = true;
+			}
 				 
 			break;
 	}
