@@ -25,7 +25,24 @@ enum direction
 	MAX_DIRECTIONS
 };
 
-bool processMap(const char mapName[], vector<vector<char>> &processedMap);
+struct Map
+{
+	unsigned short ghosts;
+	int minScore;
+	vector<vector<char>> processedMap;
+	vector<vector<char>> processedAIMap;
+
+	Map(const char mapName[], const char aiMapName[])
+	{
+		processMap(mapName);
+		processAIMap(aiMapName);
+	}
+
+	bool processMap(const char mapName[]);
+	bool processAIMap(const char mapName[]);
+	void renderMap();
+};
+
 void renderMap(vector<vector<char>> processedMap);
 void loadMap(const char mapName[], vector<vector<char>> &processedMap);
 void printTile(char tile, COORD tileLocation);
