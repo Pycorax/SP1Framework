@@ -25,15 +25,10 @@ struct Ghost
 	{
 		health = healthPoints;
 		speed = speedPoints;
-		//zoneID = givenZoneID;
-		
+		zoneID = givenZoneID;
 
-		//TODO: 
-		//Rand not wokring seemingly
-	
 		coord.X = rand() % 3 * TILE_WIDTH;
 
-		
 		coord.Y = rand() % 3 * TILE_HEIGHT + HUD_OFFSET;
 	}
 
