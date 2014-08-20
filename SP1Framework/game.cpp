@@ -67,7 +67,7 @@ void update(double dt, vector<vector<char>> processedMap, vector<Ghost> ghostSto
 			charDirection = UP;
 		}
     }
-    if (keyPressed[K_LEFT] && charLocation.X > 0)
+    else if (keyPressed[K_LEFT] && charLocation.X > 0)
     {
 		if(processedMap[(charLocation.Y - HUD_OFFSET)/TILE_HEIGHT][(charLocation.X - TILE_WIDTH)/TILE_WIDTH] != '#')
 		{
@@ -76,7 +76,7 @@ void update(double dt, vector<vector<char>> processedMap, vector<Ghost> ghostSto
 			charDirection = LEFT;
 		}
 	}
-    if (keyPressed[K_DOWN] && charLocation.Y < consoleSize.Y - 1)
+    else if (keyPressed[K_DOWN] && charLocation.Y < consoleSize.Y - 1)
     {
 		if(processedMap[(charLocation.Y + TILE_HEIGHT - HUD_OFFSET)/TILE_HEIGHT][(charLocation.X)/TILE_WIDTH] != '#')
 		{
@@ -85,7 +85,7 @@ void update(double dt, vector<vector<char>> processedMap, vector<Ghost> ghostSto
 			charDirection = DOWN;
 		}
     }
-    if (keyPressed[K_RIGHT] && charLocation.X < consoleSize.X - 1)
+    else if (keyPressed[K_RIGHT] && charLocation.X < consoleSize.X - 1)
     {
 		if(processedMap[(charLocation.Y - HUD_OFFSET)/TILE_HEIGHT][(charLocation.X + TILE_WIDTH)/TILE_WIDTH] != '#')
 		{

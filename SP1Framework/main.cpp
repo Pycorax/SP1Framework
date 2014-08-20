@@ -57,7 +57,9 @@ void gameLoop()
 	currentMap.renderMap();
 
 	// set the character position
+	srand(time(NULL));
     charLocation.X = 3 * TILE_WIDTH;
+	srand(time(NULL));
     charLocation.Y = 3 * TILE_HEIGHT + HUD_OFFSET;
 
 	vector<Ghost> ghostStorage;

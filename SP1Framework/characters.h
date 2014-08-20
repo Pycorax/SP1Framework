@@ -27,12 +27,13 @@ struct Ghost
 		speed = speedPoints;
 		//zoneID = givenZoneID;
 		
-		srand(time(NULL));
-		srand(time(NULL));
 
 		//TODO: 
 		//Rand not wokring seemingly
+	
 		coord.X = rand() % 3 * TILE_WIDTH;
+
+		
 		coord.Y = rand() % 3 * TILE_HEIGHT + HUD_OFFSET;
 	}
 
@@ -49,9 +50,9 @@ struct Ghost
 
 	void move()
 	{
-		for(int i = 0; i < coord.X && i < coord.Y; ++i)
+		for(int i = 0; i > coord.X && i < coord.Y; --i)
 		{
-			if(coord.X == 0)
+			if(coord.X != 0 && coord.Y != 0)
 			{
 				++coord.X;
 			}
