@@ -256,8 +256,11 @@ void gotoXYTileDown(COORD location, unsigned short downBy)
 {
 	COORD tileLocation;
 
-	tileLocation.X = location.X * TILE_WIDTH;
-	tileLocation.Y = location.Y * TILE_HEIGHT + HUD_OFFSET + downBy;
+	if(downBy <= TILE_HEIGHT)
+	{
+		tileLocation.X = location.X * TILE_WIDTH;
+		tileLocation.Y = location.Y * TILE_HEIGHT + HUD_OFFSET + downBy;
 
-	gotoXY(tileLocation);
+		gotoXY(tileLocation);
+	}
 }
