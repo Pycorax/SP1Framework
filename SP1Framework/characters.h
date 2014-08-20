@@ -6,6 +6,9 @@
 #include "gameStage.h"
 #include "maps.h"
 #include <Windows.h>
+#include <ctime>
+
+using std::time;
 
 extern COORD charLocation;
 extern enum direction;
@@ -23,9 +26,12 @@ struct Ghost
 		health = healthPoints;
 		speed = speedPoints;
 		//zoneID = givenZoneID;
+		
+		srand(time(NULL));
+		srand(time(NULL));
 
-		coord.X = coord_X;
-		coord.Y = coord_Y;
+		coord.X = rand() % 3 * TILE_WIDTH;
+		coord.Y = rand() % 3 * TILE_HEIGHT + HUD_OFFSET;
 	}
 
 	void printGhost()
@@ -37,6 +43,22 @@ struct Ghost
 		cout << "o-o";
 		gotoXY(coord.X * TILE_WIDTH, coord.Y * TILE_HEIGHT + 2);
 		cout << "vvv";
+	}
+
+	void move()
+	{
+		for(int i = 0; i < coord.X && i < coord.Y; ++i)
+		{
+			if(coord.X == 0)
+			{
+				++coord.X;
+			}
+
+			else
+			{
+				++coord.Y;
+			}
+		}
 	}
 };
 

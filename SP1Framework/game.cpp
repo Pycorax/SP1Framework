@@ -2,7 +2,7 @@
 //
 //
 #include "game.h"
-
+#include "characters.h"
 
 double elapsedTime;
 double deltaTime;
@@ -13,7 +13,6 @@ COORD consoleSize;
 direction charDirection;
 COORD ghostLocation;
 direction ghostDirection;
-Pacman player();
 
 void init()
 {
@@ -51,7 +50,7 @@ void getInput()
     keyPressed[K_ESCAPE] = isKeyPressed(VK_ESCAPE);
 }
 
-void update(double dt, vector<vector<char>> processedMap)
+void update(double dt, vector<vector<char>> processedMap, vector<Ghost> ghostStorage)
 {
     // get the delta time
     elapsedTime += dt;
@@ -68,7 +67,7 @@ void update(double dt, vector<vector<char>> processedMap)
 			charDirection = UP;
 		}
     }
-	else if (keyPressed[K_LEFT] && charLocation.X > 0)
+    if (keyPressed[K_LEFT] && charLocation.X > 0)
     {
 		if(processedMap[(charLocation.Y - HUD_OFFSET)/TILE_HEIGHT][(charLocation.X - TILE_WIDTH)/TILE_WIDTH] != '#')
 		{
@@ -77,7 +76,7 @@ void update(double dt, vector<vector<char>> processedMap)
 			charDirection = LEFT;
 		}
 	}
-    else if (keyPressed[K_DOWN] && charLocation.Y < consoleSize.Y - 1)
+    if (keyPressed[K_DOWN] && charLocation.Y < consoleSize.Y - 1)
     {
 		if(processedMap[(charLocation.Y + TILE_HEIGHT - HUD_OFFSET)/TILE_HEIGHT][(charLocation.X)/TILE_WIDTH] != '#')
 		{
@@ -86,7 +85,7 @@ void update(double dt, vector<vector<char>> processedMap)
 			charDirection = DOWN;
 		}
     }
-    else if (keyPressed[K_RIGHT] && charLocation.X < consoleSize.X - 1)
+    if (keyPressed[K_RIGHT] && charLocation.X < consoleSize.X - 1)
     {
 		if(processedMap[(charLocation.Y - HUD_OFFSET)/TILE_HEIGHT][(charLocation.X + TILE_WIDTH)/TILE_WIDTH] != '#')
 		{
@@ -101,9 +100,14 @@ void update(double dt, vector<vector<char>> processedMap)
 	{
         g_quitGame = true;
 	}
+
+	for(size_t i = 0; i < ghostStorage.size(); ++i)
+	{
+		ghostStorage[i].move();
+	}
 }
 
-void render(vector<vector<char>> &processedMap)
+void render(vector<vector<char>> &processedMap, vector<Ghost> ghostStorage)
 {
 	/*
     // render time taken to calculate this frame
@@ -127,5 +131,9 @@ void render(vector<vector<char>> &processedMap)
     // render character
     gotoXY(ghostLocation);
     colour(0x0D);
-    //printPlayer(ghostLocation, ghostDirection);
+    
+	for(size_t i = 0; i < ghostStorage.size(); ++i)
+	{
+		ghostStorage[i].printGhost();
+	}
 }
