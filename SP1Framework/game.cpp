@@ -7,12 +7,7 @@
 double elapsedTime;
 double deltaTime;
 bool keyPressed[K_COUNT];
-COORD charLocation;
-COORD oldCharLocation;
 COORD consoleSize;
-direction charDirection;
-COORD ghostLocation;
-direction ghostDirection;
 
 void init()
 {
@@ -21,8 +16,8 @@ void init()
 
     SetConsoleTitle(L"PacGun");
 
-    // Sets the console size, this is the biggest so far.
-    setConsoleSize(79, 28);
+    // Sets the console size in the form x,y
+	system("mode 120,60");
 
     // Get console width and height
     CONSOLE_SCREEN_BUFFER_INFO csbi; /* to get buffer info */     
@@ -31,6 +26,8 @@ void init()
     GetConsoleScreenBufferInfo( GetStdHandle( STD_OUTPUT_HANDLE ), &csbi );
     consoleSize.X = csbi.srWindow.Right + 1;
     consoleSize.Y = csbi.srWindow.Bottom + 1;
+
+	colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
 
     elapsedTime = 0.0;
 }
@@ -51,59 +48,42 @@ void getInput()
 	keyPressed[K_SPACE] = isKeyPressed(VK_SPACE);
 }
 
-void update(double dt, vector<vector<char>> processedMap, vector<vector<char>> processedAIMap, vector<Ghost> &ghostStorage)
+void update(double dt, Map &currentMap, Pacman &player)
 {
     // get the delta time
     elapsedTime += dt;
     deltaTime = dt;
-	oldCharLocation = charLocation;
+	
+	player.oldCoord = player.coord;
 
     // Updating the location of the character based on the key press
-    if (keyPressed[K_UP] && charLocation.Y > 0)
+	if (keyPressed[K_UP])
     {
-		if(processedMap[(charLocation.Y - TILE_HEIGHT - HUD_OFFSET)/TILE_HEIGHT][(charLocation.X)/TILE_WIDTH] != '#')
-		{
-			Beep(1440, 30);
-			charLocation.Y -= TILE_HEIGHT;
-			charDirection = UP;
+		player.direct = UP;
+		player.move(currentMap);
 
-		}
-		
-	
     }
-    else if (keyPressed[K_LEFT] && charLocation.X > 0)
+    else if (keyPressed[K_LEFT])
     {
-		if(processedMap[(charLocation.Y - HUD_OFFSET)/TILE_HEIGHT][(charLocation.X - TILE_WIDTH)/TILE_WIDTH] != '#')
-		{
-			Beep(1440, 30);
-			charLocation.X -= TILE_WIDTH;
-			charDirection = LEFT;
-	
-		}
+		player.direct = LEFT;
+		player.move(currentMap);
 		
 	}
-    else if (keyPressed[K_DOWN] && charLocation.Y < consoleSize.Y - 1)
+    else if (keyPressed[K_DOWN])
     {
-		if(processedMap[(charLocation.Y + TILE_HEIGHT - HUD_OFFSET)/TILE_HEIGHT][(charLocation.X)/TILE_WIDTH] != '#')
-		{
-			Beep(1440, 30);
-			charLocation.Y += TILE_HEIGHT;
-			charDirection = DOWN;
-		}	
+		player.direct = DOWN;
+		player.move(currentMap);
     }
-    else if (keyPressed[K_RIGHT] && charLocation.X < consoleSize.X - 1)
+    else if (keyPressed[K_RIGHT])
     {
-		if(processedMap[(charLocation.Y - HUD_OFFSET)/TILE_HEIGHT][(charLocation.X + TILE_WIDTH)/TILE_WIDTH] != '#')
-		{
-			Beep(1440, 30);
-			charLocation.X += TILE_WIDTH;
-			charDirection = RIGHT;
-		}
+		player.direct = RIGHT;
+		player.move(currentMap);
     }
 
-	if(processedMap[(charLocation.Y - HUD_OFFSET)/TILE_HEIGHT][(charLocation.X)/TILE_WIDTH] == '.')
+	//Pellet eating
+	if(currentMap.processedMap[player.coord.Y][player.coord.X] == '.')
 	{
-		processedMap[(charLocation.Y - HUD_OFFSET)/TILE_HEIGHT][(charLocation.X)/TILE_WIDTH] = ' ';
+		currentMap.processedMap[player.coord.Y][player.coord.X] = ' ';
 	}
 
     // quits the game if player hits the escape key
@@ -112,13 +92,13 @@ void update(double dt, vector<vector<char>> processedMap, vector<vector<char>> p
         g_quitGame = true;
 	}
 
-	for(size_t i = 0; i < ghostStorage.size(); ++i)
+	for(size_t i = 0; i < currentMap.ghostStorage.size(); ++i)
 	{
-		ghostStorage[i].move(processedAIMap);
+		currentMap.ghostStorage[i].move(currentMap);
 	}
 }
 
-void render(vector<vector<char>> &processedMap, vector<Ghost> ghostStorage)
+void render(Map &currentMap, Pacman &player)
 {
 	/*
     // render time taken to calculate this frame
@@ -133,28 +113,20 @@ void render(vector<vector<char>> &processedMap, vector<Ghost> ghostStorage)
 
 	// wipe old character
 	colour(FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED);
-	printTile(processedMap[oldCharLocation.Y/TILE_HEIGHT - HUD_OFFSET/TILE_HEIGHT][oldCharLocation.X/TILE_WIDTH], oldCharLocation);
+	player.undraw(currentMap);
     
 	// render character
-    gotoXY(charLocation);
     colour(0x0C);
-    printPlayer(charLocation, charDirection);
-
-    // render character
-    gotoXY(ghostLocation);
-    colour(0x0D);
+    player.draw();
     
 	// wipe ghosts
-	for(size_t i = 0; i < ghostStorage.size(); ++i)
+	for(size_t i = 0; i < currentMap.ghostStorage.size(); ++i)
 	{
-		COORD oldTileLocation;
-		oldTileLocation.X = ghostStorage[i].oldCoord.X * TILE_WIDTH;
-		oldTileLocation.Y = ghostStorage[i].oldCoord.Y * TILE_HEIGHT + HUD_OFFSET;
-		printTile(processedMap[ghostStorage[i].oldCoord.Y][ghostStorage[i].oldCoord.X], oldTileLocation);
+		currentMap.ghostStorage[i].undraw(currentMap);
 	}
 	// render ghosts
-	for(size_t i = 0; i < ghostStorage.size(); ++i)
+	for(size_t i = 0; i < currentMap.ghostStorage.size(); ++i)
 	{
-		ghostStorage[i].printGhost();
+		currentMap.ghostStorage[i].draw();
 	}
 }

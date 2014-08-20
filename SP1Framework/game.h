@@ -14,6 +14,8 @@ using std::vector;
 extern StopWatch g_timer;
 extern bool g_quitGame;
 extern struct Ghost;
+extern struct Pacman;
+extern struct Map;
 
 enum Keys
 {
@@ -28,8 +30,8 @@ enum Keys
 
 void init();												// initialize your variables, allocate memory, etc
 void getInput();											// get input from player
-void update(double dt, vector<vector<char>> processedMap, vector<vector<char>> processedAIMap, vector<Ghost> &ghostStorage);	// update the game and the state of the game
-void render(vector<vector<char>> &processedMap, vector<Ghost> ghostStorage);			// renders the current state of the game to the console
+void update(double dt, Map &currentMap, Pacman &player);	// update the game and the state of the game
+void render(Map &currentMap, Pacman &player);			// renders the current state of the game to the console
 void shutdown();											// do clean up, free memory
 
 #endif // _GAME_H

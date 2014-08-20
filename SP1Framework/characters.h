@@ -12,8 +12,8 @@
 using std::time;
 using std::vector;
 
-extern COORD charLocation;
 extern enum direction;
+extern struct Map;
 
 struct Ghost
 {
@@ -25,9 +25,9 @@ struct Ghost
 	char zoneID;
 
 	Ghost(int healthPoints, int speedPoints, short givenZoneID);
-	void printGhost();
-	void move(vector<vector<char>> processedAIMap);
-	
+	void draw();
+	void undraw(Map currentMap);
+	void move(Map currentMap);
 };
 
 struct Pacman
@@ -36,8 +36,13 @@ struct Pacman
 	int speed;
 	int lives;
 	COORD coord;
+	COORD oldCoord;
+	direction direct;
 
-	Pacman();
+	Pacman(Map currentMap);
+	void move(Map currentMap);
+	void draw();
+	void undraw(Map currentMap);
 	bool isAlive();
 };
 

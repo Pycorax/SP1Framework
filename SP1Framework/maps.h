@@ -9,12 +9,15 @@
 #include "Framework\console.h"
 #include "userInterface.h"
 #include "game.h"
+#include "characters.h"
 
 using std::vector;
 using std::ifstream;
 using std::string;
 using std::cout;
 using std::endl;
+
+extern struct Ghost;
 
 enum direction
 {
@@ -40,21 +43,25 @@ struct Map
 	unsigned short ghosts;
 	int minScore;
 	unsigned short zones;
+	COORD startPos;
 	vector<ZoneBounds> zoneCoords;
 	vector<vector<char>> processedMap;
 	vector<vector<char>> processedAIMap;
+	vector<Ghost> ghostStorage;
 
 	Map(const char mapName[], const char aiMapName[]);
+	//TODO: Create destructor for Map when level system is added
+	//~Map();
 
 	bool processMap(const char mapName[]);
 	bool processAIMap(const char mapName[]);
 	void renderMap();
 };
 
-void renderMap(vector<vector<char>> processedMap);
-void loadMap(const char mapName[], vector<vector<char>> &processedMap);
 void printTile(char tile, COORD tileLocation);
-void printPlayer(COORD charLocation, direction charDirection);
-void printGhost(COORD ghostLocation, direction ghostDirection);
+
+void gotoXYTile(int x, int y);
+void gotoXYTile(COORD location);
+void gotoXYTileDown(COORD location, unsigned short downBy);
 
 #endif

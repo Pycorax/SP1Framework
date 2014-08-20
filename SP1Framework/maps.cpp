@@ -37,6 +37,14 @@ Map::Map(const char mapName[], const char aiMapName[])
 		zoneptr = new ZoneBounds(processedAIMap, i);
 		zoneCoords.push_back(*zoneptr);
 	}
+
+	Ghost *newGhost = NULL;
+
+	for(size_t i = 0; i < ghosts; ++i)
+	{
+		newGhost = new Ghost(1,1,i);
+		ghostStorage.push_back(*newGhost);
+	}
 }
 
 bool Map::processMap(const char mapName[])
@@ -78,8 +86,13 @@ bool Map::processMap(const char mapName[])
 				}
 				else
 				{
+					if(readChar == 'P')
+					{
+						startPos.Y = coord_y;
+						startPos.X = coord_x;
+					}
+
 					ptr->push_back(readChar);
-			
 				}
 			}
 
@@ -148,8 +161,8 @@ void Map::renderMap()
 		for (size_t coord_x = 0; coord_x < processedMap[coord_y].size(); ++coord_x)
 		{	
 			COORD tileLocation;
-			tileLocation.X = coord_x * TILE_WIDTH;
-			tileLocation.Y = coord_y * TILE_HEIGHT + HUD_OFFSET;
+			tileLocation.X = coord_x;
+			tileLocation.Y = coord_y;
 			printTile(processedMap[coord_y][coord_x], tileLocation);
 		}
 	}
@@ -162,12 +175,14 @@ void printTile(char tile, COORD tileLocation)
 	const char obstacle = 176;
 	const char pellet = 'o';
 
+	colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
+
 	switch(tile)
 	{
 		case'#':
 			for (size_t height = 0; height < TILE_HEIGHT; ++height)
 			{
-				gotoXY(tileLocation.X, tileLocation.Y + height);
+				gotoXYTileDown(tileLocation, height);
 
 				for (size_t width = 0; width < TILE_WIDTH; ++ width)
 				{
@@ -178,7 +193,7 @@ void printTile(char tile, COORD tileLocation)
 		case'O':
 			for (size_t height = 0; height < TILE_HEIGHT; ++height)
 			{
-				gotoXY(tileLocation.X, tileLocation.Y + height);
+				gotoXYTileDown(tileLocation, height);
 
 				for (size_t width = 0; width < TILE_WIDTH; ++ width)
 				{
@@ -189,7 +204,7 @@ void printTile(char tile, COORD tileLocation)
 		case '.':
 			for (size_t height = 0; height < TILE_HEIGHT; ++height)
 			{
-				gotoXY(tileLocation.X, tileLocation.Y + height);
+				gotoXYTileDown(tileLocation, height);
 
 				for (size_t width = 0; width < TILE_WIDTH; ++ width)
 				{
@@ -207,7 +222,7 @@ void printTile(char tile, COORD tileLocation)
 		default:
 			for (size_t height = 0; height < TILE_HEIGHT; ++height)
 			{
-				gotoXY(tileLocation.X, tileLocation.Y + height);
+				gotoXYTileDown(tileLocation, height);
 
 				for (size_t width = 0; width < TILE_WIDTH; ++ width)
 				{
@@ -218,89 +233,31 @@ void printTile(char tile, COORD tileLocation)
 	}
 }
 
-void printPlayer(COORD charLocation, direction charDirection)
+void gotoXYTile(int x, int y)
 {
-	static bool even = true;
-	switch(charDirection)
-	{
-		case UP:
-			if(even)
-			{
-				gotoXY(charLocation);
-				cout << "___";
-				gotoXY(charLocation.X, charLocation.Y + 1);
-				cout << "(*<";
-				even = false;
-			}
-			else
-			{
-				gotoXY(charLocation);
-				cout << "___";
-				gotoXY(charLocation.X, charLocation.Y + 1);
-				cout << "(*=";
-				even = true;
-			}
-				
-			break;
+	COORD location;
+	location.X = x;
+	location.Y = y;
 
-		case DOWN:	
-			if(even)
-			{
-				gotoXY(charLocation);
-				cout << "___";
-				gotoXY(charLocation.X, charLocation.Y + 1);
-				cout << "(*<";
-				even = false;
-			}
-			else
-			{
-				gotoXY(charLocation);
-				cout << "___";
-				gotoXY(charLocation.X, charLocation.Y + 1);
-				cout << "(*=";
-				even = true;
-			}
-				 
-			break;
+	gotoXYTile(location);
+}
 
-		case LEFT:
-			if(even)
-			{
-				gotoXY(charLocation);
-				cout << "___";
-				gotoXY(charLocation.X, charLocation.Y + 1);
-				cout << ">*)";
-				even = false;
-			}
-			else
-			{
-				gotoXY(charLocation);
-				cout << "___";
-				gotoXY(charLocation.X, charLocation.Y + 1);
-				cout << "=*)";
-				even = true;
-			}
-				 
-			break;
+void gotoXYTile(COORD location)
+{
+	COORD tileLocation;
 
-		case RIGHT:	
-			if(even)
-			{
-				gotoXY(charLocation);
-				cout << "___";
-				gotoXY(charLocation.X, charLocation.Y + 1);
-				cout << "(*<";
-				even = false;
-			}
-			else
-			{
-				gotoXY(charLocation);
-				cout << "___";
-				gotoXY(charLocation.X, charLocation.Y + 1);
-				cout << "(*=";
-				even = true;
-			}
-				 
-			break;
-	}
+	tileLocation.X = location.X * TILE_WIDTH;
+	tileLocation.Y = location.Y * TILE_HEIGHT + HUD_OFFSET;
+
+	gotoXY(tileLocation);
+}
+
+void gotoXYTileDown(COORD location, unsigned short downBy)
+{
+	COORD tileLocation;
+
+	tileLocation.X = location.X * TILE_WIDTH;
+	tileLocation.Y = location.Y * TILE_HEIGHT + HUD_OFFSET + downBy;
+
+	gotoXY(tileLocation);
 }
