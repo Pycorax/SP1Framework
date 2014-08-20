@@ -51,7 +51,7 @@ void getInput()
 	keyPressed[K_SPACE] = isKeyPressed(VK_SPACE);
 }
 
-void update(double dt, vector<vector<char>> &processedMap)
+void update(double dt, vector<vector<char>> &processedMap, vector<Ghost> ghostStorage)
 {
     // get the delta time
     elapsedTime += dt;
