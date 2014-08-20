@@ -1,5 +1,44 @@
 #include "maps.h"
 
+ZoneBounds::ZoneBounds(vector<vector<char>> processedAIMap, unsigned short zone)
+{
+	char zoneID = zone + 48;
+	bool first = true;
+
+	for (size_t y = 0; y < processedAIMap.size(); ++y)
+	{
+		for (size_t x = 0; x < processedAIMap[y].size(); ++x)
+		{
+			if(processedAIMap[y][x] == zoneID && first)
+			{
+				minX = x;
+				minY = y;
+				first = false;
+			}
+
+			if(processedAIMap[y][x] == zoneID)
+			{
+				maxX = x;
+				maxY = y;
+			}
+		}
+	}
+}
+
+Map::Map(const char mapName[], const char aiMapName[])
+{
+	processMap(mapName);
+	processAIMap(aiMapName);
+
+	ZoneBounds *zoneptr = NULL;
+
+	for (unsigned short i = 0; i < zones; ++i)
+	{
+		zoneptr = new ZoneBounds(processedAIMap, i);
+		zoneCoords.push_back(*zoneptr);
+	}
+}
+
 bool Map::processMap(const char mapName[])
 {
 	string readLine;

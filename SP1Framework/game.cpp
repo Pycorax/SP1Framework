@@ -123,7 +123,8 @@ void render(vector<vector<char>> &processedMap, vector<Ghost> ghostStorage)
 	// wipe old character
 	colour(FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED);
 	printTile(processedMap[oldCharLocation.Y/TILE_HEIGHT - HUD_OFFSET/TILE_HEIGHT][oldCharLocation.X/TILE_WIDTH], oldCharLocation);
-    // render character
+    
+	// render character
     gotoXY(charLocation);
     colour(0x0C);
     printPlayer(charLocation, charDirection);
@@ -132,6 +133,15 @@ void render(vector<vector<char>> &processedMap, vector<Ghost> ghostStorage)
     gotoXY(ghostLocation);
     colour(0x0D);
     
+	// wipe ghosts
+	for(size_t i = 0; i < ghostStorage.size(); ++i)
+	{
+		COORD oldTileLocation;
+		oldTileLocation.X = ghostStorage[i].oldCoord.X * TILE_WIDTH;
+		oldTileLocation.Y = ghostStorage[i].oldCoord.Y * TILE_HEIGHT + HUD_OFFSET;
+		printTile(processedMap[ghostStorage[i].oldCoord.Y][ghostStorage[i].oldCoord.X], oldTileLocation);
+	}
+	// render ghosts
 	for(size_t i = 0; i < ghostStorage.size(); ++i)
 	{
 		ghostStorage[i].printGhost();
