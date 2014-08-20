@@ -48,6 +48,7 @@ void getInput()
     keyPressed[K_LEFT] = isKeyPressed(VK_LEFT);
     keyPressed[K_RIGHT] = isKeyPressed(VK_RIGHT);
     keyPressed[K_ESCAPE] = isKeyPressed(VK_ESCAPE);
+	keyPressed[K_SPACE] = isKeyPressed(VK_SPACE);
 }
 
 void update(double dt, vector<vector<char>> processedMap, vector<vector<char>> processedAIMap, vector<Ghost> &ghostStorage)
@@ -65,7 +66,10 @@ void update(double dt, vector<vector<char>> processedMap, vector<vector<char>> p
 			Beep(1440, 30);
 			charLocation.Y -= TILE_HEIGHT;
 			charDirection = UP;
+
 		}
+		
+	
     }
     else if (keyPressed[K_LEFT] && charLocation.X > 0)
     {
@@ -74,7 +78,9 @@ void update(double dt, vector<vector<char>> processedMap, vector<vector<char>> p
 			Beep(1440, 30);
 			charLocation.X -= TILE_WIDTH;
 			charDirection = LEFT;
+	
 		}
+		
 	}
     else if (keyPressed[K_DOWN] && charLocation.Y < consoleSize.Y - 1)
     {
@@ -83,7 +89,7 @@ void update(double dt, vector<vector<char>> processedMap, vector<vector<char>> p
 			Beep(1440, 30);
 			charLocation.Y += TILE_HEIGHT;
 			charDirection = DOWN;
-		}
+		}	
     }
     else if (keyPressed[K_RIGHT] && charLocation.X < consoleSize.X - 1)
     {
@@ -94,6 +100,11 @@ void update(double dt, vector<vector<char>> processedMap, vector<vector<char>> p
 			charDirection = RIGHT;
 		}
     }
+
+	if(processedMap[(charLocation.Y - HUD_OFFSET)/TILE_HEIGHT][(charLocation.X)/TILE_WIDTH] == '.')
+	{
+		processedMap[(charLocation.Y - HUD_OFFSET)/TILE_HEIGHT][(charLocation.X)/TILE_WIDTH] = ' ';
+	}
 
     // quits the game if player hits the escape key
     if (keyPressed[K_ESCAPE])
