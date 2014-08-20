@@ -7,8 +7,10 @@
 #include "maps.h"
 #include <Windows.h>
 #include <ctime>
+#include <vector>
 
 using std::time;
+using std::vector;
 
 extern COORD charLocation;
 extern enum direction;
@@ -18,23 +20,24 @@ struct Ghost
 	int health;
 	int speed;
 	COORD coord;
+	COORD oldCoord;
 	direction direct;
-	short zoneID;
+	char zoneID;
 
 	Ghost(int healthPoints, int speedPoints, short givenZoneID)
 	{
 		health = healthPoints;
 		speed = speedPoints;
-		//zoneID = givenZoneID;
+		zoneID = givenZoneID + 48;
 		
 
 		//TODO: 
 		//Rand not wokring seemingly
 	
-		coord.X = rand() % 3 * TILE_WIDTH;
+		coord.X = 2;
 
 		
-		coord.Y = rand() % 3 * TILE_HEIGHT + HUD_OFFSET;
+		coord.Y = 2;
 	}
 
 	void printGhost()
@@ -48,11 +51,11 @@ struct Ghost
 		cout << "vvv";
 	}
 
-	void move()
+	void move(vector<vector<char>> processedAIMap)
 	{
-		/*for(int i = 0; i > coord.X && i < coord.Y; --i)
+		/*for(int i = 0; i > coord.X && i > coord.Y; --i)
 		{
-			if(coord.X != 0 && coord.Y != 0)
+			if(coord.X > 0 && coord.Y > 0)
 			{
 				++coord.X;
 			}
@@ -63,7 +66,25 @@ struct Ghost
 			}
 		}*/
 
+		static short changeX = 0;
+		static short changeY = 1;
+
+		if(!(processedAIMap[coord.X + changeX][coord.Y + changeY] == zoneID))
+		{
+			if(processedAIMap[coord.X][coord.Y - speed] == zoneID) //Up
+			{
+				changeY = -speed;
+				
+			}
+			else if(processedAIMap[coord.X + speed][coord.Y] == zoneID) //Right
+			{
+				changeX = speed;
+			}
+		}
 		
+		coord.X += changeX;
+		coord.Y += changeY;
+
 	}
 };
 

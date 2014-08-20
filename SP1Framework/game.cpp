@@ -50,7 +50,7 @@ void getInput()
     keyPressed[K_ESCAPE] = isKeyPressed(VK_ESCAPE);
 }
 
-void update(double dt, vector<vector<char>> processedMap, vector<Ghost> ghostStorage)
+void update(double dt, vector<vector<char>> processedMap, vector<vector<char>> processedAIMap, vector<Ghost> &ghostStorage)
 {
     // get the delta time
     elapsedTime += dt;
@@ -103,7 +103,7 @@ void update(double dt, vector<vector<char>> processedMap, vector<Ghost> ghostSto
 
 	for(size_t i = 0; i < ghostStorage.size(); ++i)
 	{
-		ghostStorage[i].move();
+		ghostStorage[i].move(processedAIMap);
 	}
 }
 
