@@ -7,6 +7,7 @@
 #include <iomanip>
 #include <vector>
 #include "maps.h"
+#include "characters.h"
 
 using std::vector;
 
