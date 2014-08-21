@@ -10,6 +10,7 @@
 #include "userInterface.h"
 #include "game.h"
 #include "characters.h"
+#include "bullet.h"
 
 using std::vector;
 using std::ifstream;
@@ -48,6 +49,7 @@ struct Map
 	vector<vector<char>> processedMap;
 	vector<vector<char>> processedAIMap;
 	vector<Ghost> ghostStorage;
+	Bullet *shot;
 
 	Map(const char mapName[], const char aiMapName[]);
 	//TODO: Create destructor for Map when level system is added

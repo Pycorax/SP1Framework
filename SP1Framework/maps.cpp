@@ -45,6 +45,8 @@ Map::Map(const char mapName[], const char aiMapName[])
 		newGhost = new Ghost(1,1,i);
 		ghostStorage.push_back(*newGhost);
 	}
+
+	shot = NULL;
 }
 
 bool Map::processMap(const char mapName[])
@@ -247,7 +249,7 @@ void gotoXYTile(COORD location)
 	COORD tileLocation;
 
 	tileLocation.X = location.X * TILE_WIDTH;
-	tileLocation.Y = location.Y * TILE_HEIGHT + HUD_OFFSET;
+	tileLocation.Y = location.Y * TILE_HEIGHT + HUD_OFFSET+1;
 
 	gotoXY(tileLocation);
 }

@@ -8,12 +8,14 @@
 #include <Windows.h>
 #include <ctime>
 #include <vector>
+#include "bullet.h"
 
 using std::time;
 using std::vector;
 
 extern enum direction;
 extern struct Map;
+extern struct Bullet;
 
 struct Ghost
 {
@@ -28,6 +30,7 @@ struct Ghost
 	void draw();
 	void undraw(Map currentMap);
 	void move(Map currentMap, bool clockwise = true);
+	bool isHitByBullet(Bullet shot);
 };
 
 struct Pacman

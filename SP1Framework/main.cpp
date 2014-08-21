@@ -53,6 +53,7 @@ void gameLoop()
 	currentMap.renderMap();
 
 	Pacman player(currentMap);
+	Bullet shoot (currentMap);
 
     g_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
     while (!g_quitGame)      // run this loop until user wants to quit 

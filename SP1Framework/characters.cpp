@@ -136,6 +136,19 @@ void Ghost::move(Map currentMap, bool clockwise)
 	coord.Y += changeY;
 }
 
+bool Ghost::isHitByBullet(Bullet shot)
+{
+	if(shot.coord.X == coord.X && shot.coord.Y == coord.Y)
+	{
+		health -= shot.damage;
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
 Pacman::Pacman(Map currentMap)
 {
 	health = 1;

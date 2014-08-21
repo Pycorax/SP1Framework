@@ -9,13 +9,13 @@
 #include "maps.h"
 #include "characters.h"
 
-using std::vector;
-
+;using std::vector;
 extern StopWatch g_timer;
 extern bool g_quitGame;
 extern struct Ghost;
 extern struct Pacman;
 extern struct Map;
+extern struct Bullet;
 
 enum Keys
 {
