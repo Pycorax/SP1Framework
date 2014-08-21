@@ -95,6 +95,8 @@
   <ItemGroup>
     <None Include="testing.aimap" />
     <None Include="testing.map" />
+    <None Include="testing2.aimap" />
+    <None Include="testing2.map" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

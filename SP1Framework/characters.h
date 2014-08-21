@@ -27,7 +27,7 @@ struct Ghost
 	Ghost(int healthPoints, int speedPoints, short givenZoneID);
 	void draw();
 	void undraw(Map currentMap);
-	void move(Map currentMap);
+	void move(Map currentMap, bool clockwise = true);
 };
 
 struct Pacman

@@ -49,7 +49,7 @@ int main()
 void gameLoop()
 {
 	//Load & Print Map
-	Map currentMap("testing.map", "testing.aimap");
+	Map currentMap("testing2.map", "testing2.aimap");
 	currentMap.renderMap();
 
 	Pacman player(currentMap);

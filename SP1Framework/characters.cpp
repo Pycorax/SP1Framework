@@ -22,22 +22,22 @@ void Ghost::draw()
 
 	if(even)
 	{
-		gotoXY(coord.X * TILE_WIDTH, coord.Y * TILE_HEIGHT + HUD_OFFSET);
+		gotoXYTile(coord.X, coord.Y);
 		cout << "/ \\";
-		gotoXY(coord.X * TILE_WIDTH, coord.Y * TILE_HEIGHT + HUD_OFFSET + 1);
+		gotoXYTileDown(coord, 1);
 		cout << "o-o";
-		gotoXY(coord.X * TILE_WIDTH, coord.Y * TILE_HEIGHT + HUD_OFFSET + 2);
+		gotoXYTileDown(coord, 2);
 		cout << "vvv";
 
 		even = false;
 	}
 	else
 	{
-		gotoXY(coord.X * TILE_WIDTH, coord.Y * TILE_HEIGHT + HUD_OFFSET);
+		gotoXYTile(coord.X, coord.Y);
 		cout << "/ \\";
-		gotoXY(coord.X * TILE_WIDTH, coord.Y * TILE_HEIGHT + HUD_OFFSET + 1);
+		gotoXYTileDown(coord, 1);
 		cout << "o-o";
-		gotoXY(coord.X * TILE_WIDTH, coord.Y * TILE_HEIGHT + HUD_OFFSET + 2);
+		gotoXYTileDown(coord, 2);
 		cout << "VVV";
 
 		even = true;
@@ -49,53 +49,91 @@ void Ghost::undraw(Map currentMap)
 	printTile(currentMap.processedMap[oldCoord.Y][oldCoord.X], oldCoord);
 }
 
-void Ghost::move(Map currentMap)
+void Ghost::move(Map currentMap, bool clockwise)
 {
 	static short changeX = 0;
 	static short changeY = -1;
+	static bool wasVertical = true;
 
-	if(!(currentMap.processedAIMap[coord.X + changeX][coord.Y + changeY] == zoneID))
+	if(currentMap.processedAIMap[coord.Y + changeY][coord.X + changeX] != zoneID)
+	{
+		if(wasVertical)
+		{
+			if(clockwise)
+			{
+				if(currentMap.processedAIMap[coord.Y][coord.X + speed] == zoneID) //Right
+				{ 
+					changeX = speed;
+					changeY = 0;
+					wasVertical = false;
+				}
+				else if (currentMap.processedAIMap[coord.Y][coord.X - speed] == zoneID) // Left
+				{ 
+					changeX = -speed;
+					changeY = 0;
+					wasVertical = false;
+				}
+			}
+			else
+			{
+				if (currentMap.processedAIMap[coord.Y][coord.X - speed] == zoneID) // Left
+				{ 
+					changeX = -speed;
+					changeY = 0;
+					wasVertical = false;
+				}
+				else if(currentMap.processedAIMap[coord.Y][coord.X + speed] == zoneID) //Right
+				{ 
+					changeX = speed;
+					changeY = 0;
+					wasVertical = false;
+				} 
+			}
+			
+		}
+		else
+		{
+			if(clockwise)
+			{
+				if (currentMap.processedAIMap[coord.Y + speed][coord.X] == zoneID)//Down
+				{
+					changeX = 0;
+					changeY = speed;
+					wasVertical = true;
+				}
+				else if(currentMap.processedAIMap[coord.Y - speed][coord.X] == zoneID) //Up
+				{
+					changeX = 0;
+					changeY = -speed;
+					wasVertical = true;
+				}
+			}
+			else
+			{
+				if(currentMap.processedAIMap[coord.Y - speed][coord.X] == zoneID) //Up
+				{
+					changeX = 0;
+					changeY = -speed;
+					wasVertical = true;
+				}
+				else if (currentMap.processedAIMap[coord.Y + speed][coord.X] == zoneID)//Down
+				{
+					changeX = 0;
+					changeY = speed;
+					wasVertical = true;
+				}
+			}
+		}
+	}
+
+	//Prevents oldCoord from being changed if the ghost did not move at all
+	if (changeX != 0 || changeY != 0)
 	{
 		oldCoord = coord;
-		if(currentMap.processedAIMap[coord.X][coord.Y - speed] == zoneID) //Up
-		{
-			changeX = 0;
-			changeY = -speed;
-		}
-
-		if (currentMap.processedAIMap[coord.X - speed][coord.Y] == zoneID) // Left
-		{ 
-			changeX = -speed;
-			changeY = 0;
-		}
-		
-		if (currentMap.processedAIMap[coord.X][coord.Y + speed] == zoneID)//Down
-		{
-			changeX = 0;
-			changeY = +speed;
-		}
-
-		if(currentMap.processedAIMap[coord.X + speed][coord.Y] == zoneID) //Right
-		{ 
-			changeX = speed;
-			changeY = 0;
-		} 
-	}
-	
-	if(!(currentMap.processedAIMap[coord.X + changeX][coord.Y + changeY] == currentMap.processedAIMap[coord.X - speed][coord.Y]))
-	{
-		if(currentMap.processedAIMap[coord.X][coord.Y - speed] == zoneID) //Up
-		{
-			changeX = 0;
-			changeY = -speed;
-		}
 	}
 
-	oldCoord = coord;
-	
 	coord.X += changeX;
 	coord.Y += changeY;
-
 }
 
 Pacman::Pacman(Map currentMap)
