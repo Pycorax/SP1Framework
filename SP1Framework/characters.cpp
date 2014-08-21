@@ -8,8 +8,8 @@ Ghost::Ghost(int healthPoints, int speedPoints, short givenZoneID)
 		
 	srand(time(NULL));
 
-	coord.X = rand() % 6 + 1;
-	coord.Y = rand() % 6 + 1;
+	coord.X = rand() % 3 + 1;
+	coord.Y = rand() % 3 + 1;
 
 	oldCoord = coord;
 }
@@ -62,22 +62,32 @@ void Ghost::move(Map currentMap)
 			changeX = 0;
 			changeY = -speed;
 		}
-		else if(currentMap.processedAIMap[coord.X + speed][coord.Y] == zoneID) //Right
+
+		if (currentMap.processedAIMap[coord.X - speed][coord.Y] == zoneID) // Left
+		{ 
+			changeX = -speed;
+			changeY = 0;
+		}
+		
+		if (currentMap.processedAIMap[coord.X][coord.Y + speed] == zoneID)//Down
+		{
+			changeX = 0;
+			changeY = +speed;
+		}
+
+		if(currentMap.processedAIMap[coord.X + speed][coord.Y] == zoneID) //Right
 		{ 
 			changeX = speed;
 			changeY = 0;
 		} 
-
-		else if (currentMap.processedAIMap[coord.X - speed][coord.Y] == zoneID) // Left
-		{ 
-			changeX = -speed;
-			changeY = 0;
-		}  
-
-		else if (currentMap.processedAIMap[coord.X][coord.Y + speed] == zoneID)//Down
+	}
+	
+	if(!(currentMap.processedAIMap[coord.X + changeX][coord.Y + changeY] == currentMap.processedAIMap[coord.X - speed][coord.Y]))
+	{
+		if(currentMap.processedAIMap[coord.X][coord.Y - speed] == zoneID) //Up
 		{
 			changeX = 0;
-			changeY = +speed;
+			changeY = -speed;
 		}
 	}
 
