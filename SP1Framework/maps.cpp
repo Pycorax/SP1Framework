@@ -249,7 +249,7 @@ void gotoXYTile(COORD location)
 	COORD tileLocation;
 
 	tileLocation.X = location.X * TILE_WIDTH;
-	tileLocation.Y = location.Y * TILE_HEIGHT + HUD_OFFSET+1;
+	tileLocation.Y = location.Y * TILE_HEIGHT + HUD_OFFSET;
 
 	gotoXY(tileLocation);
 }
