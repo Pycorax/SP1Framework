@@ -140,7 +140,7 @@ void render(vector<vector<char>> &processedMap, vector<Ghost> ghostStorage)
     colour(0x0C);
     printPlayer(charLocation, charDirection);
 
-    // render character
+    // render Ghost
     gotoXY(ghostLocation);
     colour(0x0D);
     
