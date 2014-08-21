@@ -59,8 +59,8 @@ void gameLoop()
     while (!g_quitGame)      // run this loop until user wants to quit 
 	{        
         getInput();												// get keyboard input
-        update(g_timer.getElapsedTime(), currentMap, player, shoot);   // update the game
-		render(currentMap, player, shoot);
+        update(g_timer.getElapsedTime(), currentMap, player);   // update the game
+		render(currentMap, player);
         g_timer.waitUntil(frameTime);							// Frame rate limiter. Limits each frame to a specified time in ms.      
 	}    
 }

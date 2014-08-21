@@ -10,8 +10,9 @@
 #include "userInterface.h"
 #include "game.h"
 #include "characters.h"
+#include "bullet.h"
 
-;using std::vector;
+using std::vector;
 using std::ifstream;
 using std::string;
 using std::cout;
@@ -48,6 +49,7 @@ struct Map
 	vector<vector<char>> processedMap;
 	vector<vector<char>> processedAIMap;
 	vector<Ghost> ghostStorage;
+	Bullet *shot;
 
 	Map(const char mapName[], const char aiMapName[]);
 	//TODO: Create destructor for Map when level system is added
@@ -63,8 +65,5 @@ void printTile(char tile, COORD tileLocation);
 void gotoXYTile(int x, int y);
 void gotoXYTile(COORD location);
 void gotoXYTileDown(COORD location, unsigned short downBy);
-void gotoXYTileUp(COORD location, unsigned short upBy);
-void gotoXYTileLeft(unsigned short leftBy , COORD location);
-void gotoXYTileRight(unsigned short rightBy , COORD location);
 
 #endif

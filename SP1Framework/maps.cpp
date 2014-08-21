@@ -45,6 +45,8 @@ Map::Map(const char mapName[], const char aiMapName[])
 		newGhost = new Ghost(1,1,i);
 		ghostStorage.push_back(*newGhost);
 	}
+
+	shot = NULL;
 }
 
 bool Map::processMap(const char mapName[])
@@ -260,42 +262,6 @@ void gotoXYTileDown(COORD location, unsigned short downBy)
 	{
 		tileLocation.X = location.X * TILE_WIDTH;
 		tileLocation.Y = location.Y * TILE_HEIGHT + HUD_OFFSET + downBy;
-
-		gotoXY(tileLocation);
-	}
-}
-
-void gotoXYTileUp(COORD location, unsigned short upBy)
-{
-	COORD tileLocation;
-	if( upBy <= TILE_HEIGHT)
-	{
-		tileLocation.X = location.X * TILE_WIDTH;
-		tileLocation.Y = location.Y * TILE_HEIGHT + HUD_OFFSET - upBy;
-
-		gotoXY(tileLocation);
-	}
-}
-
-void gotoXYTileLeft(unsigned short leftBy, COORD location)
-{
-	COORD tileLocation;
-	if( leftBy <= TILE_HEIGHT)
-	{
-		tileLocation.X = location.X * TILE_WIDTH - leftBy;
-		tileLocation.Y = location.Y * TILE_HEIGHT;
-
-		gotoXY(tileLocation);
-	}
-}
-
-void gotoXYTileRight(unsigned short rightBy, COORD location)
-{
-	COORD tileLocation;
-	if( rightBy <= TILE_HEIGHT)
-	{
-		tileLocation.X = location.X * TILE_WIDTH + rightBy+3;
-		tileLocation.Y = location.Y * TILE_HEIGHT +4;
 
 		gotoXY(tileLocation);
 	}

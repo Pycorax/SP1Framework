@@ -49,7 +49,7 @@ void getInput()
 	keyPressed[K_SPACE] = isKeyPressed(VK_SPACE);
 }
 
-void update(double dt, Map &currentMap, Pacman &player, Bullet &shoot)
+void update(double dt, Map &currentMap, Pacman &player)
 {
     // get the delta time
     elapsedTime += dt;
@@ -87,39 +87,48 @@ void update(double dt, Map &currentMap, Pacman &player, Bullet &shoot)
 		currentMap.processedMap[player.coord.Y][player.coord.X] = ' ';
 	}
 
-	//bullet shooting
-	if(keyPressed[K_SPACE])
+	//Bullet shooting
+	if(currentMap.shot == NULL)
 	{
-	
-	  if ( keyPressed[K_UP])
-	  {
-			shoot.direction = UP;
-			shoot.move(currentMap);
-	  }
-	  
-	 
-	  else  if ( keyPressed[K_LEFT])
-	  {
-		    shoot.direction = LEFT;
-			shoot.move(currentMap);
-	  }
-	  
-	  
-      if ( keyPressed[K_DOWN])
-      {
-		    shoot.direction = DOWN;
-			shoot.move(currentMap);
-      }
-	  
-	  
-	  else if ( keyPressed[K_RIGHT])
-      {
-		    shoot.direction = RIGHT;
-			shoot.move(currentMap);
-      }
-	  
-	  
+		if(keyPressed[K_SPACE])
+		{
+			currentMap.shot = new Bullet(player);
+			currentMap.shot->move(currentMap);
+		}	
 	}
+	else if(currentMap.shot->collided == false)
+	{
+		currentMap.shot->move(currentMap);
+		//TODO: Bug fix
+		//Check before moving else the check for wall collision will give an error when shooting beside the wall at the wall
+
+		//Check for ghost collision
+		for(size_t i = 0; i < currentMap.ghostStorage.size(); ++i)
+		{
+			//TODO: Fix bug.
+			//Assume that there are 2 ghosts.
+			//Ghost 1 - ghostStorage[1] & is in front of Ghost 2 on the map
+			//Ghost 2 - ghostStorage[0] & is behind Ghost 1 on the map
+			//If bullet fires thru both of them, Ghost 2 dies instead of Ghost 1
+			if(currentMap.ghostStorage[i].isHitByBullet(*(currentMap.shot)))
+			{
+				currentMap.shot->collided = true;
+				break;
+			}
+		}
+
+		//Check for wall collision
+		if(currentMap.processedMap[currentMap.shot->coord.Y][currentMap.shot->coord.X] == '#')
+		{
+			currentMap.shot->collided = true;
+		}
+	}
+	else if(currentMap.shot->collided) //Prevent immediate deletion upon collision to allow bullet to be undraw() first
+	{
+		delete currentMap.shot;
+		currentMap.shot = NULL;
+	}
+	
     // quits the game if player hits the escape key
     if (keyPressed[K_ESCAPE])
 	{
@@ -132,7 +141,7 @@ void update(double dt, Map &currentMap, Pacman &player, Bullet &shoot)
 	}
 }
 
-void render(Map &currentMap, Pacman &player , Bullet &shoot)
+void render(Map &currentMap, Pacman &player)
 {
 	/*
     // render time taken to calculate this frame
@@ -145,23 +154,34 @@ void render(Map &currentMap, Pacman &player , Bullet &shoot)
     std::cout << elapsedTime << "secs" << std::endl;
 	*/
 
-	// wipe old character
+	//Wipe old Player
 	colour(FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED);
 	player.undraw(currentMap);
-	shoot.undraw(currentMap);
-	// render character
+
+	//Render Player
     colour(0x0C);
     player.draw();
-    shoot.draw();
-	// wipe ghosts
+
+	//Wipe old Ghosts
 	for(size_t i = 0; i < currentMap.ghostStorage.size(); ++i)
 	{
 		currentMap.ghostStorage[i].undraw(currentMap);
 	}
-	// render ghosts
+
+	//Render Ghosts
 	for(size_t i = 0; i < currentMap.ghostStorage.size(); ++i)
 	{
 		currentMap.ghostStorage[i].draw();
 	}
-	shoot.undraw(currentMap);
+
+	//Render Bullet & Wipe old Bullets
+	if(currentMap.shot != NULL)
+	{
+		currentMap.shot->undraw(currentMap);
+
+		if(currentMap.shot->collided == false)
+		{
+			currentMap.shot->draw();
+		}
+	}
 }

@@ -88,6 +88,19 @@ void Ghost::move(Map currentMap)
 
 }
 
+bool Ghost::isHitByBullet(Bullet shot)
+{
+	if(shot.coord.X == coord.X && shot.coord.Y == coord.Y)
+	{
+		health -= shot.damage;
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
 Pacman::Pacman(Map currentMap)
 {
 	health = 1;
@@ -231,116 +244,5 @@ bool Pacman::isAlive()
 	else
 	{
 		return true;
-	}
-}
-
-Bullet::Bullet(Map currentMap)
-{
-	damage = 1;
-	speed = 1;
-	coord.X = currentMap.startPos.X;
-	coord.Y = currentMap.startPos.Y;
-	oldCoord = coord;
-}
-
-void Bullet::draw()
-{
-	static bool even = true;
-
-	switch(direction)
-	{
-		case UP:
-			if(even){
-				gotoXYTileUp(coord, 1);
-				cout << "||";
-				gotoXYTileUp(coord, 2);
-				cout << "/\\";
-				gotoXYTileUp(coord, 3);
-				cout << "/\\";
-			}
-
-			else
-			{
-				cout << "||";
-				gotoXYTileUp(coord, 2);
-				cout << "/\\";
-				gotoXYTileUp(coord, 3);
-				cout << "\/";
-			}
-			break;
-
-		case DOWN:	
-			
-				gotoXYTileDown(coord, 1 );
-				cout << "||";
-				gotoXYTileDown(coord, 2 );
-				cout << "\\/";
-				gotoXYTileDown(coord, 3 );
-				cout << "\\/";
-		
-			break;
-
-		case LEFT:
-		
-				
-				gotoXYTileLeft( 1 , coord );
-				cout << "<=";
-				gotoXYTileLeft( 2 , coord );
-				cout << "<";
-			
-	 
-			break;
-
-		case RIGHT:	
-			
-				
-				gotoXYTileRight( 1 , coord );
-				cout << "=>";
-				gotoXYTileRight( 3 , coord );
-				cout << ">";
-		
-			break;
-	}
-}
-
-void Bullet::undraw(Map currentMap)
-{
-	printTile(currentMap.processedMap[oldCoord.Y][oldCoord.X], oldCoord);
-}
-
-void Bullet::move(Map currentMap)
-{
-	static short changeX = 0;
-	static short changeY = -1;
-	switch(direction)
-	{
-		case UP:
-			if(currentMap.processedMap[coord.Y - speed][coord.X] != '#')
-			{
-				changeX = 0;
-				changeY = -speed;
-			}
-			break;
-		case DOWN:
-			if(currentMap.processedMap[coord.Y + speed][coord.X] != '#')
-			{
-				changeX = 0;
-				changeY = +speed;
-			}
-			break;
-		case LEFT:
-			if(currentMap.processedMap[coord.Y][coord.X - speed] != '#')
-			{
-				changeX = -speed;
-				changeY = 0;
-			}
-			break;
-		case RIGHT:
-			if(currentMap.processedMap[coord.Y][coord.X + speed] != '#')
-			{
-				changeX = speed;
-				changeY = 0;
-			}
-			break;
 	}
 }
