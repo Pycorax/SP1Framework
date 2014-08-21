@@ -11,7 +11,7 @@
 #include "game.h"
 #include "characters.h"
 
-using std::vector;
+;using std::vector;
 using std::ifstream;
 using std::string;
 using std::cout;
@@ -63,5 +63,8 @@ void printTile(char tile, COORD tileLocation);
 void gotoXYTile(int x, int y);
 void gotoXYTile(COORD location);
 void gotoXYTileDown(COORD location, unsigned short downBy);
+void gotoXYTileUp(COORD location, unsigned short upBy);
+void gotoXYTileLeft(unsigned short leftBy , COORD location);
+void gotoXYTileRight(unsigned short rightBy , COORD location);
 
 #endif

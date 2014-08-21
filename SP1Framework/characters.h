@@ -45,5 +45,16 @@ struct Pacman
 	void undraw(Map currentMap);
 	bool isAlive();
 };
-
+struct Bullet
+{
+	int damage;
+	int speed;
+	COORD coord;
+	COORD oldCoord;
+	direction direction;
+	Bullet(Map currentMap);
+	void draw();
+	void undraw(Map currentMap);
+	void move(Map currentMap);
+};
 #endif

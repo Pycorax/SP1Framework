@@ -8,6 +8,7 @@ double elapsedTime;
 double deltaTime;
 bool keyPressed[K_COUNT];
 COORD consoleSize;
+COORD bulletLocation[1];
 
 void init()
 {
@@ -48,7 +49,7 @@ void getInput()
 	keyPressed[K_SPACE] = isKeyPressed(VK_SPACE);
 }
 
-void update(double dt, Map &currentMap, Pacman &player)
+void update(double dt, Map &currentMap, Pacman &player, Bullet &shoot)
 {
     // get the delta time
     elapsedTime += dt;
@@ -56,7 +57,7 @@ void update(double dt, Map &currentMap, Pacman &player)
 	
 	player.oldCoord = player.coord;
 
-    // Updating the location of the character based on the key press
+     // Updating the location of the character based on the key press
 	if (keyPressed[K_UP])
     {
 		player.direct = UP;
@@ -86,6 +87,39 @@ void update(double dt, Map &currentMap, Pacman &player)
 		currentMap.processedMap[player.coord.Y][player.coord.X] = ' ';
 	}
 
+	//bullet shooting
+	if(keyPressed[K_SPACE])
+	{
+	
+	  if ( keyPressed[K_UP])
+	  {
+			shoot.direction = UP;
+			shoot.move(currentMap);
+	  }
+	  
+	 
+	  else  if ( keyPressed[K_LEFT])
+	  {
+		    shoot.direction = LEFT;
+			shoot.move(currentMap);
+	  }
+	  
+	  
+      if ( keyPressed[K_DOWN])
+      {
+		    shoot.direction = DOWN;
+			shoot.move(currentMap);
+      }
+	  
+	  
+	  else if ( keyPressed[K_RIGHT])
+      {
+		    shoot.direction = RIGHT;
+			shoot.move(currentMap);
+      }
+	  
+	  
+	}
     // quits the game if player hits the escape key
     if (keyPressed[K_ESCAPE])
 	{
@@ -98,7 +132,7 @@ void update(double dt, Map &currentMap, Pacman &player)
 	}
 }
 
-void render(Map &currentMap, Pacman &player)
+void render(Map &currentMap, Pacman &player , Bullet &shoot)
 {
 	/*
     // render time taken to calculate this frame
@@ -114,11 +148,11 @@ void render(Map &currentMap, Pacman &player)
 	// wipe old character
 	colour(FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED);
 	player.undraw(currentMap);
-    
+	shoot.undraw(currentMap);
 	// render character
     colour(0x0C);
     player.draw();
-    
+    shoot.draw();
 	// wipe ghosts
 	for(size_t i = 0; i < currentMap.ghostStorage.size(); ++i)
 	{
@@ -129,4 +163,5 @@ void render(Map &currentMap, Pacman &player)
 	{
 		currentMap.ghostStorage[i].draw();
 	}
+	shoot.undraw(currentMap);
 }
