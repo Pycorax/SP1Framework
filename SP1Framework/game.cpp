@@ -2,11 +2,14 @@
 //
 //
 #include "game.h"
-#include "characters.h"
+#include "Framework\console.h"
+#include <iostream>
+#include <iomanip>
+#include <vector>
 
 double elapsedTime;
 double deltaTime;
-bool keyPressed[K_COUNT];
+bool keyPressed[E_MAX_KEYS];
 COORD consoleSize;
 COORD bulletLocation[1];
 
@@ -41,12 +44,12 @@ void shutdown()
 
 void getInput()
 {    
-    keyPressed[K_UP] = isKeyPressed(VK_UP);
-    keyPressed[K_DOWN] = isKeyPressed(VK_DOWN);
-    keyPressed[K_LEFT] = isKeyPressed(VK_LEFT);
-    keyPressed[K_RIGHT] = isKeyPressed(VK_RIGHT);
-    keyPressed[K_ESCAPE] = isKeyPressed(VK_ESCAPE);
-	keyPressed[K_SPACE] = isKeyPressed(VK_SPACE);
+    keyPressed[E_UP_KEY] = isKeyPressed(VK_UP);
+    keyPressed[E_DOWN_KEY] = isKeyPressed(VK_DOWN);
+    keyPressed[E_LEFT_KEY] = isKeyPressed(VK_LEFT);
+    keyPressed[E_RIGHT_KEY] = isKeyPressed(VK_RIGHT);
+    keyPressed[E_ESCAPE_KEY] = isKeyPressed(VK_ESCAPE);
+	keyPressed[E_SPACE_KEY] = isKeyPressed(VK_SPACE);
 }
 
 void update(double dt, Map &currentMap, Pacman &player)
@@ -59,26 +62,26 @@ void update(double dt, Map &currentMap, Pacman &player)
 	player.oldCoord = player.coord;
 
      // Updating the location of the character based on the key press
-	if (keyPressed[K_UP])
+	if (keyPressed[E_UP_KEY])
     {
-		player.direct = UP;
+		player.direct = E_UP_DIRECTION;
 		player.move(currentMap);
 
     }
-    else if (keyPressed[K_LEFT])
+    else if (keyPressed[E_LEFT_KEY])
     {
-		player.direct = LEFT;
+		player.direct = E_LEFT_DIRECTION;
 		player.move(currentMap);
 		
 	}
-    else if (keyPressed[K_DOWN])
+    else if (keyPressed[E_DOWN_KEY])
     {
-		player.direct = DOWN;
+		player.direct = E_DOWN_DIRECTION;
 		player.move(currentMap);
     }
-    else if (keyPressed[K_RIGHT])
+    else if (keyPressed[E_RIGHT_KEY])
     {
-		player.direct = RIGHT;
+		player.direct = E_RIGHT_DIRECTION;
 		player.move(currentMap);
     }
 
@@ -91,7 +94,7 @@ void update(double dt, Map &currentMap, Pacman &player)
 	//Bullet shooting
 	if(currentMap.shot == NULL)
 	{
-		if(keyPressed[K_SPACE])
+		if(keyPressed[E_SPACE_KEY])
 		{
 			currentMap.shot = new Bullet(player);
 			currentMap.shot->move(currentMap);
@@ -140,7 +143,7 @@ void update(double dt, Map &currentMap, Pacman &player)
 	}
 	
     // quits the game if player hits the escape key
-    if (keyPressed[K_ESCAPE])
+    if (keyPressed[E_ESCAPE_KEY])
 	{
         g_quitGame = true;
 	}

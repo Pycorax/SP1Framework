@@ -1,32 +1,22 @@
 #ifndef MAPS_H
 #define MAPS_H
 
-#include <iostream>
 #include <vector>
-#include <fstream>
-#include <string>
 #include <Windows.h>
-#include "Framework\console.h"
-#include "userInterface.h"
-#include "game.h"
 #include "characters.h"
 #include "bullet.h"
 
 using std::vector;
-using std::ifstream;
-using std::string;
-using std::cout;
-using std::endl;
 
 extern struct Ghost;
 
-enum direction
+enum DIRECTION
 {
-	LEFT,
-	RIGHT,
-	UP,
-	DOWN,
-	MAX_DIRECTIONS
+	E_LEFT_DIRECTION,
+	E_RIGHT_DIRECTION,
+	E_UP_DIRECTION,
+	E_DOWN_DIRECTION,
+	E_MAX_DIRECTION
 };
 
 struct ZoneBounds
@@ -65,6 +55,6 @@ void printTile(char tile, COORD tileLocation);
 void gotoXYTile(int x, int y);
 void gotoXYTile(COORD location);
 void gotoXYTileDown(COORD location, unsigned short downBy);
-bool isOppositeDirection(direction direct, direction otherDirect);
+bool isOppositeDirection(DIRECTION direct, DIRECTION otherDirect);
 
 #endif

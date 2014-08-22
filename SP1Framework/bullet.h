@@ -1,13 +1,10 @@
 #ifndef BULLET_H
 #define BULLET_H
 
-#include "Framework\timer.h"
-#include "game.h"
-#include "gameStage.h"
 #include "maps.h"
 #include "characters.h"
 
-extern enum direction;
+extern enum DIRECTION;
 extern struct Map;
 extern struct Pacman;
 
@@ -17,7 +14,7 @@ struct Bullet
 	int speed;
 	COORD coord;
 	COORD oldCoord;
-	direction direct;
+	DIRECTION direct;
 	bool collided;
 	bool firstMove;
 

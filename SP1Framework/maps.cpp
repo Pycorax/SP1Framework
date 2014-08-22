@@ -1,4 +1,13 @@
 #include "maps.h"
+#include <fstream>
+#include <iostream>
+#include <string>
+#include "Framework\console.h"
+#include "userInterface.h"
+
+using std::ifstream;
+using std::string;
+using std::cout;
 
 ZoneBounds::ZoneBounds(vector<vector<char>> processedAIMap, unsigned short zone)
 {
@@ -267,7 +276,7 @@ void gotoXYTileDown(COORD location, unsigned short downBy)
 	}
 }
 
-bool isOppositeDirection(direction direct, direction otherDirect)
+bool isOppositeDirection(DIRECTION direct, DIRECTION otherDirect)
 {
 	if(direct == otherDirect)
 	{
@@ -276,26 +285,26 @@ bool isOppositeDirection(direction direct, direction otherDirect)
 
 	switch(direct)
 	{
-		case UP:
-			if(otherDirect == DOWN)
+		case E_UP_DIRECTION:
+			if(otherDirect == E_DOWN_DIRECTION)
 			{
 				return true;
 			}
 			break;
-		case DOWN:
-			if(otherDirect == UP)
+		case E_DOWN_DIRECTION:
+			if(otherDirect == E_UP_DIRECTION)
 			{
 				return true;
 			}
 			break;
-		case LEFT:
-			if(otherDirect == RIGHT)
+		case E_LEFT_DIRECTION:
+			if(otherDirect == E_RIGHT_DIRECTION)
 			{
 				return true;
 			}
 			break;
-		case RIGHT:
-			if(otherDirect == LEFT)
+		case E_RIGHT_DIRECTION:
+			if(otherDirect == E_LEFT_DIRECTION)
 			{
 				return true;
 			}

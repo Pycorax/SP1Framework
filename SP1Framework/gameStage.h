@@ -1,14 +1,6 @@
 #ifndef GAME_STAGE_H
 #define GAME_STAGE_H
 
-#include <iostream>
-#include <vector>
-#include "maps.h"
-
-using std::cout;
-using std::cin;
-using std::endl;
-
 enum gameState
 {
 	MAIN_MENU,

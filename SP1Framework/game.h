@@ -2,14 +2,9 @@
 #define _GAME_H
 
 #include "Framework\timer.h"
-#include "Framework\console.h"
-#include <iostream>
-#include <iomanip>
-#include <vector>
 #include "maps.h"
 #include "characters.h"
 
-;using std::vector;
 extern StopWatch g_timer;
 extern bool g_quitGame;
 extern struct Ghost;
@@ -17,15 +12,15 @@ extern struct Pacman;
 extern struct Map;
 extern struct Bullet;
 
-enum Keys
+enum KEYS
 {
-    K_UP,
-    K_DOWN,
-    K_LEFT,
-    K_RIGHT,
-    K_ESCAPE,
-	K_SPACE,
-    K_COUNT
+    E_UP_KEY,
+    E_DOWN_KEY,
+    E_LEFT_KEY,
+    E_RIGHT_KEY,
+    E_ESCAPE_KEY,
+	E_SPACE_KEY,
+    E_MAX_KEYS
 };
 
 void init();												// initialize your variables, allocate memory, etc

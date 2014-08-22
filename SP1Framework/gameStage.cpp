@@ -1,8 +1,13 @@
 #include "gameStage.h"
+#include <iostream>
+#include "maps.h"
+
+using std::cout;
+using std::cin;
+using std::endl;
 
 void mainMenu(gameState &game)
 {
-	init();
 	system("color 0F");
 	int input = 0;
 	cout<<endl<<endl<<endl<<endl<<endl<<endl;

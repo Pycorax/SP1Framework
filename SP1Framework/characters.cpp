@@ -1,4 +1,9 @@
 #include "characters.h"
+#include <ctime>
+#include "Framework\console.h"
+#include <iostream>
+
+using std::cout;
 
 Ghost::Ghost(int healthPoints, int speedPoints, short givenZoneID, ZoneBounds zoneCoords)
 {
@@ -232,32 +237,32 @@ Pacman::Pacman(Map currentMap)
 	coord.X = currentMap.startPos.X;
 	coord.Y = currentMap.startPos.Y;
 	oldCoord = coord;
-	direct = RIGHT;
+	direct = E_RIGHT_DIRECTION;
 }
 
 void Pacman::move(Map currentMap)
 {
 	switch(direct)
 	{
-		case UP:
+		case E_UP_DIRECTION:
 			if(currentMap.processedMap[coord.Y - speed][coord.X] != '#')
 			{
 				coord.Y -= speed;
 			}
 			break;
-		case DOWN:
+		case E_DOWN_DIRECTION:
 			if(currentMap.processedMap[coord.Y + speed][coord.X] != '#')
 			{
 				coord.Y += speed;
 			}
 			break;
-		case LEFT:
+		case E_LEFT_DIRECTION:
 			if(currentMap.processedMap[coord.Y][coord.X - speed] != '#')
 			{
 				coord.X -= speed;
 			}
 			break;
-		case RIGHT:
+		case E_RIGHT_DIRECTION:
 			if(currentMap.processedMap[coord.Y][coord.X + speed] != '#')
 			{
 				coord.X += speed;
@@ -271,7 +276,7 @@ void Pacman::draw()
 	static bool even = true;
 	switch(direct)
 	{
-		case UP:
+		case E_UP_DIRECTION:
 			if(even)
 			{
 				gotoXYTile(coord);
@@ -291,7 +296,7 @@ void Pacman::draw()
 				
 			break;
 
-		case DOWN:	
+		case E_DOWN_DIRECTION:	
 			if(even)
 			{
 				gotoXYTile(coord);
@@ -311,7 +316,7 @@ void Pacman::draw()
 				 
 			break;
 
-		case LEFT:
+		case E_LEFT_DIRECTION:
 			if(even)
 			{
 				gotoXYTile(coord);
@@ -331,7 +336,7 @@ void Pacman::draw()
 				 
 			break;
 
-		case RIGHT:	
+		case E_RIGHT_DIRECTION:	
 			if(even)
 			{
 				gotoXYTile(coord);

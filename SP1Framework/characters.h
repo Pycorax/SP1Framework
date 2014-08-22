@@ -1,19 +1,10 @@
 #ifndef CHARACTERS_H
 #define CHARACTERS_H
 
-#include "Framework\timer.h"
-#include "game.h"
-#include "gameStage.h"
 #include "maps.h"
-#include <Windows.h>
-#include <ctime>
-#include <vector>
 #include "bullet.h"
 
-using std::time;
-using std::vector;
-
-extern enum direction;
+extern enum DIRECTION;
 extern struct Map;
 extern struct Bullet;
 extern struct ZoneBounds;
@@ -26,7 +17,7 @@ struct Ghost
 	COORD oldCoord;
 	COORD change;
 	bool wasVertical;
-	direction direct;
+	DIRECTION direct;
 	char zoneID;
 	int damage;
 
@@ -45,7 +36,7 @@ struct Pacman
 	int lives;
 	COORD coord;
 	COORD oldCoord;
-	direction direct;
+	DIRECTION direct;
 
 	Pacman(Map currentMap);
 	void move(Map currentMap);

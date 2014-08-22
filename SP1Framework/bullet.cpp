@@ -1,4 +1,8 @@
 #include "bullet.h"
+#include "Framework\console.h"
+#include <iostream>
+
+using std::cout;
 
 Bullet::Bullet(Pacman player)
 {
@@ -17,7 +21,7 @@ void Bullet::draw()
 
 	switch(direct)
 	{
-		case UP:
+		case E_UP_DIRECTION:
 			gotoXYTile(coord);
 			cout << "/\\ ";
 			gotoXYTileDown(coord, 1);
@@ -26,7 +30,7 @@ void Bullet::draw()
 			cout << "|| ";
 			break;
 
-		case DOWN:	
+		case E_DOWN_DIRECTION:	
 				gotoXYTile(coord);
 				cout << "|| ";
 				gotoXYTileDown(coord, 1);
@@ -35,7 +39,7 @@ void Bullet::draw()
 				cout << "\\/ ";
 			break;
 
-		case LEFT:
+		case E_LEFT_DIRECTION:
 				gotoXYTile(coord);
 				cout << "   ";
 				gotoXYTileDown(coord, 1);
@@ -44,7 +48,7 @@ void Bullet::draw()
 				cout << "   ";
 			break;
 
-		case RIGHT:	
+		case E_RIGHT_DIRECTION:	
 				gotoXYTile(coord);
 				cout << "   ";
 				gotoXYTileDown(coord, 1);
@@ -68,19 +72,19 @@ bool Bullet::move(Map currentMap)
 
 	switch(direct)
 	{
-		case UP:
+		case E_UP_DIRECTION:
 			changeX += 0;
 			changeY += -speed;
 			break;
-		case DOWN:
+		case E_DOWN_DIRECTION:
 			changeX += 0;
 			changeY += speed;
 			break;
-		case LEFT:
+		case E_LEFT_DIRECTION:
 			changeX += -speed;
 			changeY += 0;
 			break;
-		case RIGHT:
+		case E_RIGHT_DIRECTION:
 			changeX += speed;
 			changeY += 0;
 			break;
