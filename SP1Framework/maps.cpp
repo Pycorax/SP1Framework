@@ -86,14 +86,6 @@ bool Map::processMap(const char mapName[])
 					skipLine = true;
 					break;
 				}
-				else if(readChar == 'S')
-				{
-					--coord_y;
-					getline(mapFile, readLine);
-					minScore = atoi(readLine.c_str());
-					skipLine = true;
-					break;
-				}
 				else
 				{
 					if(readChar == 'P')

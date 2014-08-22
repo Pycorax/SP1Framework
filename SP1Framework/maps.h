@@ -42,6 +42,7 @@ struct ZoneBounds
 struct Map
 {
 	unsigned short ghosts;
+	int minScore;
 	unsigned short zones;
 	COORD startPos;
 	vector<ZoneBounds> zoneCoords;
@@ -49,9 +50,6 @@ struct Map
 	vector<vector<char>> processedAIMap;
 	vector<Ghost> ghostStorage;
 	Bullet *shot;
-
-	//Score
-	int minScore;
 
 	Map(const char mapName[], const char aiMapName[]);
 	//TODO: Create destructor for Map when level system is added
