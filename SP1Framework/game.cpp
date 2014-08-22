@@ -135,6 +135,7 @@ void update(double dt, Map &currentMap, Pacman &player)
 	{
 		if(currentMap.ghostStorage[i].isAlive() == false)
 		{
+			
 			break;
 		}
 	}
@@ -154,7 +155,7 @@ void update(double dt, Map &currentMap, Pacman &player)
 	//Checks if player touched the ghost
 	for(size_t i = 0; i < currentMap.ghostStorage.size(); ++i)
 	{
-		if(currentMap.ghostStorage[i].isAlive() && player.isHitByGhost(currentMap.ghostStorage[i]))
+		if(player.isHitByGhost(currentMap.ghostStorage[i]))
 		{
 			player.lives -= currentMap.ghostStorage[i].damage;
 			player.coord = currentMap.startPos;
