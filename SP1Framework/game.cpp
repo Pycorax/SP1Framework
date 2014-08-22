@@ -4,6 +4,10 @@
 #include "game.h"
 #include "characters.h"
 #include "maps.h"
+#include <iostream>
+#include <iomanip>
+#include "Framework\console.h"
+#include "globals.h"
 
 double elapsedTime;
 double deltaTime;
@@ -246,6 +250,6 @@ void levelLoop(string mapName)
         getInput();												// get keyboard input
         update(g_timer.getElapsedTime(), currentMap, player);   // update the game
 		render(currentMap, player);
-        g_timer.waitUntil(frameTime);							// Frame rate limiter. Limits each frame to a specified time in ms.      
+        g_timer.waitUntil(frameTime);						// Frame rate limiter. Limits each frame to a specified time in ms.      
 	}    
 }

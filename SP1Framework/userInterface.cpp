@@ -1,4 +1,7 @@
 #include "userInterface.h"
+#include <iostream>
+
+using std::cout;
 
 void printInterface(int score)
 {
