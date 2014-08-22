@@ -4,6 +4,7 @@
 #include "Framework\timer.h"
 #include "maps.h"
 #include "characters.h"
+#include "userInterface.h"
 
 extern StopWatch g_timer;
 extern bool g_quitGame;

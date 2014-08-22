@@ -33,9 +33,10 @@ struct ZoneBounds
 
 struct Map
 {
+	int scorePoints;
 	unsigned short ghosts;
-	int minScore;
 	unsigned short zones;
+	int minScore;
 	COORD startPos;
 	vector<ZoneBounds> zoneCoords;
 	vector<vector<char>> processedMap;
