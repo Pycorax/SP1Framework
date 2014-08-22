@@ -23,10 +23,11 @@ int main()
 
 	while(game != EXIT)
 	{
+		system("cls");
 		switch(game)
 		{
 			case MAIN_MENU:
-				mainMenu();
+				mainMenu(game);
 				break;
 			case GAME:
 				gameLoop();
@@ -49,7 +50,7 @@ int main()
 void gameLoop()
 {
 	//Load & Print Map
-	Map currentMap("testing3.map", "testing3.aimap");
+	Map currentMap("testing2.map", "testing2.aimap");
 	currentMap.renderMap();
 
 	Pacman player(currentMap);
