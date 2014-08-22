@@ -42,7 +42,7 @@ Map::Map(const char mapName[], const char aiMapName[])
 
 	for(size_t i = 0; i < ghosts; ++i)
 	{
-		newGhost = new Ghost(1,1,i);
+		newGhost = new Ghost(1,1,i, zoneCoords[i]);
 		ghostStorage.push_back(*newGhost);
 	}
 
