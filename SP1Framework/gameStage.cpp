@@ -1,6 +1,7 @@
 #include "gameStage.h"
 #include <iostream>
 #include "maps.h"
+#include "game.h"
 
 using std::cout;
 using std::cin;
@@ -32,6 +33,14 @@ cout<<"        "<<"..:::::::::..:::::..:::......::::......:::::.......:::..::::.
 	cin >> input;
 	
 	game = (gameState)input;
+}
+
+void gameLoop(string maps[])
+{
+	for(size_t currentLevel = 0; currentLevel < sizeof(maps); ++currentLevel)
+	{
+		levelLoop(maps[currentLevel]);
+	}
 }
 
 bool quit(gameState &game)

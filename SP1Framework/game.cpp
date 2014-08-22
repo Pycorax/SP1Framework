@@ -6,6 +6,7 @@
 #include <iostream>
 #include <iomanip>
 #include <vector>
+#include "globals.h"
 
 double elapsedTime;
 double deltaTime;
@@ -217,4 +218,25 @@ void render(Map &currentMap, Pacman &player)
 			currentMap.shot->firstMove = false;
 		}
 	}
+}
+
+// This main loop calls functions to get input, update and render the game
+// at a specific frame rate
+void levelLoop(string mapName)
+{
+	//Load & Print Map
+	Map currentMap(mapName);
+	currentMap.renderMap();
+
+	Pacman player(currentMap);
+	Bullet shoot (currentMap);
+
+    g_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
+    while (!g_quitGame)      // run this loop until user wants to quit 
+	{        
+        getInput();												// get keyboard input
+        update(g_timer.getElapsedTime(), currentMap, player);   // update the game
+		render(currentMap, player);
+        g_timer.waitUntil(frameTime);							// Frame rate limiter. Limits each frame to a specified time in ms.      
+	}    
 }

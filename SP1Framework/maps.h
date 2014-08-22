@@ -5,8 +5,10 @@
 #include <Windows.h>
 #include "characters.h"
 #include "bullet.h"
+#include <string>
 
 using std::vector;
+using std::string;
 
 extern struct Ghost;
 
@@ -41,7 +43,7 @@ struct Map
 	vector<Ghost> ghostStorage;
 	Bullet *shot;
 
-	Map(const char mapName[], const char aiMapName[]);
+	Map(string mapName);
 	//TODO: Create destructor for Map when level system is added
 	//~Map();
 

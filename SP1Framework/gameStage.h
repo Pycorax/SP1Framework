@@ -1,6 +1,10 @@
 #ifndef GAME_STAGE_H
 #define GAME_STAGE_H
 
+#include <string>
+
+using std::string;
+
 enum gameState
 {
 	MAIN_MENU,
@@ -12,6 +16,7 @@ enum gameState
 };
 
 void mainMenu(gameState &game);
+void gameLoop(string maps[]);
 bool quit(gameState &game);
 
 #endif

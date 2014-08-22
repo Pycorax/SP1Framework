@@ -1,12 +1,10 @@
 #include "maps.h"
 #include <fstream>
 #include <iostream>
-#include <string>
 #include "Framework\console.h"
 #include "userInterface.h"
 
 using std::ifstream;
-using std::string;
 using std::cout;
 
 ZoneBounds::ZoneBounds(vector<vector<char>> processedAIMap, unsigned short zone)
@@ -34,10 +32,13 @@ ZoneBounds::ZoneBounds(vector<vector<char>> processedAIMap, unsigned short zone)
 	}
 }
 
-Map::Map(const char mapName[], const char aiMapName[])
+Map::Map(string mapName)
 {
-	processMap(mapName);
-	processAIMap(aiMapName);
+	string actualMapName = mapName + ".map";
+	string aiMapName = mapName + ".aimap";
+
+	processMap(actualMapName.c_str());
+	processAIMap(aiMapName.c_str());
 
 	ZoneBounds *zoneptr = NULL;
 

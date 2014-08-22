@@ -91,6 +91,7 @@
     <ClInclude Include="Framework\timer.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="gameStage.h" />
+    <ClInclude Include="globals.h" />
     <ClInclude Include="maps.h" />
     <ClInclude Include="userInterface.h" />
   </ItemGroup>
