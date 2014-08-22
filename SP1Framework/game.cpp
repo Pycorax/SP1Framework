@@ -3,6 +3,7 @@
 //
 #include "game.h"
 #include "characters.h"
+#include "maps.h"
 
 double elapsedTime;
 double deltaTime;
@@ -79,12 +80,13 @@ void update(double dt, Map &currentMap, Pacman &player)
     {
 		player.direct = RIGHT;
 		player.move(currentMap);
-    }
+	}
 
 	//Pellet eating
 	if(currentMap.processedMap[player.coord.Y][player.coord.X] == '.')
 	{
 		currentMap.processedMap[player.coord.Y][player.coord.X] = ' ';
+		currentMap.scorePoints += 100;
 	}
 
 	//Bullet shooting
@@ -153,6 +155,17 @@ void render(Map &currentMap, Pacman &player)
     colour(0x59);
     std::cout << elapsedTime << "secs" << std::endl;
 	*/
+
+	colour(BACKGROUND_RED);
+	
+	gotoXY(0,0);
+	printInterface(currentMap.scorePoints);
+
+	gotoXY(39,0);
+	printminScore(currentMap.minScore);
+
+	gotoXY(70,0);
+	//printcollectPoints(currentMap.collectedPoints, currentMap.processedMap[1].size(), currentMap.processedMap.size());
 
 	//Wipe old Player
 	colour(FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED);

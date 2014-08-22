@@ -8,8 +8,9 @@
 #include <vector>
 #include "maps.h"
 #include "characters.h"
+#include "userInterface.h"
 
-;using std::vector;
+using std::vector;
 extern StopWatch g_timer;
 extern bool g_quitGame;
 extern struct Ghost;

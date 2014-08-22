@@ -47,6 +47,7 @@ Map::Map(const char mapName[], const char aiMapName[])
 	}
 
 	shot = NULL;
+	scorePoints = 0;
 }
 
 bool Map::processMap(const char mapName[])
