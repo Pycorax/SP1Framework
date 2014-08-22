@@ -19,7 +19,7 @@ enum gameState
 	MAX_STATES
 };
 
-void mainMenu();
+void mainMenu(gameState &game);
 bool quit(gameState &game);
 
 #endif

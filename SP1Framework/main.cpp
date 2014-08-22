@@ -23,10 +23,11 @@ int main()
 
 	while(game != EXIT)
 	{
+		system("cls");
 		switch(game)
 		{
 			case MAIN_MENU:
-				mainMenu();
+				mainMenu(game);
 				break;
 			case GAME:
 				gameLoop();
