@@ -54,6 +54,7 @@ void update(double dt, Map &currentMap, Pacman &player)
     // get the delta time
     elapsedTime += dt;
     deltaTime = dt;
+	Ghost *ghostPtr = NULL;
 	
 	player.oldCoord = player.coord;
 
@@ -98,9 +99,10 @@ void update(double dt, Map &currentMap, Pacman &player)
 	}
 	else if(currentMap.shot->collided == false)
 	{
-		currentMap.shot->move(currentMap);
-		//TODO: Bug fix
-		//Check before moving else the check for wall collision will give an error when shooting beside the wall at the wall
+		if(!(currentMap.shot->move(currentMap)))
+		{
+			currentMap.shot->collided = true;
+		}
 
 		//Check for ghost collision
 		for(size_t i = 0; i < currentMap.ghostStorage.size(); ++i)
@@ -117,16 +119,25 @@ void update(double dt, Map &currentMap, Pacman &player)
 			}
 		}
 
-		//Check for wall collision
-		if(currentMap.processedMap[currentMap.shot->coord.Y][currentMap.shot->coord.X] == '#')
+		if(currentMap.shot->collided && currentMap.shot->firstMove)
 		{
-			currentMap.shot->collided = true;
+			delete currentMap.shot;
+			currentMap.shot = NULL;
 		}
 	}
 	else if(currentMap.shot->collided) //Prevent immediate deletion upon collision to allow bullet to be undraw() first
 	{
 		delete currentMap.shot;
 		currentMap.shot = NULL;
+	}
+
+	for(size_t i = 0; i < currentMap.ghostStorage.size(); ++i)
+	{
+		if(currentMap.ghostStorage[i].isAlive() == false)
+		{
+			
+			break;
+		}
 	}
 	
     // quits the game if player hits the escape key
@@ -135,9 +146,20 @@ void update(double dt, Map &currentMap, Pacman &player)
         g_quitGame = true;
 	}
 
+	//Moves all the Ghosts
 	for(size_t i = 0; i < currentMap.ghostStorage.size(); ++i)
 	{
 		currentMap.ghostStorage[i].move(currentMap);
+	}
+
+	//Checks if player touched the ghost
+	for(size_t i = 0; i < currentMap.ghostStorage.size(); ++i)
+	{
+		if(player.isHitByGhost(currentMap.ghostStorage[i]))
+		{
+			player.lives -= currentMap.ghostStorage[i].damage;
+			player.coord = currentMap.startPos;
+		}
 	}
 }
 
@@ -160,7 +182,10 @@ void render(Map &currentMap, Pacman &player)
 
 	//Render Player
     colour(0x0C);
-    player.draw();
+	if(player.isAlive())
+	{
+		player.draw();
+	}
 
 	//Wipe old Ghosts
 	for(size_t i = 0; i < currentMap.ghostStorage.size(); ++i)
@@ -171,17 +196,23 @@ void render(Map &currentMap, Pacman &player)
 	//Render Ghosts
 	for(size_t i = 0; i < currentMap.ghostStorage.size(); ++i)
 	{
-		currentMap.ghostStorage[i].draw();
+		if(currentMap.ghostStorage[i].isAlive())
+		{
+			currentMap.ghostStorage[i].draw();
+		}
 	}
 
 	//Render Bullet & Wipe old Bullets
 	if(currentMap.shot != NULL)
 	{
-		currentMap.shot->undraw(currentMap);
-
+		if(currentMap.shot->firstMove == false)
+		{
+			currentMap.shot->undraw(currentMap);
+		}
 		if(currentMap.shot->collided == false)
 		{
 			currentMap.shot->draw();
+			currentMap.shot->firstMove = false;
 		}
 	}
 }

@@ -266,3 +266,39 @@ void gotoXYTileDown(COORD location, unsigned short downBy)
 		gotoXY(tileLocation);
 	}
 }
+
+bool isOppositeDirection(direction direct, direction otherDirect)
+{
+	if(direct == otherDirect)
+	{
+		return false;
+	}
+
+	switch(direct)
+	{
+		case UP:
+			if(otherDirect == DOWN)
+			{
+				return true;
+			}
+			break;
+		case DOWN:
+			if(otherDirect == UP)
+			{
+				return true;
+			}
+			break;
+		case LEFT:
+			if(otherDirect == RIGHT)
+			{
+				return true;
+			}
+			break;
+		case RIGHT:
+			if(otherDirect == LEFT)
+			{
+				return true;
+			}
+			break;
+	}
+}

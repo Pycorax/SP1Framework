@@ -65,5 +65,6 @@ void printTile(char tile, COORD tileLocation);
 void gotoXYTile(int x, int y);
 void gotoXYTile(COORD location);
 void gotoXYTileDown(COORD location, unsigned short downBy);
+bool isOppositeDirection(direction direct, direction otherDirect);
 
 #endif

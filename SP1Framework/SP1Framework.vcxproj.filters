@@ -88,5 +88,11 @@
     <None Include="testing2.aimap">
       <Filter>Source Files\Maps</Filter>
     </None>
+    <None Include="testing3.map">
+      <Filter>Source Files\Maps</Filter>
+    </None>
+    <None Include="testing3.aimap">
+      <Filter>Source Files\Maps</Filter>
+    </None>
   </ItemGroup>
 </Project>

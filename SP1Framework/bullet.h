@@ -19,11 +19,12 @@ struct Bullet
 	COORD oldCoord;
 	direction direct;
 	bool collided;
+	bool firstMove;
 
 	Bullet(Pacman player);
 	void draw();
 	void undraw(Map currentMap);
-	void move(Map currentMap);
+	bool move(Map currentMap);
 };
 
 #endif

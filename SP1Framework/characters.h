@@ -25,12 +25,14 @@ struct Ghost
 	COORD oldCoord;
 	direction direct;
 	char zoneID;
+	int damage;
 
 	Ghost(int healthPoints, int speedPoints, short givenZoneID);
 	void draw();
 	void undraw(Map currentMap);
 	void move(Map currentMap, bool clockwise = true);
 	bool isHitByBullet(Bullet shot);
+	bool Ghost::isAlive();
 };
 
 struct Pacman
@@ -47,6 +49,7 @@ struct Pacman
 	void draw();
 	void undraw(Map currentMap);
 	bool isAlive();
+	bool isHitByGhost(Ghost enemy);
 };
 
 #endif

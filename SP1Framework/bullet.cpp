@@ -8,10 +8,13 @@ Bullet::Bullet(Pacman player)
 	coord = player.coord;
 	oldCoord = coord;
 	collided = false;
+	firstMove = true;
 }
 
 void Bullet::draw()
 {
+	colour(FOREGROUND_RED | FOREGROUND_INTENSITY);
+
 	switch(direct)
 	{
 		case UP:
@@ -57,26 +60,41 @@ void Bullet::undraw(Map currentMap)
 	printTile(currentMap.processedMap[oldCoord.Y][oldCoord.X], oldCoord);
 }
 
-void Bullet::move(Map currentMap)
+bool Bullet::move(Map currentMap)
 {
 	oldCoord = coord;
+	short changeX = 0;
+	short changeY = 0;
+
 	switch(direct)
 	{
 		case UP:
-			coord.X += 0;
-			coord.Y += -speed;
+			changeX += 0;
+			changeY += -speed;
 			break;
 		case DOWN:
-			coord.X += 0;
-			coord.Y += speed;
+			changeX += 0;
+			changeY += speed;
 			break;
 		case LEFT:
-			coord.X += -speed;
-			coord.Y += 0;
+			changeX += -speed;
+			changeY += 0;
 			break;
 		case RIGHT:
-			coord.X += speed;
-			coord.Y += 0;
+			changeX += speed;
+			changeY += 0;
 			break;
+	}
+
+	if(coord.X +changeX >= 0 && coord.X + changeX < currentMap.processedMap[coord.Y].size() && coord.Y + changeY >= 0 && coord.Y + changeY < currentMap.processedMap.size() && currentMap.processedMap[coord.Y + changeY][coord.X + changeX] != '#')
+	{
+		coord.X += changeX;
+		coord.Y += changeY;
+		
+		return true;
+	}
+	else
+	{
+		return false;
 	}
 }

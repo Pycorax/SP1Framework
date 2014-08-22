@@ -4,7 +4,8 @@ Ghost::Ghost(int healthPoints, int speedPoints, short givenZoneID)
 {
 	health = healthPoints;
 	speed = speedPoints;
-	zoneID = givenZoneID + 48;	
+	zoneID = givenZoneID + 48;
+	damage = 1;
 		
 	srand(time(NULL));
 
@@ -73,6 +74,22 @@ void Ghost::move(Map currentMap, bool clockwise)
 					changeY = 0;
 					wasVertical = false;
 				}
+				else
+				{
+					if (currentMap.processedAIMap[coord.Y + speed][coord.X] == zoneID)//Down
+					{
+						changeX = 0;
+						changeY = speed;
+						wasVertical = true;
+					}
+					else if(currentMap.processedAIMap[coord.Y - speed][coord.X] == zoneID) //Up
+					{
+						changeX = 0;
+						changeY = -speed;
+						wasVertical = true;
+					}
+				}
+
 			}
 			else
 			{
@@ -87,7 +104,22 @@ void Ghost::move(Map currentMap, bool clockwise)
 					changeX = speed;
 					changeY = 0;
 					wasVertical = false;
-				} 
+				}
+				else
+				{
+					if(currentMap.processedAIMap[coord.Y - speed][coord.X] == zoneID) //Up
+					{
+						changeX = 0;
+						changeY = -speed;
+						wasVertical = true;
+					}
+					else if (currentMap.processedAIMap[coord.Y + speed][coord.X] == zoneID)//Down
+					{
+						changeX = 0;
+						changeY = speed;
+						wasVertical = true;
+					}
+				}
 			}
 			
 		}
@@ -107,6 +139,22 @@ void Ghost::move(Map currentMap, bool clockwise)
 					changeY = -speed;
 					wasVertical = true;
 				}
+				else
+				{
+					if(currentMap.processedAIMap[coord.Y][coord.X + speed] == zoneID) //Right
+					{ 
+						changeX = speed;
+						changeY = 0;
+						wasVertical = false;
+					}
+					else if (currentMap.processedAIMap[coord.Y][coord.X - speed] == zoneID) // Left
+					{ 
+						changeX = -speed;
+						changeY = 0;
+						wasVertical = false;
+					}
+				}
+
 			}
 			else
 			{
@@ -121,6 +169,21 @@ void Ghost::move(Map currentMap, bool clockwise)
 					changeX = 0;
 					changeY = speed;
 					wasVertical = true;
+				}
+				else
+				{
+					if (currentMap.processedAIMap[coord.Y][coord.X - speed] == zoneID) // Left
+					{ 
+						changeX = -speed;
+						changeY = 0;
+						wasVertical = false;
+					}
+					else if(currentMap.processedAIMap[coord.Y][coord.X + speed] == zoneID) //Right
+					{ 
+						changeX = speed;
+						changeY = 0;
+						wasVertical = false;
+					}
 				}
 			}
 		}
@@ -138,7 +201,7 @@ void Ghost::move(Map currentMap, bool clockwise)
 
 bool Ghost::isHitByBullet(Bullet shot)
 {
-	if(shot.coord.X == coord.X && shot.coord.Y == coord.Y)
+	if((shot.oldCoord.X == coord.X && shot.oldCoord.Y == coord.Y) || (shot.coord.X == coord.X && shot.coord.Y == coord.Y))
 	{
 		health -= shot.damage;
 		return true;
@@ -146,6 +209,18 @@ bool Ghost::isHitByBullet(Bullet shot)
 	else
 	{
 		return false;
+	}
+}
+
+bool Ghost::isAlive()
+{
+	if(health < 1)
+	{
+		return false;
+	}
+	else
+	{
+		return true;
 	}
 }
 
@@ -292,5 +367,17 @@ bool Pacman::isAlive()
 	else
 	{
 		return true;
+	}
+}
+
+bool Pacman::isHitByGhost(Ghost enemy)
+{
+	if(coord.X == enemy.oldCoord.X && coord.Y == enemy.oldCoord.Y)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
 	}
 }
