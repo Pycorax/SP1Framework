@@ -16,6 +16,7 @@ using std::vector;
 extern enum direction;
 extern struct Map;
 extern struct Bullet;
+extern struct ZoneBounds;
 
 struct Ghost
 {
@@ -23,11 +24,13 @@ struct Ghost
 	int speed;
 	COORD coord;
 	COORD oldCoord;
+	COORD change;
+	bool wasVertical;
 	direction direct;
 	char zoneID;
 	int damage;
 
-	Ghost(int healthPoints, int speedPoints, short givenZoneID);
+	Ghost(int healthPoints, int speedPoints, short givenZoneID, ZoneBounds zoneCoords);
 	void draw();
 	void undraw(Map currentMap);
 	void move(Map currentMap, bool clockwise = true);
