@@ -19,7 +19,7 @@ void gameLoop();
 int main()
 {
 	init();      // initialize your variables
-	gameState game = GAME;
+	gameState game = MAIN_MENU;
 
 	while(game != EXIT)
 	{
