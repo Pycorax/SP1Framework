@@ -94,6 +94,7 @@
     <ClInclude Include="gameStage.h" />
     <ClInclude Include="globals.h" />
     <ClInclude Include="maps.h" />
+    <ClInclude Include="scorePoints.h" />
     <ClInclude Include="userInterface.h" />
   </ItemGroup>
   <ItemGroup>

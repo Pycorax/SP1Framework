@@ -90,7 +90,7 @@ bool Bullet::move(Map currentMap)
 			break;
 	}
 
-	if(coord.X +changeX >= 0 && coord.X + changeX < currentMap.processedMap[coord.Y].size() && coord.Y + changeY >= 0 && coord.Y + changeY < currentMap.processedMap.size() && currentMap.processedMap[coord.Y + changeY][coord.X + changeX] != '#')
+	if(coord.X + changeX >= 0 && coord.X + changeX < currentMap.processedMap[coord.Y].size() && coord.Y + changeY >= 0 && coord.Y + changeY < currentMap.processedMap.size() && currentMap.processedMap[coord.Y + changeY][coord.X + changeX] != '#')
 	{
 		coord.X += changeX;
 		coord.Y += changeY;

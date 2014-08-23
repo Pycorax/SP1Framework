@@ -52,7 +52,7 @@ Map::Map(string mapName)
 
 	for(size_t i = 0; i < ghosts; ++i)
 	{
-		newGhost = new Ghost(1,1,i, zoneCoords[i]);
+		newGhost = new Ghost(1,1,i, *this);
 		ghostStorage.push_back(*newGhost);
 	}
 
@@ -312,4 +312,6 @@ bool isOppositeDirection(DIRECTION direct, DIRECTION otherDirect)
 			}
 			break;
 	}
+
+	return false;
 }

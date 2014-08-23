@@ -136,14 +136,6 @@ void update(double dt, Map &currentMap, Pacman &player)
 		delete currentMap.shot;
 		currentMap.shot = NULL;
 	}
-
-	for(size_t i = 0; i < currentMap.ghostStorage.size(); ++i)
-	{
-		if(currentMap.ghostStorage[i].isAlive() == false)
-		{
-			break;
-		}
-	}
 	
     // quits the game if player hits the escape key
     if (keyPressed[E_ESCAPE_KEY])
@@ -151,19 +143,22 @@ void update(double dt, Map &currentMap, Pacman &player)
         g_quitGame = true;
 	}
 
-	//Moves all the Ghosts
+	//Ghost related code
 	for(size_t i = 0; i < currentMap.ghostStorage.size(); ++i)
 	{
-		currentMap.ghostStorage[i].move(currentMap);
-	}
-
-	//Checks if player touched the ghost
-	for(size_t i = 0; i < currentMap.ghostStorage.size(); ++i)
-	{
-		if(currentMap.ghostStorage[i].isAlive() && player.isHitByGhost(currentMap.ghostStorage[i]))
+		if(currentMap.ghostStorage[i].isAlive()) //Moves all the Ghosts
 		{
-			player.lives -= currentMap.ghostStorage[i].damage;
-			player.coord = currentMap.startPos;
+			currentMap.ghostStorage[i].move(currentMap);
+
+			if(player.isHitByGhost(currentMap.ghostStorage[i])) //Checks if player touched the ghost
+			{
+				player.lives -= currentMap.ghostStorage[i].damage;
+				player.coord = currentMap.startPos;
+			}
+		}
+		else if (currentMap.ghostStorage[i].respawnTime <= time(NULL)) //Respawns Ghosts
+		{
+			currentMap.ghostStorage[i].respawn(currentMap);
 		}
 	}
 }
@@ -203,15 +198,11 @@ void render(Map &currentMap, Pacman &player)
 		player.draw();
 	}
 
-	//Wipe old Ghosts
+	//Wipe & Render Ghosts
 	for(size_t i = 0; i < currentMap.ghostStorage.size(); ++i)
 	{
 		currentMap.ghostStorage[i].undraw(currentMap);
-	}
-
-	//Render Ghosts
-	for(size_t i = 0; i < currentMap.ghostStorage.size(); ++i)
-	{
+		
 		if(currentMap.ghostStorage[i].isAlive())
 		{
 			currentMap.ghostStorage[i].draw();
@@ -238,6 +229,7 @@ void render(Map &currentMap, Pacman &player)
 void levelLoop(string mapName)
 {
 	//Load & Print Map
+	//TODO: Spawn loading screen here
 	Map currentMap(mapName);
 	currentMap.renderMap();
 

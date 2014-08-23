@@ -5,21 +5,27 @@
 
 using std::cout;
 
-Ghost::Ghost(int healthPoints, int speedPoints, short givenZoneID, ZoneBounds zoneCoords)
+Ghost::Ghost(int healthPoints, int speedPoints, short givenZoneID, Map currentMap, unsigned int respawn)
 {
-	health = healthPoints;
+	maxHealth = healthPoints;
+	health = maxHealth;
 	speed = speedPoints;
-	zoneID = givenZoneID + 48;
+	numericZoneID = givenZoneID;
+	zoneID = numericZoneID + 48;
 	damage = 1;
+	timeToRespawn = respawn;
 
 	change.X = 0;
 	change.Y = -1;
 	wasVertical = true;
-		
-	srand(time(NULL));
-
-	coord.X = rand() % zoneCoords.maxX + zoneCoords.minX;
-	coord.Y = rand() % zoneCoords.maxY + zoneCoords.minY;
+	
+	do 
+	{
+		srand(time(NULL));
+		coord.X = rand() % currentMap.zoneCoords[numericZoneID].maxX + currentMap.zoneCoords[numericZoneID].minX;
+		coord.Y = rand() % currentMap.zoneCoords[numericZoneID].maxY + currentMap.zoneCoords[numericZoneID].minY;
+	}
+	while (currentMap.processedMap[coord.Y][coord.X] == '#');
 
 	oldCoord = coord;
 }
@@ -209,6 +215,7 @@ bool Ghost::isHitByBullet(Bullet shot)
 	if((shot.oldCoord.X == coord.X && shot.oldCoord.Y == coord.Y) || (shot.coord.X == coord.X && shot.coord.Y == coord.Y))
 	{
 		health -= shot.damage;
+		respawnTime = time(NULL) + timeToRespawn;
 		return true;
 	}
 	else
@@ -226,6 +233,28 @@ bool Ghost::isAlive()
 	else
 	{
 		return true;
+	}
+}
+
+void Ghost::respawn(Map currentMap)
+{
+	if(!isAlive())
+	{
+		health = maxHealth;
+
+		change.X = 0;
+		change.Y = -1;
+		wasVertical = true;
+
+		do 
+		{
+			srand(time(NULL));
+			coord.X = rand() % currentMap.zoneCoords[numericZoneID].maxX + currentMap.zoneCoords[numericZoneID].minX;
+			coord.Y = rand() % currentMap.zoneCoords[numericZoneID].maxY + currentMap.zoneCoords[numericZoneID].minY;
+		}
+		while (currentMap.processedMap[coord.Y][coord.X] == '#');
+
+		oldCoord = coord;
 	}
 }
 

@@ -47,11 +47,13 @@ bool quit(gameState &game)
 {
 	char input;
 
-	cout << "Are you sure you want to quit? (Y/N)"<<endl;
-	cin >> input;
-
-	input = toupper(input);
-
+	do 
+	{
+		cout << "Are you sure you want to quit? (Y/N)"<< endl;
+		cin >> input;
+		input = toupper(input);
+	} while (input != 'Y' || input != 'N');
+	
 	if(input == 'Y')
 	{
 		game = EXIT;
@@ -62,4 +64,6 @@ bool quit(gameState &game)
 		game = MAIN_MENU;
 		return false;
 	}
+
+	return false;
 }
