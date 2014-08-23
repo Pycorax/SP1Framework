@@ -6,14 +6,12 @@
 #include "maps.h"
 #include <iostream>
 #include <iomanip>
+#include <sstream>
 #include "Framework\console.h"
 #include "globals.h"
+#include "userInterface.h"
 
-double elapsedTime;
-double deltaTime;
-bool keyPressed[E_MAX_KEYS];
-COORD consoleSize;
-COORD bulletLocation[1];
+using std::ostringstream;
 
 void init()
 {
@@ -22,8 +20,11 @@ void init()
 
     SetConsoleTitle(L"PacGun");
 
-    // Sets the console size in the form x,y
-	system("mode 120,60");
+	// Sets the console size in the form x,y
+	ostringstream oss;
+	oss << "mode " << consoleSize.X << "," << consoleSize.Y;
+
+	system(oss.str().c_str());
 
     // Get console width and height
     CONSOLE_SCREEN_BUFFER_INFO csbi; /* to get buffer info */     

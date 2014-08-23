@@ -6,6 +6,8 @@
 #include "Framework/console.h"
 #include <string>
 
+extern COORD consoleSize;
+
 using std::cout;
 using std::cin;
 using std::endl;
@@ -28,9 +30,11 @@ void mainMenu(gameState &game)
 		"..:::::::::..:::::..:::......::::......:::::.......:::..::::..::"
 	};
 
+	int mainMenuTitlePrintSpot = consoleSize.X/2 - mainMenuTitle[0].length()/2;
+
 	for(size_t i = 0; i < MAIN_MENU_TITLE; ++i)
 	{
-		gotoXY(28,6 + i);
+		gotoXY(mainMenuTitlePrintSpot, 6 + i);
 		cout << mainMenuTitle[i];
 	}
 
@@ -47,9 +51,11 @@ void mainMenu(gameState &game)
 		"|__________________|"
 	};
 
+	int mainMenuOptionsPrintSpot = consoleSize.X/2 - mainMenuOptions[0].length()/2;
+
 	for(size_t i = 0; i < MAIN_MENU_OPTIONS; ++i)
 	{
-		gotoXY(50, 17 + i);
+		gotoXY(mainMenuOptionsPrintSpot, 17 + i);
 		cout << mainMenuOptions[i];
 	}
 
