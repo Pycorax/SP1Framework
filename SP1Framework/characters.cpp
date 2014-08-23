@@ -5,7 +5,7 @@
 
 using std::cout;
 
-Ghost::Ghost(int healthPoints, int speedPoints, short givenZoneID, Map currentMap, unsigned int respawn)
+Ghost::Ghost(short healthPoints, short speedPoints, unsigned short givenZoneID, unsigned short respawn, Map currentMap)
 {
 	maxHealth = healthPoints;
 	health = maxHealth;

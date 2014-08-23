@@ -31,17 +31,27 @@ struct ZoneBounds
 	ZoneBounds(vector<vector<char>> processedAIMap, unsigned short zone);
 };
 
+struct GhostData
+{
+	short health;
+	short speed;
+	unsigned short respawnDelay;
+	unsigned short numericZoneID;
+};
+
 struct Map
 {
 	int scorePoints;
 	unsigned short ghosts;
 	unsigned short zones;
 	int minScore;
+	int pellets;
 	COORD startPos;
 	vector<ZoneBounds> zoneCoords;
 	vector<vector<char>> processedMap;
 	vector<vector<char>> processedAIMap;
 	vector<Ghost> ghostStorage;
+	vector<GhostData> *ghostDataStorage; //To get values to initialize Ghosts
 	Bullet *shot;
 
 	Map(string mapName);

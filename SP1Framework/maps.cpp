@@ -34,12 +34,17 @@ ZoneBounds::ZoneBounds(vector<vector<char>> processedAIMap, unsigned short zone)
 
 Map::Map(string mapName)
 {
+	ghostDataStorage = new vector<GhostData>;
+
+	//Get names of the map files
 	string actualMapName = mapName + ".map";
 	string aiMapName = mapName + ".aimap";
 
+	//Process the map files
 	processMap(actualMapName.c_str());
 	processAIMap(aiMapName.c_str());
 
+	//Get the Zone Bounds
 	ZoneBounds *zoneptr = NULL;
 
 	for (unsigned short i = 0; i < zones; ++i)
@@ -48,14 +53,33 @@ Map::Map(string mapName)
 		zoneCoords.push_back(*zoneptr);
 	}
 
+	//Create the Ghosts
 	Ghost *newGhost = NULL;
 
 	for(size_t i = 0; i < ghosts; ++i)
 	{
-		newGhost = new Ghost(1,1,i, *this);
+		newGhost = new Ghost((*ghostDataStorage)[i].health, (*ghostDataStorage)[i].speed, (*ghostDataStorage)[i].numericZoneID, (*ghostDataStorage)[i].respawnDelay, *this);
+
 		ghostStorage.push_back(*newGhost);
 	}
 
+	//Delete Ghost Data
+	delete ghostDataStorage;
+
+	//Count pellets on map
+	pellets = 0;
+	for(size_t row = 0; row < processedMap.size(); ++row)
+	{
+		for(size_t column = 0; column < processedMap[row].size(); ++column)
+		{
+			if(processedMap[row][column] == '.')
+			{
+				++pellets;
+			}
+		}
+	}
+
+	//Initialize other values
 	shot = NULL;
 	scorePoints = 0;
 }
@@ -94,6 +118,36 @@ bool Map::processMap(const char mapName[])
 					--coord_y;
 					getline(mapFile, readLine);
 					zones = atoi(readLine.c_str());
+					skipLine = true;
+					break;
+				}
+				else if(readChar == 'D')
+				{
+					GhostData *ptr = new GhostData;
+
+					--coord_y;
+					getline(mapFile, readLine);
+					(*ptr).health = atoi(readLine.c_str());
+
+					getline(mapFile, readLine);
+					(*ptr).speed = atoi(readLine.c_str());
+
+					getline(mapFile, readLine);
+					(*ptr).respawnDelay = atoi(readLine.c_str());
+
+					getline(mapFile, readLine);
+					(*ptr).numericZoneID = atoi(readLine.c_str());
+
+					ghostDataStorage->push_back(*ptr);
+
+					skipLine = true;
+					break;
+				}
+				else if(readChar == 'S')
+				{
+					--coord_y;
+					getline(mapFile, readLine);
+					minScore = atoi(readLine.c_str());
 					skipLine = true;
 					break;
 				}

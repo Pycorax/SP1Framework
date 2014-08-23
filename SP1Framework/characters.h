@@ -26,7 +26,7 @@ struct Ghost
 	unsigned int timeToRespawn; //The time needed before the Ghost can respawn
 	time_t respawnTime; //Time when the Ghost will respawn
 
-	Ghost(int healthPoints, int speedPoints, short givenZoneID, Map currentMap, unsigned int respawn = 5);
+	Ghost(short healthPoints, short speedPoints, unsigned short givenZoneID, unsigned short respawn, Map currentMap);
 	void draw();
 	void undraw(Map currentMap);
 	void move(Map currentMap, bool clockwise = true);

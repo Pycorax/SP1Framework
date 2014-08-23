@@ -1,7 +1,14 @@
-G
+G //Number of Ghosts
 1
-Z
+Z //Number of Zones
 1
+D //Ghost Details, Row1: Health, Row2: Speed, Row3: Respawn Delay, Row4: ZoneID
+1
+1
+5
+0
+S //Minimum Score
+2000
 #######################
 #.....................#
 #.#.#.###########.#.#.#
