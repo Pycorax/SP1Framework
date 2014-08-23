@@ -15,7 +15,7 @@ using std::vector;
 int main()
 {
 	init();      // initialize your variables
-	gameState game = GAME;
+	gameState game = MAIN_MENU;
 	
 	string maps[] = {"testing", "testing2", "testing3"};
 

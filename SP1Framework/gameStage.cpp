@@ -2,43 +2,84 @@
 #include <iostream>
 #include "maps.h"
 #include "game.h"
+#include <conio.h>
+#include "Framework/console.h"
+#include <string>
 
 using std::cout;
 using std::cin;
 using std::endl;
+using std::string;
 
 void mainMenu(gameState &game)
 {
-	system("color 0F");
-	int input = 0;
-	cout<<endl<<endl<<endl<<endl<<endl<<endl;
-cout<<"        "<<"'########:::::'###:::::'######:::'######:::'##::::'##:'##::: ##:"<<endl;
-cout<<"        "<<" ##.... ##:::'## ##:::'##... ##:'##... ##:: ##:::: ##: ###:: ##:"<<endl;
-cout<<"        "<<" ##:::: ##::'##:. ##:: ##:::..:: ##:::..::: ##:::: ##: ####: ##:"<<endl;
-cout<<"        "<<" ########::'##:::. ##: ##::::::: ##::'####: ##:::: ##: ## ## ##:"<<endl;
-cout<<"        "<<" ##.....::: #########: ##::::::: ##::: ##:: ##:::: ##: ##. ####:"<<endl;
-cout<<"        "<<" ##:::::::: ##.... ##: ##::: ##: ##::: ##:: ##:::: ##: ##:. ###:"<<endl;
-cout<<"        "<<" ##:::::::: ##:::: ##:. ######::. ######:::. #######:: ##::. ##:"<<endl;
-cout<<"        "<<"..:::::::::..:::::..:::......::::......:::::.......:::..::::..::"<<endl;
+	colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
 
-	cout<<endl<<endl<<endl;
-	cout <<"              _____________________"<<endl;
-	cout <<"              |   Main Menu       |"<<endl;
-	cout <<"              |                   |"<<endl;
-	cout <<"              |  (1) Load Game    |"<<endl;
-	cout <<"              |  (2) Start Game   |"<<endl;
-	cout <<"              |  (3) Exit Game    |"<<endl;
-    cout <<"              |                   |"<<endl;
-	cout <<"              |___________________|"<<endl<<"                 ";
-	cin >> input;
+	const size_t MAIN_MENU_TITLE = 8;
+	string mainMenuTitle[MAIN_MENU_TITLE] = 
+	{
+		"'########:::::'###:::::'######:::'######:::'##::::'##:'##::: ##:",
+		" ##.... ##:::'## ##:::'##... ##:'##... ##:: ##:::: ##: ###:: ##:", 
+		" ##:::: ##::'##:. ##:: ##:::..:: ##:::..::: ##:::: ##: ####: ##:", //Total Length = 64
+		" ########::'##:::. ##: ##::::::: ##::'####: ##:::: ##: ## ## ##:",
+		" ##.....::: #########: ##::::::: ##::: ##:: ##:::: ##: ##. ####:",
+		" ##:::::::: ##.... ##: ##::: ##: ##::: ##:: ##:::: ##: ##:. ###:",
+		" ##:::::::: ##:::: ##:. ######::. ######:::. #######:: ##::. ##:",
+		"..:::::::::..:::::..:::......::::......:::::.......:::..::::..::"
+	};
+
+	for(size_t i = 0; i < MAIN_MENU_TITLE; ++i)
+	{
+		gotoXY(28,6 + i);
+		cout << mainMenuTitle[i];
+	}
+
+	const size_t MAIN_MENU_OPTIONS = 8;
+	string mainMenuOptions[MAIN_MENU_OPTIONS] =
+	{
+		" __________________ ",
+		"|                  |", //Total Length 20
+		"|                  |",
+		"|  (1) Start Game  |",
+		"|  (2) Load Game   |",
+		"|  (3) Exit Game   |",
+		"|                  |",
+		"|__________________|"
+	};
+
+	for(size_t i = 0; i < MAIN_MENU_OPTIONS; ++i)
+	{
+		gotoXY(50, 17 + i);
+		cout << mainMenuOptions[i];
+	}
+
+	gotoXY(60, 17 + MAIN_MENU_OPTIONS);
 	
-	game = (gameState)input;
+	while(game == MAIN_MENU)
+	{
+		switch(getch())
+		{
+		case'1':
+			game = GAME;
+			break;
+		case'2':
+			game = LOAD_MENU;
+			break;
+		case'3':
+			game = QUIT_MENU;
+			break;
+		default:
+			game = MAIN_MENU;
+			break;
+		}
+	}
 }
 
 void gameLoop(string maps[])
 {
 	for(size_t currentLevel = 0; currentLevel < sizeof(maps); ++currentLevel)
 	{
+		//TODO: Add a level splash screen
 		levelLoop(maps[currentLevel]);
 	}
 }
