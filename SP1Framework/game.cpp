@@ -12,6 +12,8 @@
 #include "userInterface.h"
 
 using std::ostringstream;
+using std::cout;
+using std::endl;
 
 void init()
 {
@@ -232,7 +234,18 @@ void levelLoop(string mapName)
 	//TODO: Spawn loading screen here
 	Map currentMap(mapName);
 
-	if(currentMap.valid)
+	bool loadMap = true;
+
+	//Check for map errors
+	for(size_t i = 0; i < E_MAX_MAP_ERRORS; ++i)
+	{
+		if(currentMap.validity.error[i])
+		{
+			loadMap = false;
+		}
+	}
+
+	if(loadMap)
 	{
 		currentMap.renderMap();
 
@@ -251,5 +264,23 @@ void levelLoop(string mapName)
 	else
 	{
 		//PRINT ERROR SCREEN
+		gotoXY(0,0);
+		cout << "Error(s) loading level" << endl;
+		cout << "=============================================" << endl;
+		for(size_t i = 0; i < E_MAX_MAP_ERRORS; ++i)
+		{
+			if(currentMap.validity.error[i])
+			{
+				cout << currentMap.validity.errorMessages[i] << endl;
+			}
+			if(currentMap.validity.error[E_MAP_FILE_DOES_NOT_EXIST])
+			{
+				break;
+			}
+		}
+
+		cout << endl << endl;
+		system("pause");
+		cls();
 	}
 }

@@ -3,6 +3,7 @@
 #include <iostream>
 #include "Framework\console.h"
 #include "userInterface.h"
+#include "scorePoints.h"
 
 using std::ifstream;
 using std::cout;
@@ -30,6 +31,21 @@ ZoneBounds::ZoneBounds(vector<vector<char>> processedAIMap, unsigned short zone)
 			}
 		}
 	}
+}
+
+MapValidity::MapValidity()
+{
+	error[E_MAP_FILE_DOES_NOT_EXIST] = false;
+	error[E_ZONES_NOT_SET] = true;
+	error[E_GHOST_STATS_NOT_EQUAL] = false;
+	error[E_SCORE_NOT_SET] = true;
+	error[E_SPAWN_NOT_SET] = true;
+
+	errorMessages[E_MAP_FILE_DOES_NOT_EXIST] = "The map file does not exist or cannot be opened.";
+	errorMessages[E_ZONES_NOT_SET] = "Number of ghost zones are not set in the map file.";
+	errorMessages[E_GHOST_STATS_NOT_EQUAL] = "The number of ghost stats for each stat in the map file are not the same.";
+	errorMessages[E_SCORE_NOT_SET] = "The minimum score to hit before passing the level is not set in the map file or is equal to 0.";
+	errorMessages[E_SPAWN_NOT_SET] = "The spawn point is not set in the map file.";
 }
 
 Map::Map(string mapName)
@@ -78,11 +94,6 @@ Map::Map(string mapName)
 		//Initialize other values
 		shot = NULL;
 		scorePoints = 0;
-		valid = true;
-	}
-	else
-	{
-		valid = false;
 	}
 	
 	//Delete Ghost Data
@@ -115,6 +126,7 @@ bool Map::processMap(const char mapName[])
 					--coord_y;
 					getline(mapFile, readLine);
 					zones = atoi(readLine.c_str());
+					validity.error[E_ZONES_NOT_SET] = false;
 					skipLine = true;
 					break;
 				}
@@ -136,24 +148,48 @@ bool Map::processMap(const char mapName[])
 
 						ptr = NULL;
 					}
+					
+					getline(mapFile, readLine);
+					if(readLine.length() == ghosts)
+					{
+						for(size_t numOfGhosts = 0; numOfGhosts < ghosts; ++numOfGhosts)
+						{
+							ghostDataStorage->at(numOfGhosts).speed = readLine[numOfGhosts] - 48;
+						}
+					}
+					else
+					{
+						validity.error[E_GHOST_STATS_NOT_EQUAL] = true;
+					}
+					
 
 					getline(mapFile, readLine);
-					for(size_t numOfGhosts = 0; numOfGhosts < ghosts; ++numOfGhosts)
+					if(readLine.length() == ghosts)
 					{
-						ghostDataStorage->at(numOfGhosts).speed = readLine[numOfGhosts] - 48;
+						for(size_t numOfGhosts = 0; numOfGhosts < ghosts; ++numOfGhosts)
+						{
+							ghostDataStorage->at(numOfGhosts).respawnDelay = readLine[numOfGhosts] - 48;
+						}
 					}
+					else
+					{
+						validity.error[E_GHOST_STATS_NOT_EQUAL] = true;
+					}
+					
 
 					getline(mapFile, readLine);
-					for(size_t numOfGhosts = 0; numOfGhosts < ghosts; ++numOfGhosts)
+					if(readLine.length() == ghosts)
 					{
-						ghostDataStorage->at(numOfGhosts).respawnDelay = readLine[numOfGhosts] - 48;
+						for(size_t numOfGhosts = 0; numOfGhosts < ghosts; ++numOfGhosts)
+						{
+							ghostDataStorage->at(numOfGhosts).numericZoneID = readLine[numOfGhosts] - 48;
+						}
 					}
-
-					getline(mapFile, readLine);
-					for(size_t numOfGhosts = 0; numOfGhosts < ghosts; ++numOfGhosts)
+					else
 					{
-						ghostDataStorage->at(numOfGhosts).numericZoneID = readLine[numOfGhosts] - 48;
+						validity.error[E_GHOST_STATS_NOT_EQUAL] = true;
 					}
+					
 
 					skipLine = true;
 					break;
@@ -163,6 +199,10 @@ bool Map::processMap(const char mapName[])
 					--coord_y;
 					getline(mapFile, readLine);
 					minScore = atoi(readLine.c_str());
+					if(minScore > g_SCORE_PER_PELLET)
+					{
+						validity.error[E_SCORE_NOT_SET] = false;
+					}
 					skipLine = true;
 					break;
 				}
@@ -172,6 +212,7 @@ bool Map::processMap(const char mapName[])
 					{
 						startPos.Y = coord_y;
 						startPos.X = coord_x;
+						validity.error[E_SPAWN_NOT_SET] = false;
 					}
 
 					ptr->push_back(readChar);
@@ -186,10 +227,21 @@ bool Map::processMap(const char mapName[])
 
 		mapFile.close();
 
+		for(size_t i = 0; i < E_MAX_MAP_ERRORS; ++i)
+		{
+			if(validity.error[i])
+			{
+				return false;
+				validity.error[E_MAP_FILE_DOES_NOT_EXIST] = true;
+			}
+		}
+
+		validity.error[E_MAP_FILE_DOES_NOT_EXIST] = false;
 		return true;
 	}
 	else
 	{
+		validity.error[E_MAP_FILE_DOES_NOT_EXIST] = true;
 		return false;
 	}
 }

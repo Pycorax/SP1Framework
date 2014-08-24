@@ -21,6 +21,16 @@ enum DIRECTION
 	E_MAX_DIRECTION
 };
 
+enum E_MAP_ERRORS
+{
+	E_MAP_FILE_DOES_NOT_EXIST,
+	E_ZONES_NOT_SET,
+	E_GHOST_STATS_NOT_EQUAL,
+	E_SCORE_NOT_SET,
+	E_SPAWN_NOT_SET,
+	E_MAX_MAP_ERRORS
+};
+
 struct ZoneBounds
 {
 	unsigned short minX;
@@ -39,6 +49,14 @@ struct GhostData
 	unsigned short numericZoneID;
 };
 
+struct MapValidity
+{
+	bool error[E_MAX_MAP_ERRORS];
+	string errorMessages[E_MAX_MAP_ERRORS];
+
+	MapValidity();
+};
+
 struct Map
 {
 	int scorePoints;
@@ -53,7 +71,7 @@ struct Map
 	vector<Ghost> ghostStorage;
 	vector<GhostData> *ghostDataStorage; //To get values to initialize Ghosts
 	Bullet *shot;
-	bool valid;
+	MapValidity validity;
 
 	Map(string mapName);
 	//TODO: Create destructor for Map when level system is added
