@@ -10,11 +10,13 @@ void printInterface(int score)
 
 void printminScore(int minScore)
 {
-	minScore = 20000;
 	cout << "Minimum Score: " << minScore;
 }
 
-void printBlank(int blanks)
+void printBlank(int width)
 {
-	cout << "                                                                                                                        ";
+	for(size_t i = 0; i < width; ++i)
+	{
+		cout << " ";
+	}
 }

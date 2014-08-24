@@ -10,5 +10,5 @@ const size_t TILE_HEIGHT = 3;
 
 void printInterface(int score);
 void printminScore(int minScore);
-void printBlank(int blanks);
+void printBlank(int width);
 #endif

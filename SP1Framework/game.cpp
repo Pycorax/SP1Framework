@@ -179,14 +179,13 @@ void render(Map &currentMap, Pacman &player)
     std::cout << elapsedTime << "secs" << std::endl;
 	*/
 
+	//Print HUD background
 	colour(BACKGROUND_GREEN);
-
-	gotoXY(0,1);
-	printBlank(currentMap.blanks);
-	gotoXY(0,2);
-	printBlank(currentMap.blanks);
-	gotoXY(0,0);
-	printBlank(currentMap.blanks);
+	for(size_t i = 0; i < HUD_OFFSET; ++i)
+	{
+		gotoXY(0,i);
+		printBlank(consoleSize.X);
+	}
 
 	gotoXY(0,0);
 	printInterface(currentMap.scorePoints);
