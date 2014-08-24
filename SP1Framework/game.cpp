@@ -7,9 +7,11 @@
 #include <iostream>
 #include <iomanip>
 #include <sstream>
+#include <conio.h>
 #include "Framework\console.h"
 #include "globals.h"
 #include "userInterface.h"
+#include "scorePoints.h"
 
 using std::ostringstream;
 using std::cout;
@@ -94,7 +96,8 @@ void update(double dt, Map &currentMap, Pacman &player)
 	if(currentMap.processedMap[player.coord.Y][player.coord.X] == '.')
 	{
 		currentMap.processedMap[player.coord.Y][player.coord.X] = ' ';
-		currentMap.scorePoints += 100;
+		currentMap.scorePoints += g_SCORE_PER_PELLET;
+		--currentMap.pellets;
 	}
 
 	//Bullet shooting
@@ -139,12 +142,6 @@ void update(double dt, Map &currentMap, Pacman &player)
 		delete currentMap.shot;
 		currentMap.shot = NULL;
 	}
-	
-    // quits the game if player hits the escape key
-    if (keyPressed[E_ESCAPE_KEY])
-	{
-        g_quitGame = true;
-	}
 
 	//Ghost related code
 	for(size_t i = 0; i < currentMap.ghostStorage.size(); ++i)
@@ -157,12 +154,47 @@ void update(double dt, Map &currentMap, Pacman &player)
 			{
 				player.lives -= currentMap.ghostStorage[i].damage;
 				player.coord = currentMap.startPos;
+				currentMap.scorePoints += g_SCORE_PER_DEATH;
 			}
 		}
 		else if (currentMap.ghostStorage[i].respawnTime <= time(NULL)) //Respawns Ghosts
 		{
 			currentMap.ghostStorage[i].respawn(currentMap);
 		}
+	}
+
+	//Check level states E.g. Win/Lose conditions
+	
+	if (player.isAlive())
+	{
+		if(currentMap.scorePoints > currentMap.minScore)
+		{
+			currentMap.levelState = E_MIN_SCORE_HIT;
+		}
+		else if (currentMap.pellets < 1)
+		{
+			currentMap.levelState = E_WIN;
+		}
+		else
+		{
+			currentMap.levelState = E_PLAYING;
+		}
+	}
+	else
+	{
+		if(currentMap.scorePoints > currentMap.minScore)
+		{
+			currentMap.levelState = E_WIN;
+		}
+		else
+		{
+			currentMap.levelState = E_LOSS;
+		}
+	}
+
+	if (keyPressed[E_ESCAPE_KEY])
+	{
+		currentMap.levelState = E_PAUSE;
 	}
 }
 
@@ -259,13 +291,39 @@ void levelLoop(string mapName)
 		Bullet shoot (currentMap);
 
 		g_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
-		while (!g_quitGame)      // run this loop until user wants to quit 
+		while (currentMap.levelState == E_PLAYING || currentMap.levelState == E_MIN_SCORE_HIT || currentMap.levelState == E_PAUSE)      // run this loop until user wants to quit 
 		{        
 			getInput();												// get keyboard input
 			update(g_timer.getElapsedTime(), currentMap, player);   // update the game
 			render(currentMap, player);
-			g_timer.waitUntil(frameTime);						// Frame rate limiter. Limits each frame to a specified time in ms.      
-		}    
+			g_timer.waitUntil(frameTime);						// Frame rate limiter. Limits each frame to a specified time in ms.
+			if(currentMap.levelState == E_PAUSE)
+			{
+				gotoXY(0,0);
+				colour(BACKGROUND_GREEN);
+				//TODO: Pause menu here
+				cout << "Do you wish to end the game? (Y/N)";
+
+				switch(toupper(getch()))
+				{
+					case'Y':
+						currentMap.levelState = E_LOSS;
+						break;
+					default:
+						currentMap.levelState = E_PLAYING;
+						break;
+				}
+			}
+		}
+
+		cls();
+
+		/*
+		switch(currentMap.levelState)
+		{
+
+		}
+		*/
 	}
 	else
 	{

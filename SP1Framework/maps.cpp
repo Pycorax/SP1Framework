@@ -94,6 +94,7 @@ Map::Map(string mapName)
 		//Initialize other values
 		shot = NULL;
 		scorePoints = 0;
+		levelState = E_PLAYING;
 	}
 	
 	//Delete Ghost Data

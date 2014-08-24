@@ -5,6 +5,7 @@
 #include <conio.h>
 #include "Framework/console.h"
 #include <string>
+#include "userInterface.h"
 
 extern COORD consoleSize;
 
@@ -15,6 +16,8 @@ using std::string;
 
 void mainMenu(gameState &game)
 {
+	printBorder();
+
 	colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
 
 	const size_t MAIN_MENU_TITLE = 8;
@@ -97,16 +100,16 @@ bool quit(gameState &game)
 	do 
 	{
 		cout << "Are you sure you want to quit? (Y/N)"<< endl;
-		cin >> input;
-		input = toupper(input);
-	} while (input != 'Y' || input != 'N');
+		input = toupper(getch());
+	}
+	while (!(input == 'Y' || input == 'N'));
 	
 	if(input == 'Y')
 	{
 		game = EXIT;
 		return true;
 	}
-	if(input == 'N')
+	else if(input == 'N')
 	{
 		game = MAIN_MENU;
 		return false;

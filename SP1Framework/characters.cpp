@@ -2,6 +2,7 @@
 #include <ctime>
 #include "Framework\console.h"
 #include <iostream>
+#include "scorePoints.h"
 
 using std::cout;
 
@@ -216,6 +217,7 @@ bool Ghost::isHitByBullet(Bullet shot, Map &currentMap)
 	{
 		health -= shot.damage;
 		respawnTime = time(NULL) + timeToRespawn;
+		currentMap.scorePoints += g_SCORE_PER_HIT;
 		printTile(currentMap.processedMap[coord.Y][coord.X], coord);
 		return true;
 	}

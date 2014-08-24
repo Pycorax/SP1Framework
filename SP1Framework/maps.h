@@ -31,6 +31,16 @@ enum E_MAP_ERRORS
 	E_MAX_MAP_ERRORS
 };
 
+enum E_LEVEL_STATE
+{
+	E_PLAYING,
+	E_MIN_SCORE_HIT,
+	E_WIN,
+	E_LOSS,
+	E_PAUSE,
+	E_MAX_LEVEL_STATES
+};
+
 struct ZoneBounds
 {
 	unsigned short minX;
@@ -59,20 +69,26 @@ struct MapValidity
 
 struct Map
 {
-	int scorePoints;
-	unsigned short ghosts;
+	//Mapping & Positioning
+	COORD startPos;
+	vector<ZoneBounds> zoneCoords;
 	unsigned short zones;
+	vector<vector<char>> processedMap;
+	vector<vector<char>> processedAIMap;
+	MapValidity validity;
+
+	//Ghosts
+	unsigned short ghosts;
+	vector<Ghost> ghostStorage;
+	vector<GhostData> *ghostDataStorage; //To get values to initialize Ghosts
+
+	//Others
+	int scorePoints;
 	int minScore;
 	int pellets;
 	int blanks;
-	COORD startPos;
-	vector<ZoneBounds> zoneCoords;
-	vector<vector<char>> processedMap;
-	vector<vector<char>> processedAIMap;
-	vector<Ghost> ghostStorage;
-	vector<GhostData> *ghostDataStorage; //To get values to initialize Ghosts
 	Bullet *shot;
-	MapValidity validity;
+	E_LEVEL_STATE levelState;
 
 	Map(string mapName);
 	//TODO: Create destructor for Map when level system is added
