@@ -13,3 +13,8 @@ void printminScore(int minScore)
 	minScore = 20000;
 	cout << "Minimum Score: " << minScore;
 }
+
+void printBlank(int blanks)
+{
+	cout << "                                                                                                                        ";
+}

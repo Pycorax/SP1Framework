@@ -64,6 +64,7 @@ struct Map
 	unsigned short zones;
 	int minScore;
 	int pellets;
+	int blanks;
 	COORD startPos;
 	vector<ZoneBounds> zoneCoords;
 	vector<vector<char>> processedMap;
