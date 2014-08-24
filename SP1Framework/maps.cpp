@@ -41,47 +41,52 @@ Map::Map(string mapName)
 	string aiMapName = mapName + ".aimap";
 
 	//Process the map files
-	processMap(actualMapName.c_str());
-	processAIMap(aiMapName.c_str());
-
-	//Get the Zone Bounds
-	ZoneBounds *zoneptr = NULL;
-
-	for (unsigned short i = 0; i < zones; ++i)
+	if(processMap(actualMapName.c_str()) && processAIMap(aiMapName.c_str()))
 	{
-		zoneptr = new ZoneBounds(processedAIMap, i);
-		zoneCoords.push_back(*zoneptr);
-	}
+		//Get the Zone Bounds
+		ZoneBounds *zoneptr = NULL;
 
-	//Create the Ghosts
-	Ghost *newGhost = NULL;
-
-	for(size_t i = 0; i < ghosts; ++i)
-	{
-		newGhost = new Ghost((*ghostDataStorage)[i].health, (*ghostDataStorage)[i].speed, (*ghostDataStorage)[i].numericZoneID, (*ghostDataStorage)[i].respawnDelay, *this);
-
-		ghostStorage.push_back(*newGhost);
-	}
-
-	//Delete Ghost Data
-	delete ghostDataStorage;
-
-	//Count pellets on map
-	pellets = 0;
-	for(size_t row = 0; row < processedMap.size(); ++row)
-	{
-		for(size_t column = 0; column < processedMap[row].size(); ++column)
+		for (unsigned short i = 0; i < zones; ++i)
 		{
-			if(processedMap[row][column] == '.')
+			zoneptr = new ZoneBounds(processedAIMap, i);
+			zoneCoords.push_back(*zoneptr);
+		}
+
+		//Create the Ghosts
+		Ghost *newGhost = NULL;
+
+		for(size_t i = 0; i < ghosts; ++i)
+		{
+			newGhost = new Ghost((*ghostDataStorage)[i].health, (*ghostDataStorage)[i].speed, (*ghostDataStorage)[i].numericZoneID, (*ghostDataStorage)[i].respawnDelay, *this);
+
+			ghostStorage.push_back(*newGhost);
+		}
+
+		//Count pellets on map
+		pellets = 0;
+		for(size_t row = 0; row < processedMap.size(); ++row)
+		{
+			for(size_t column = 0; column < processedMap[row].size(); ++column)
 			{
-				++pellets;
+				if(processedMap[row][column] == '.')
+				{
+					++pellets;
+				}
 			}
 		}
-	}
 
-	//Initialize other values
-	shot = NULL;
-	scorePoints = 0;
+		//Initialize other values
+		shot = NULL;
+		scorePoints = 0;
+		valid = true;
+	}
+	else
+	{
+		valid = false;
+	}
+	
+	//Delete Ghost Data
+	delete ghostDataStorage;
 }
 
 bool Map::processMap(const char mapName[])
@@ -105,15 +110,7 @@ bool Map::processMap(const char mapName[])
 			{
 				skipLine = false;
 				readChar = readLine[coord_x];
-				if(readChar == 'G')
-				{
-					--coord_y;
-					getline(mapFile, readLine);
-					ghosts = atoi(readLine.c_str());
-					skipLine = true;
-					break;
-				}
-				else if(readChar == 'Z')
+				if(readChar == 'Z')
 				{
 					--coord_y;
 					getline(mapFile, readLine);
@@ -123,22 +120,40 @@ bool Map::processMap(const char mapName[])
 				}
 				else if(readChar == 'D')
 				{
-					GhostData *ptr = new GhostData;
-
 					--coord_y;
-					getline(mapFile, readLine);
-					(*ptr).health = atoi(readLine.c_str());
+					GhostData *ptr = NULL;
 
 					getline(mapFile, readLine);
-					(*ptr).speed = atoi(readLine.c_str());
+					ghosts = readLine.length();
+
+					for(size_t numOfGhosts = 0; numOfGhosts < ghosts; ++numOfGhosts)
+					{
+						ptr = new GhostData;
+						
+						(*ptr).health = readLine[numOfGhosts] - 48;
+
+						ghostDataStorage->push_back(*ptr);
+
+						ptr = NULL;
+					}
 
 					getline(mapFile, readLine);
-					(*ptr).respawnDelay = atoi(readLine.c_str());
+					for(size_t numOfGhosts = 0; numOfGhosts < ghosts; ++numOfGhosts)
+					{
+						ghostDataStorage->at(numOfGhosts).speed = readLine[numOfGhosts] - 48;
+					}
 
 					getline(mapFile, readLine);
-					(*ptr).numericZoneID = atoi(readLine.c_str());
+					for(size_t numOfGhosts = 0; numOfGhosts < ghosts; ++numOfGhosts)
+					{
+						ghostDataStorage->at(numOfGhosts).respawnDelay = readLine[numOfGhosts] - 48;
+					}
 
-					ghostDataStorage->push_back(*ptr);
+					getline(mapFile, readLine);
+					for(size_t numOfGhosts = 0; numOfGhosts < ghosts; ++numOfGhosts)
+					{
+						ghostDataStorage->at(numOfGhosts).numericZoneID = readLine[numOfGhosts] - 48;
+					}
 
 					skipLine = true;
 					break;

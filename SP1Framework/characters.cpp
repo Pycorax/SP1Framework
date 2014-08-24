@@ -5,7 +5,7 @@
 
 using std::cout;
 
-Ghost::Ghost(short healthPoints, short speedPoints, unsigned short givenZoneID, unsigned short respawn, Map currentMap)
+Ghost::Ghost(short healthPoints, short speedPoints, unsigned short givenZoneID, unsigned short respawn, Map &currentMap)
 {
 	maxHealth = healthPoints;
 	health = maxHealth;
@@ -22,8 +22,8 @@ Ghost::Ghost(short healthPoints, short speedPoints, unsigned short givenZoneID, 
 	do 
 	{
 		srand(time(NULL));
-		coord.X = rand() % currentMap.zoneCoords[numericZoneID].maxX + currentMap.zoneCoords[numericZoneID].minX;
-		coord.Y = rand() % currentMap.zoneCoords[numericZoneID].maxY + currentMap.zoneCoords[numericZoneID].minY;
+		coord.X = rand() % (currentMap.zoneCoords[numericZoneID].maxX - currentMap.zoneCoords[numericZoneID].minX + 1) + currentMap.zoneCoords[numericZoneID].minX;
+		coord.Y = rand() % (currentMap.zoneCoords[numericZoneID].maxY - currentMap.zoneCoords[numericZoneID].minY + 1) + currentMap.zoneCoords[numericZoneID].minY;
 	}
 	while (currentMap.processedMap[coord.Y][coord.X] == '#');
 
@@ -60,12 +60,12 @@ void Ghost::draw()
 	}
 }
 
-void Ghost::undraw(Map currentMap)
+void Ghost::undraw(Map &currentMap)
 {
 	printTile(currentMap.processedMap[oldCoord.Y][oldCoord.X], oldCoord);
 }
 
-void Ghost::move(Map currentMap, bool clockwise)
+void Ghost::move(Map &currentMap, bool clockwise)
 {
 	if(currentMap.processedAIMap[coord.Y + change.Y][coord.X + change.X] != zoneID)
 	{
@@ -210,12 +210,13 @@ void Ghost::move(Map currentMap, bool clockwise)
 	coord.Y += change.Y;
 }
 
-bool Ghost::isHitByBullet(Bullet shot)
+bool Ghost::isHitByBullet(Bullet shot, Map &currentMap)
 {
 	if((shot.oldCoord.X == coord.X && shot.oldCoord.Y == coord.Y) || (shot.coord.X == coord.X && shot.coord.Y == coord.Y))
 	{
 		health -= shot.damage;
 		respawnTime = time(NULL) + timeToRespawn;
+		printTile(currentMap.processedMap[coord.Y][coord.X], coord);
 		return true;
 	}
 	else
@@ -236,29 +237,27 @@ bool Ghost::isAlive()
 	}
 }
 
-void Ghost::respawn(Map currentMap)
+void Ghost::respawn(Map &currentMap)
 {
 	if(!isAlive())
 	{
-		health = maxHealth;
-
-		change.X = 0;
-		change.Y = -1;
-		wasVertical = true;
-
-		do 
-		{
 			srand(time(NULL));
-			coord.X = rand() % currentMap.zoneCoords[numericZoneID].maxX + currentMap.zoneCoords[numericZoneID].minX;
-			coord.Y = rand() % currentMap.zoneCoords[numericZoneID].maxY + currentMap.zoneCoords[numericZoneID].minY;
-		}
-		while (currentMap.processedMap[coord.Y][coord.X] == '#');
+			coord.X = rand() % (currentMap.zoneCoords[numericZoneID].maxX - currentMap.zoneCoords[numericZoneID].minX + 1) + currentMap.zoneCoords[numericZoneID].minX;
+			coord.Y = rand() % (currentMap.zoneCoords[numericZoneID].maxY - currentMap.zoneCoords[numericZoneID].minY + 1) + currentMap.zoneCoords[numericZoneID].minY;
+		if (currentMap.processedMap[coord.Y][coord.X] != '#')
+		{
+			oldCoord = coord;
 
-		oldCoord = coord;
+			health = maxHealth;
+
+			change.X = 0;
+			change.Y = -1;
+			wasVertical = true;
+		}
 	}
 }
 
-Pacman::Pacman(Map currentMap)
+Pacman::Pacman(Map &currentMap)
 {
 	health = 1;
 	speed = 1;
@@ -269,7 +268,7 @@ Pacman::Pacman(Map currentMap)
 	direct = E_RIGHT_DIRECTION;
 }
 
-void Pacman::move(Map currentMap)
+void Pacman::move(Map &currentMap)
 {
 	switch(direct)
 	{
@@ -387,7 +386,7 @@ void Pacman::draw()
 	}
 }
 
-void Pacman::undraw(Map currentMap)
+void Pacman::undraw(Map &currentMap)
 {
 	printTile(currentMap.processedMap[oldCoord.Y][oldCoord.X], oldCoord);
 }

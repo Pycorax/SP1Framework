@@ -119,7 +119,7 @@ void update(double dt, Map &currentMap, Pacman &player)
 			//Ghost 1 - ghostStorage[1] & is in front of Ghost 2 on the map
 			//Ghost 2 - ghostStorage[0] & is behind Ghost 1 on the map
 			//If bullet fires thru both of them, Ghost 2 dies instead of Ghost 1
-			if(currentMap.ghostStorage[i].isHitByBullet(*(currentMap.shot)))
+			if(currentMap.ghostStorage[i].isHitByBullet(*(currentMap.shot), currentMap))
 			{
 				currentMap.shot->collided = true;
 				break;
@@ -202,10 +202,9 @@ void render(Map &currentMap, Pacman &player)
 	//Wipe & Render Ghosts
 	for(size_t i = 0; i < currentMap.ghostStorage.size(); ++i)
 	{
-		currentMap.ghostStorage[i].undraw(currentMap);
-		
 		if(currentMap.ghostStorage[i].isAlive())
 		{
+			currentMap.ghostStorage[i].undraw(currentMap);
 			currentMap.ghostStorage[i].draw();
 		}
 	}
@@ -232,17 +231,25 @@ void levelLoop(string mapName)
 	//Load & Print Map
 	//TODO: Spawn loading screen here
 	Map currentMap(mapName);
-	currentMap.renderMap();
 
-	Pacman player(currentMap);
-	Bullet shoot (currentMap);
+	if(currentMap.valid)
+	{
+		currentMap.renderMap();
 
-    g_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
-    while (!g_quitGame)      // run this loop until user wants to quit 
-	{        
-        getInput();												// get keyboard input
-        update(g_timer.getElapsedTime(), currentMap, player);   // update the game
-		render(currentMap, player);
-        g_timer.waitUntil(frameTime);						// Frame rate limiter. Limits each frame to a specified time in ms.      
-	}    
+		Pacman player(currentMap);
+		Bullet shoot (currentMap);
+
+		g_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
+		while (!g_quitGame)      // run this loop until user wants to quit 
+		{        
+			getInput();												// get keyboard input
+			update(g_timer.getElapsedTime(), currentMap, player);   // update the game
+			render(currentMap, player);
+			g_timer.waitUntil(frameTime);						// Frame rate limiter. Limits each frame to a specified time in ms.      
+		}    
+	}
+	else
+	{
+		//PRINT ERROR SCREEN
+	}
 }

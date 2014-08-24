@@ -53,6 +53,7 @@ struct Map
 	vector<Ghost> ghostStorage;
 	vector<GhostData> *ghostDataStorage; //To get values to initialize Ghosts
 	Bullet *shot;
+	bool valid;
 
 	Map(string mapName);
 	//TODO: Create destructor for Map when level system is added
