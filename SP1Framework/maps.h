@@ -37,6 +37,7 @@ struct Map
 	unsigned short ghosts;
 	unsigned short zones;
 	int minScore;
+	int blanks;
 	COORD startPos;
 	vector<ZoneBounds> zoneCoords;
 	vector<vector<char>> processedMap;
