@@ -51,6 +51,9 @@
     <ClCompile Include="userInterface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="saves.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework\console.h">
@@ -81,6 +84,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="scorePoints.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="saves.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -16,6 +16,7 @@ int main()
 {
 	init();      // initialize your variables
 	gameState game = MAIN_MENU;
+	unsigned int level = 0;
 	
 	string maps[] = {"testing", "testing2", "testing3"};
 
@@ -28,8 +29,11 @@ int main()
 				mainMenu(game);
 				break;
 			case GAME:
-				gameLoop(maps, game);
+				gameLoop(maps, game, level);
 				game = MAIN_MENU;
+				break;
+			case LOAD_MENU:
+				loadMenu(game, level);
 				break;
 			case QUIT_MENU:
 				if(quit(game))

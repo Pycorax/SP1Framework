@@ -320,9 +320,6 @@ void levelLoop(string mapName, gameState &game)
 				}
 			}
 		}
-
-		cls();
-
 		
 		switch(currentMap.levelState)
 		{
