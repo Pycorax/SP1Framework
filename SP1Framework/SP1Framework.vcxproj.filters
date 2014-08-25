@@ -97,5 +97,41 @@
     <None Include="testing2.aimap">
       <Filter>Source Files\Maps</Filter>
     </None>
+    <None Include="testing3.aimap">
+      <Filter>Source Files\Maps</Filter>
+    </None>
+    <None Include="testing3.map">
+      <Filter>Source Files\Maps</Filter>
+    </None>
+    <None Include="testing4.aimap">
+      <Filter>Source Files\Maps</Filter>
+    </None>
+    <None Include="testing4.map">
+      <Filter>Source Files\Maps</Filter>
+    </None>
+    <None Include="testing5.aimap">
+      <Filter>Source Files\Maps</Filter>
+    </None>
+    <None Include="testing5.map">
+      <Filter>Source Files\Maps</Filter>
+    </None>
+    <None Include="testing6.aimap">
+      <Filter>Source Files\Maps</Filter>
+    </None>
+    <None Include="testing6.map">
+      <Filter>Source Files\Maps</Filter>
+    </None>
+    <None Include="testing7.aimap">
+      <Filter>Source Files\Maps</Filter>
+    </None>
+    <None Include="testing7.map">
+      <Filter>Source Files\Maps</Filter>
+    </None>
+    <None Include="testing8.aimap">
+      <Filter>Source Files\Maps</Filter>
+    </None>
+    <None Include="testing8.map">
+      <Filter>Source Files\Maps</Filter>
+    </None>
   </ItemGroup>
 </Project>
