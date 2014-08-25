@@ -83,6 +83,7 @@
     <ClCompile Include="gameStage.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="maps.cpp" />
+    <ClCompile Include="otherHelperFunctions.cpp" />
     <ClCompile Include="userInterface.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -93,6 +94,7 @@
     <ClInclude Include="game.h" />
     <ClInclude Include="gameStage.h" />
     <ClInclude Include="maps.h" />
+    <ClInclude Include="otherHelperFunctions.h" />
     <ClInclude Include="userInterface.h" />
   </ItemGroup>
   <ItemGroup>

@@ -20,7 +20,7 @@ enum gameState
 void mainMenu(gameState &game);
 void gameLoop(string maps[], gameState &game);
 void gameLoop(string maps[]);
-void pauseMenu(E_LEVEL_STATE &levelState);
+bool pauseMenu(E_LEVEL_STATE &levelState);
 void loadingScreen(string mapName);
 void startScreen(string mapName);
 void endScreen();

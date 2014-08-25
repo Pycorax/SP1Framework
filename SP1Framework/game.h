@@ -1,7 +1,6 @@
 #ifndef _GAME_H
 #define _GAME_H
 
-#include "Framework\timer.h"
 #include "maps.h"
 #include "characters.h"
 #include "gameStage.h"
@@ -25,7 +24,7 @@ enum KEYS
 void init();												// initialize your variables, allocate memory, etc
 void getInput();											// get input from player
 void update(double dt, Map &currentMap, Pacman &player);	// update the game and the state of the game
-void render(Map &currentMap, Pacman &player);			// renders the current state of the game to the console
+void render(Map &currentMap, Pacman &player);				// renders the current state of the game to the console
 void shutdown();											// do clean up, free memory
 void levelLoop(string mapName, gameState &game);
 

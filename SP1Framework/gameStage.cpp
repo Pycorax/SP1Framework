@@ -6,8 +6,10 @@
 #include "Framework/console.h"
 #include <string>
 #include "userInterface.h"
+#include "otherHelperFunctions.h"
 
 extern COORD consoleSize;
+extern COORD defaultConsoleSize;
 
 using std::cout;
 using std::cin;
@@ -16,6 +18,8 @@ using std::string;
 
 void mainMenu(gameState &game)
 {
+	newSetConsoleSize(defaultConsoleSize);
+
 	printBorder();
 
 	colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
@@ -102,8 +106,9 @@ void gameLoop(string maps[], gameState &game)
 		}
 	}
 }
-void pauseMenu(E_LEVEL_STATE &levelState)
+bool pauseMenu(E_LEVEL_STATE &levelState)
 {
+	colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
 	const size_t PAUSE_SCREEN_TITLE = 8;
 	string pausescreen[PAUSE_SCREEN_TITLE] =
 	{
@@ -153,9 +158,11 @@ void pauseMenu(E_LEVEL_STATE &levelState)
 		{
 		case'1':
 			levelState = E_PLAYING;
+			return false;
 			break;
 		case'2':
 			levelState = E_LOSS;
+			return true;
 			break;
 		default:
 			levelState = E_PAUSE;
@@ -165,6 +172,7 @@ void pauseMenu(E_LEVEL_STATE &levelState)
 }
 void loadingScreen(string mapName)
 {
+	newSetConsoleSize(defaultConsoleSize);
 	cls();
 	const size_t LOADING_SCREEN_TITLE = 8;
 	string loadingscreen[LOADING_SCREEN_TITLE] =
@@ -185,10 +193,17 @@ void loadingScreen(string mapName)
 		gotoXY(loadingscreenPrintSpot, 6 + i);
 		cout << loadingscreen[i];
 	}
-	cout << endl<<endl<<endl<< "                             Loading level : " << mapName << endl;
+
+	string mapLoading = "Map :" + mapName;
+
+	gotoXY(consoleSize.X/2 - mapLoading.length()/2, 10 + LOADING_SCREEN_TITLE);
+
+	cout << mapLoading;
 }
+
 void startScreen(string mapName)
 {
+	cls();
 	system("color 0F");
 	const size_t START_SCREEN_TITLE = 8;
 	string startscreen[START_SCREEN_TITLE] =
@@ -209,10 +224,16 @@ void startScreen(string mapName)
 		gotoXY(startscreenPrintSpot, 6 + i);
 		cout << startscreen[i];
 	}
-	cout << endl<<endl<<endl<< "                             Loading level : " << mapName << endl;
+
+	string mapLoaded = "Map :" + mapName;
+
+	gotoXY(consoleSize.X/2 - mapLoaded.length()/2, 10 + START_SCREEN_TITLE);
+
+	cout << mapLoaded;
 }
 void endScreen()
 {
+	newSetConsoleSize(defaultConsoleSize);
 	cls();
 	system("color 0F");
 	const size_t END_SCREEN_TITLE = 8;

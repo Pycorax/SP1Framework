@@ -2,22 +2,35 @@
 #include <iostream>
 #include "maps.h"
 #include "Framework/console.h"
+#include <sstream>
 
 using std::cout;
 using std::endl;
+using std::ostringstream;
 
 extern COORD consoleSize;
 
-void printInterface(int score)
+void printScore(int score)
 {
+	ostringstream output;
+	output << "Score: " << score;
 	colour(BACKGROUND_GREEN);
-	cout << "Score: " << score;
+	gotoXY(consoleSize.X - output.str().length(), 1);
+	cout << output.str();
 }
 
 void printMinScore(int minScore)
 {
 	colour(BACKGROUND_GREEN);
-	cout << "Minimum Score: " << minScore;
+	gotoXY(0,2);
+	cout << "Minimum Score to Hit: " << minScore;
+}
+
+void printLevelName(string mapName)
+{
+	colour(BACKGROUND_GREEN);
+	gotoXY(0,1);
+	cout << "Map: " << mapName;
 }
 
 void printHUDBackground()
@@ -59,6 +72,18 @@ void printBorder()
 
 void printPellets(int pellets)
 {
+	ostringstream output;
+	output << "Pellets Remaining: " << pellets;
 	colour(BACKGROUND_GREEN);
-	cout << "Remaining Pellets: " << pellets;
+	gotoXY(consoleSize.X - output.str().length(), 2);
+	cout << output.str();
+}
+
+void printLives(int lives)
+{
+	ostringstream output;
+	output << "Lives: " << lives;
+	colour(BACKGROUND_GREEN);
+	gotoXY(consoleSize.X - output.str().length(), 0);
+	cout << output.str();
 }

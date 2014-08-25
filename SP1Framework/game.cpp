@@ -7,27 +7,39 @@
 #include <sstream>
 #include <conio.h>
 #include "Framework\console.h"
+#include "Framework\timer.h"
 #include "globals.h"
 #include "userInterface.h"
 #include "scorePoints.h"
 #include "gameStage.h"
+#include "otherHelperFunctions.h"
 
 using std::ostringstream;
 using std::cout;
 using std::endl;
 
+//Globals
+COORD consoleSize = {120, 60};
+COORD defaultConsoleSize = consoleSize;
+const unsigned char FPS = 7;					// FPS of this game
+const unsigned int frameTime = 1000 / FPS;		// time for each frame
+StopWatch g_timer;								// Timer function to keep track of time and the frame rate
+double elapsedTime;
+double deltaTime;
+bool keyPressed[E_MAX_KEYS];
+
 void init()
 {
+	extern COORD consoleSize;
+	extern double elapsedTime;
+
     // Set precision for floating point output
     std::cout << std::fixed << std::setprecision(3);
 
     SetConsoleTitle(L"PacGun");
 
 	// Sets the console size in the form x,y
-	ostringstream oss;
-	oss << "mode " << consoleSize.X << "," << consoleSize.Y;
-
-	system(oss.str().c_str());
+	newSetConsoleSize(consoleSize);
 
     // Get console width and height
     CONSOLE_SCREEN_BUFFER_INFO csbi; /* to get buffer info */     
@@ -49,8 +61,8 @@ void shutdown()
 }
 
 void getInput()
-{    
-    keyPressed[E_UP_KEY] = isKeyPressed(VK_UP);
+{
+	keyPressed[E_UP_KEY] = isKeyPressed(VK_UP);
     keyPressed[E_DOWN_KEY] = isKeyPressed(VK_DOWN);
     keyPressed[E_LEFT_KEY] = isKeyPressed(VK_LEFT);
     keyPressed[E_RIGHT_KEY] = isKeyPressed(VK_RIGHT);
@@ -209,11 +221,12 @@ void render(Map &currentMap, Pacman &player)
     std::cout << elapsedTime << "secs" << std::endl;
 	*/
 
+
 	//Print HUD
-	gotoXY(0,0);
-	printInterface(currentMap.scorePoints);
-	gotoXY(39,0);
+	colour(BACKGROUND_GREEN);
+	printScore(currentMap.scorePoints);
 	printPellets(currentMap.pellets);
+	printLives(player.lives);
 
 	//Wipe old Player
 	colour(FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED);
@@ -279,12 +292,23 @@ void levelLoop(string mapName, gameState &game)
 		Sleep(1500);
 		cls();
 
+		consoleSize.X = currentMap.processedMap[0].size() * TILE_WIDTH;
+		consoleSize.Y = currentMap.processedMap.size() * TILE_HEIGHT + HUD_OFFSET;
+
+		newSetConsoleSize(consoleSize);
+
 		//Print static HUD
 		printHUDBackground();
-		gotoXY(20,0);
 		printMinScore(currentMap.minScore);
 
 		currentMap.renderMap();
+
+		//Print HUD background
+		colour(BACKGROUND_GREEN);
+		printHUDBackground();
+		gotoXY(20,0);
+		printLevelName(mapName);
+		printMinScore(currentMap.minScore);
 
 		Pacman player(currentMap);
 		Bullet shoot (currentMap);
@@ -302,10 +326,23 @@ void levelLoop(string mapName, gameState &game)
 				gotoXY(0,0);
 				colour(BACKGROUND_GREEN);
 				//TODO: Pause menu here
-				pauseMenu(currentMap.levelState);
+				if(!pauseMenu(currentMap.levelState))
+				{
+					colour(FOREGROUND_GREEN);
+					cls();
+					currentMap.renderMap();
+
+					//Print HUD background
+					colour(BACKGROUND_GREEN);
+					printHUDBackground();
+					gotoXY(20,0);
+					printLevelName(mapName);
+					printMinScore(currentMap.minScore);
+				}
 			}
 		}
 
+		colour(FOREGROUND_GREEN);
 		cls();
 
 		

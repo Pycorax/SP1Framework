@@ -3,7 +3,6 @@
 
 #include "maps.h"
 #include "bullet.h"
-#include "Framework/timer.h"
 
 extern enum DIRECTION;
 extern struct Map;
