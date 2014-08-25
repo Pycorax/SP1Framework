@@ -18,8 +18,7 @@ enum gameState
 };
 
 void mainMenu(gameState &game);
-void gameLoop(string maps[], gameState &game);
-void gameLoop(string maps[]);
+void gameLoop(string maps[], size_t NUM_OF_MAPS, gameState &game);
 bool pauseMenu(E_LEVEL_STATE &levelState);
 void loadingScreen(string mapName);
 void startScreen(string mapName);

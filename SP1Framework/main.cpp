@@ -16,7 +16,8 @@ int main()
 	init();      // initialize your variables
 	gameState game = MAIN_MENU;
 	
-	string maps[] = {"testing", "testing2", "testing3"};
+	const size_t NUM_OF_MAPS = 2;
+	string maps[NUM_OF_MAPS] = {"testing", "testing2"};
 
 	while(game != EXIT)
 	{
@@ -27,7 +28,7 @@ int main()
 				mainMenu(game);
 				break;
 			case GAME:
-				gameLoop(maps, game);
+				gameLoop(maps, NUM_OF_MAPS, game);
 				game = MAIN_MENU;
 				break;
 			case QUIT_MENU:

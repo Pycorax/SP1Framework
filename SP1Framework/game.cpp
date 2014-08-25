@@ -293,7 +293,7 @@ void levelLoop(string mapName, gameState &game)
 		cls();
 
 		consoleSize.X = currentMap.processedMap[0].size() * TILE_WIDTH;
-		consoleSize.Y = currentMap.processedMap.size() * TILE_HEIGHT + HUD_OFFSET;
+		consoleSize.Y = currentMap.processedMap.size() * TILE_HEIGHT + HUD_OFFSET * TILE_HEIGHT;
 
 		newSetConsoleSize(consoleSize);
 

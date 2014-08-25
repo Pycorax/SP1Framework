@@ -19,7 +19,8 @@ using std::string;
 void mainMenu(gameState &game)
 {
 	newSetConsoleSize(defaultConsoleSize);
-
+	consoleSize = defaultConsoleSize;
+	cls();
 	printBorder();
 
 	colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
@@ -37,7 +38,7 @@ void mainMenu(gameState &game)
 		"..:::::::::..:::::..:::......::::......:::::.......:::..::::..::"
 	};
 
-	int mainMenuTitlePrintSpot = consoleSize.X/2 - mainMenuTitle[0].length()/2;
+	int mainMenuTitlePrintSpot = defaultConsoleSize.X/2 - mainMenuTitle[0].length()/2;
 
 	for(size_t i = 0; i < MAIN_MENU_TITLE; ++i)
 	{
@@ -58,7 +59,7 @@ void mainMenu(gameState &game)
 		"|__________________|"
 	};
 
-	int mainMenuOptionsPrintSpot = consoleSize.X/2 - mainMenuOptions[0].length()/2;
+	int mainMenuOptionsPrintSpot = defaultConsoleSize.X/2 - mainMenuOptions[0].length()/2;
 
 	for(size_t i = 0; i < MAIN_MENU_OPTIONS; ++i)
 	{
@@ -91,9 +92,9 @@ void mainMenu(gameState &game)
 	}
 }
 
-void gameLoop(string maps[], gameState &game)
+void gameLoop(string maps[], const size_t NUM_OF_MAPS, gameState &game)
 {
-	for(size_t currentLevel = 0; currentLevel < sizeof(maps); ++currentLevel)
+	for(size_t currentLevel = 0; currentLevel < NUM_OF_MAPS; ++currentLevel)
 	{
 		//TODO: Add a level splash screen
 		if(game == GAME)
@@ -186,7 +187,7 @@ void loadingScreen(string mapName)
 		" ########:. #######:: ##:::: ##: ########::'####: ##::. ##:. ######:::",
 		"........:::.......:::..:::::..::........:::....::..::::..:::......::::"
 	};
-	int loadingscreenPrintSpot = consoleSize.X/2 - loadingscreen[0].length()/2;
+	int loadingscreenPrintSpot = defaultConsoleSize.X/2 - loadingscreen[0].length()/2;
 
 	for(size_t i = 0; i < LOADING_SCREEN_TITLE; ++i)
 	{
@@ -217,7 +218,7 @@ void startScreen(string mapName)
 		" ##::. ##: ########: ##:::. ##:::: ##:::::::::: ########: ########:::. ###:::: ########: ########:",
 		"..::::..::........::..:::::..:::::..:::::::::::........::........:::::...:::::........::........::"
 	};
-	int startscreenPrintSpot = consoleSize.X/2 - startscreen[0].length()/2;
+	int startscreenPrintSpot = defaultConsoleSize.X/2 - startscreen[0].length()/2;
 
 	for(size_t i = 0; i < START_SCREEN_TITLE; ++i)
 	{
@@ -248,7 +249,7 @@ void endScreen()
 		". ######::: ##:::: ##: ##:::: ##: ########:::::::. #######::::. ###:::: ########: ##:::. ##:",
 		":......::::..:::::..::..:::::..::........:::::::::.......::::::...:::::........::..:::::..::"
 	};
-	int endscreenPrintSpot = consoleSize.X/2 - endscreen[0].length()/2;
+	int endscreenPrintSpot = defaultConsoleSize.X/2 - endscreen[0].length()/2;
 
 	for(size_t i = 0; i < END_SCREEN_TITLE; ++i)
 	{
