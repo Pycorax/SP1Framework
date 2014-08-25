@@ -214,9 +214,10 @@ void render(Map &currentMap, Pacman &player)
 	colour(BACKGROUND_GREEN);
 	gotoXY(0,0);
 	printInterface(currentMap.scorePoints);
-
-	gotoXY(39,0);
-	printminScore(currentMap.minScore);
+	gotoXY(50,0);
+	printPellets(currentMap.pellets);
+	gotoXY(90, 0);
+	printLives(player.lives);
 
 	//Wipe old Player
 	colour(FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED);
@@ -286,8 +287,8 @@ void levelLoop(string mapName, gameState &game)
 			printBlank(currentMap.blanks);
 			gotoXY(0, 2);
 			printBlank(currentMap.blanks);
-			gotoXY(70,0);
-			printPellets(currentMap.pellets);
+			gotoXY(20,0);
+			printminScore(currentMap.minScore);
 
 		Pacman player(currentMap);
 		Bullet shoot (currentMap);

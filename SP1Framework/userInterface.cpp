@@ -50,3 +50,8 @@ void printPellets(int pellets)
 {
 	cout << "Remaining Pellets: " << pellets;
 }
+
+void printLives(int lives)
+{
+	cout << "Remaining Lives: " << lives;
+}

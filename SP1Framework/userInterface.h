@@ -10,4 +10,5 @@ void printminScore(int minScore);
 void printBlank(int blanks);
 void printBorder();
 void printPellets(int pellets);
+void printLives(int lives);
 #endif
