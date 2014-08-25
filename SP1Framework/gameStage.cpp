@@ -84,12 +84,19 @@ void mainMenu(gameState &game)
 	}
 }
 
-void gameLoop(string maps[])
+void gameLoop(string maps[], gameState &game)
 {
 	for(size_t currentLevel = 0; currentLevel < sizeof(maps); ++currentLevel)
 	{
 		//TODO: Add a level splash screen
-		levelLoop(maps[currentLevel]);
+		if(game == GAME)
+		{
+			levelLoop(maps[currentLevel], game);
+		}
+		else
+		{
+			break;
+		}
 	}
 }
 

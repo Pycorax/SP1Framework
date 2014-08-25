@@ -28,7 +28,7 @@ int main()
 				mainMenu(game);
 				break;
 			case GAME:
-				gameLoop(maps);
+				gameLoop(maps, game);
 				game = MAIN_MENU;
 				break;
 			case QUIT_MENU:

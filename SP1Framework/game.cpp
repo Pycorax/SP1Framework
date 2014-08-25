@@ -2,8 +2,6 @@
 //
 //
 #include "game.h"
-#include "characters.h"
-#include "maps.h"
 #include <iostream>
 #include <iomanip>
 #include <sstream>
@@ -266,7 +264,7 @@ void render(Map &currentMap, Pacman &player)
 
 // This main loop calls functions to get input, update and render the game
 // at a specific frame rate
-void levelLoop(string mapName)
+void levelLoop(string mapName, gameState &game)
 {
 	//Load & Print Map
 	//TODO: Spawn loading screen here
@@ -325,12 +323,13 @@ void levelLoop(string mapName)
 
 		cls();
 
-		/*
+		
 		switch(currentMap.levelState)
 		{
-
+			case E_LOSS:
+				game = MAIN_MENU;
+				break;
 		}
-		*/
 	}
 	else
 	{
