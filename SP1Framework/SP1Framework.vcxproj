@@ -92,9 +92,7 @@
     <ClInclude Include="Framework\timer.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="gameStage.h" />
-    <ClInclude Include="globals.h" />
     <ClInclude Include="maps.h" />
-    <ClInclude Include="scorePoints.h" />
     <ClInclude Include="userInterface.h" />
   </ItemGroup>
   <ItemGroup>
@@ -102,8 +100,6 @@
     <None Include="testing.map" />
     <None Include="testing2.aimap" />
     <None Include="testing2.map" />
-    <None Include="testing3.aimap" />
-    <None Include="testing3.map" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

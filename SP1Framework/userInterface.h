@@ -7,6 +7,7 @@ const size_t TILE_HEIGHT = 3;
 
 void printInterface(int score);
 void printminScore(int minScore);
-void printBlank(int width);
+void printBlank(int blanks);
 void printBorder();
+void printPellets(int pellets);
 #endif
