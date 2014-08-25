@@ -82,14 +82,77 @@ void mainMenu(gameState &game)
 		case'3':
 			game = QUIT_MENU;
 			break;
-		case'4':
-			game = PAUSE_MENU;
-			break;
 		default:
 			game = MAIN_MENU;
 			break;
 		}
 	}
+}
+
+void gameOver(gameState &game)
+{
+	printBorder();
+
+	colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
+
+	const size_t GAME_OVER_TITLE = 7;
+	string gameOverTitle[GAME_OVER_TITLE] = 
+	{
+		" ' #######:::::::' #::::: ###:::. ###: ########::::::' #######::: ##:::::::::: ##: ########: ########:::::",
+		" ##.:::: ##::::' ## ##::: ####:. ####: ##:: :::::::: ##:::::: ##:: ##:::::::: ##:: ##::::::: ##::::: ##:::", 
+		" ##:::: ::::::' ##:. ##:: ##:## ## ##: ##::::::::::: ##:::::: ##::: ##:::::: ##::: ##::::::: ##::::: ##:::", 
+		" ##::: ######: ##:::. ##: ##::.#.: ##: ########::::: ##:::::: ##:::: ##:::: ##:::: ########: ########:::::",
+		" ##.:::: ## :: #########: ##:::::: ##: ##::::::::::: ##:::::: ##::::: ##:: ##::::: ##::::::: ####:::::::::",
+		" ##::::: ##::: ##:::: ##: ##:::::: ##: ##::::::::::: ##:::::: ##:::::: ## ##:::::: ##::::::: ##:: ##::::::",
+		"..########:::: ##:::: ##: ##:::::: ##: ########::::::: #######::::::::: ###::::::: ########: ##::::: ##:::",
+	};
+
+	int gameOverTitlePrintSpot = consoleSize.X/2 - gameOverTitle[0].length()/2;
+
+	for(size_t i = 0; i < GAME_OVER_TITLE; ++i)
+	{
+		gotoXY(gameOverTitlePrintSpot, 6 + i);
+		cout << gameOverTitle[i];
+	}
+
+	const size_t GAME_OVER_OPTIONS = 8;
+	string gameOverOptions[GAME_OVER_OPTIONS] =
+	{
+		" __________________ ",
+		"|                  |", //Total Length 20
+		"|                  |",
+		"|  (1) Main Menu   |",
+		"|  (3) Exit Game   |",
+		"|                  |",
+		"|__________________|"
+	};
+
+	int gameOverOptionsPrintSpot = consoleSize.X/2 - gameOverOptions[0].length()/2;
+
+	for(size_t i = 0; i < GAME_OVER_OPTIONS; ++i)
+	{
+		gotoXY(gameOverOptionsPrintSpot, 17 + i);
+		cout << gameOverOptions[i];
+	}
+
+	gotoXY(60, 17 + GAME_OVER_OPTIONS);
+	
+	while(game == GAME_OVER)
+	{
+		switch(getch())
+		{
+		case'1':
+			game = MAIN_MENU;
+			break;
+		case'2':
+			game = QUIT_MENU;
+			break;
+		default:
+			game = GAME_OVER;
+			break;
+		}
+	}
+
 }
 
 void gameLoop(string maps[], const size_t NUM_OF_MAPS, gameState &game)

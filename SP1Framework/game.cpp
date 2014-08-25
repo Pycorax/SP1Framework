@@ -349,7 +349,7 @@ void levelLoop(string mapName, gameState &game)
 		switch(currentMap.levelState)
 		{
 			case E_LOSS:
-				game = MAIN_MENU;
+				game = GAME_OVER;
 				break;
 		}
 	}

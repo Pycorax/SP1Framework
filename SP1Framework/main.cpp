@@ -4,6 +4,7 @@
 #include "game.h"
 #include <vector>
 #include <string>
+#include "Framework/console.h"
 
 using std::string;
 using std::vector;
@@ -16,12 +17,12 @@ int main()
 	init();      // initialize your variables
 	gameState game = MAIN_MENU;
 	
-	const size_t NUM_OF_MAPS = 2;
-	string maps[NUM_OF_MAPS] = {"testing", "testing2"};
+	const size_t NUM_OF_MAPS = 8;
+	string maps[NUM_OF_MAPS] = {"testing", "testing2", "testing3","testing4","testing5","testing6","testing7","testing8"};
 
 	while(game != EXIT)
 	{
-		system("cls");
+		cls();
 		switch(game)
 		{
 			case MAIN_MENU:
