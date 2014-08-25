@@ -17,12 +17,9 @@ void printminScore(int minScore)
 	cout << "Minimum Score: " << minScore;
 }
 
-void printBlank(int width)
+void printBlank(int blanks)
 {
-	for(size_t i = 0; i < width; ++i)
-	{
-		cout << " ";
-	}
+	cout << "                                                                                                                        ";
 }
 
 void printBorder()
@@ -47,4 +44,9 @@ void printBorder()
 	{
 		cout << "*";
 	}
+}
+
+void printPellets(int pellets)
+{
+	cout << "Remaining Pellets: " << pellets;
 }
