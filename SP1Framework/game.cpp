@@ -209,22 +209,14 @@ void render(Map &currentMap, Pacman &player)
     std::cout << elapsedTime << "secs" << std::endl;
 	*/
 
-	//Print HUD background
-	colour(BACKGROUND_GREEN);
-	for(size_t i = 0; i < HUD_OFFSET; ++i)
-	{
-		gotoXY(0,i);
-		printBlank(consoleSize.X);
-	}
 
+	//Print HUD
+	colour(BACKGROUND_GREEN);
 	gotoXY(0,0);
 	printInterface(currentMap.scorePoints);
 
 	gotoXY(39,0);
 	printminScore(currentMap.minScore);
-
-	gotoXY(70,0);
-	//printcollectPoints(currentMap.collectedPoints, currentMap.processedMap[1].size(), currentMap.processedMap.size());
 
 	//Wipe old Player
 	colour(FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED);
@@ -284,6 +276,18 @@ void levelLoop(string mapName, gameState &game)
 	if(loadMap)
 	{
 		currentMap.renderMap();
+
+			//Print HUD background
+			colour(BACKGROUND_GREEN);
+	
+			gotoXY(0, 0);
+			printBlank(currentMap.blanks);
+			gotoXY(0, 1);
+			printBlank(currentMap.blanks);
+			gotoXY(0, 2);
+			printBlank(currentMap.blanks);
+			gotoXY(70,0);
+			printPellets(currentMap.pellets);
 
 		Pacman player(currentMap);
 		Bullet shoot (currentMap);
