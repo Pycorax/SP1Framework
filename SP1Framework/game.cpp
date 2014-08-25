@@ -167,13 +167,13 @@ void update(double dt, Map &currentMap, Pacman &player)
 	
 	if (player.isAlive())
 	{
-		if(currentMap.scorePoints > currentMap.minScore)
-		{
-			currentMap.levelState = E_MIN_SCORE_HIT;
-		}
-		else if (currentMap.pellets < 1)
+		if (currentMap.pellets < 1)
 		{
 			currentMap.levelState = E_WIN;
+		}
+		else if(currentMap.scorePoints > currentMap.minScore)
+		{
+			currentMap.levelState = E_MIN_SCORE_HIT;
 		}
 		else
 		{
@@ -302,7 +302,14 @@ void levelLoop(string mapName)
 				gotoXY(0,0);
 				colour(BACKGROUND_GREEN);
 				//TODO: Pause menu here
-				cout << "Do you wish to end the game? (Y/N)";
+				char input;
+				do
+				{
+					cout << "Do you wish to end the game? (Y/N)";
+					input = getch();
+					input = toupper(input);
+				}
+				while(!(input == 'Y' || input == 'N'));
 
 				switch(toupper(getch()))
 				{

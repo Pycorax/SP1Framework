@@ -26,7 +26,7 @@ Ghost::Ghost(short healthPoints, short speedPoints, unsigned short givenZoneID, 
 		coord.X = rand() % (currentMap.zoneCoords[numericZoneID].maxX - currentMap.zoneCoords[numericZoneID].minX + 1) + currentMap.zoneCoords[numericZoneID].minX;
 		coord.Y = rand() % (currentMap.zoneCoords[numericZoneID].maxY - currentMap.zoneCoords[numericZoneID].minY + 1) + currentMap.zoneCoords[numericZoneID].minY;
 	}
-	while (currentMap.processedMap[coord.Y][coord.X] == '#');
+	while (currentMap.processedAIMap[coord.Y][coord.X] != zoneID);
 
 	oldCoord = coord;
 }
@@ -246,7 +246,7 @@ void Ghost::respawn(Map &currentMap)
 			srand(time(NULL));
 			coord.X = rand() % (currentMap.zoneCoords[numericZoneID].maxX - currentMap.zoneCoords[numericZoneID].minX + 1) + currentMap.zoneCoords[numericZoneID].minX;
 			coord.Y = rand() % (currentMap.zoneCoords[numericZoneID].maxY - currentMap.zoneCoords[numericZoneID].minY + 1) + currentMap.zoneCoords[numericZoneID].minY;
-		if (currentMap.processedMap[coord.Y][coord.X] != '#')
+		if (currentMap.processedAIMap[coord.Y][coord.X] == zoneID)
 		{
 			oldCoord = coord;
 
