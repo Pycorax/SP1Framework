@@ -77,6 +77,9 @@ void mainMenu(gameState &game)
 		case'3':
 			game = QUIT_MENU;
 			break;
+		case'4':
+			game = PAUSE_MENU;
+			break;
 		default:
 			game = MAIN_MENU;
 			break;
@@ -99,7 +102,137 @@ void gameLoop(string maps[], gameState &game)
 		}
 	}
 }
+int pauseMenu()
+{
+	const size_t PAUSE_SCREEN_TITLE = 8;
+	string pausescreen[PAUSE_SCREEN_TITLE] =
+	{
+		"'########:::::'###::::'##::::'##::'######::'########:'########::",
+		" ##.... ##:::'## ##::: ##:::: ##:'##... ##: ##.....:: ##.... ##:",
+		" ##:::: ##::'##:. ##:: ##:::: ##: ##:::..:: ##::::::: ##:::: ##:",
+		" ########::'##:::. ##: ##:::: ##:. ######:: ######::: ##:::: ##:",
+		" ##.....::: #########: ##:::: ##::..... ##: ##...:::: ##:::: ##:",
+		" ##:::::::: ##.... ##: ##:::: ##:'##::: ##: ##::::::: ##:::: ##:",
+		" ##:::::::: ##:::: ##:. #######::. ######:: ########: ########::",
+		"..:::::::::..:::::..:::.......::::......:::........::........:::"
+	};
+	int pausescreenPrintSpot = consoleSize.X/2 - pausescreen[0].length()/2;
 
+	for(size_t i = 0; i < PAUSE_SCREEN_TITLE; ++i)
+	{
+		gotoXY(pausescreenPrintSpot, 6 + i);
+		cout << pausescreen[i];
+	}
+
+	const size_t PAUSE_MENU_OPTIONS = 8;
+	string pauseMenuOptions[PAUSE_MENU_OPTIONS] =
+	{
+		" __________________ ",
+		"|                  |",
+		"|                  |",
+		"| (1) Resume Game  |",
+		"|                  |",
+		"|  (2) Exit Game   |",
+		"|                  |",
+		"|__________________|"
+	};
+
+	int pauseMenuOptionsPrintSpot = consoleSize.X/2 - pauseMenuOptions[0].length()/2;
+
+	for(size_t i = 0; i < PAUSE_MENU_OPTIONS; ++i)
+	{
+		gotoXY(pauseMenuOptionsPrintSpot, 17 + i);
+		cout << pauseMenuOptions[i];
+	}
+
+	gotoXY(60, 17 + PAUSE_MENU_OPTIONS);
+	if(cin.get() == '1')
+	{
+		return 1;
+	}
+	else
+	{
+		return 2;
+	}
+	
+
+}
+void loadingScreen(string mapName)
+{
+	cls();
+	const size_t LOADING_SCREEN_TITLE = 8;
+	string loadingscreen[LOADING_SCREEN_TITLE] =
+	{
+		"'##::::::::'#######:::::'###::::'########::'####:'##::: ##::'######:::",
+		" ##:::::::'##.... ##:::'## ##::: ##.... ##:. ##:: ###:: ##:'##... ##::",
+		" ##::::::: ##:::: ##::'##:. ##:: ##:::: ##:: ##:: ####: ##: ##:::..:::",
+		" ##::::::: ##:::: ##:'##:::. ##: ##:::: ##:: ##:: ## ## ##: ##::'####:",
+		" ##::::::: ##:::: ##: #########: ##:::: ##:: ##:: ##. ####: ##::: ##::",
+		" ##::::::: ##:::: ##: ##.... ##: ##:::: ##:: ##:: ##:. ###: ##::: ##::",
+		" ########:. #######:: ##:::: ##: ########::'####: ##::. ##:. ######:::",
+		"........:::.......:::..:::::..::........:::....::..::::..:::......::::"
+	};
+	int loadingscreenPrintSpot = consoleSize.X/2 - loadingscreen[0].length()/2;
+
+	for(size_t i = 0; i < LOADING_SCREEN_TITLE; ++i)
+	{
+		gotoXY(loadingscreenPrintSpot, 6 + i);
+		cout << loadingscreen[i];
+	}
+	cout << endl<<endl<<endl<< "                             Loading level : " << mapName << endl;
+}
+void startScreen(string mapName)
+{
+	system("color 0F");
+	const size_t START_SCREEN_TITLE = 8;
+	string startscreen[START_SCREEN_TITLE] =
+	{
+		"'##::: ##:'########:'##::::'##:'########:::::::'##:::::::'########:'##::::'##:'########:'##:::::::",
+		" ###:: ##: ##.....::. ##::'##::... ##..:::::::: ##::::::: ##.....:: ##:::: ##: ##.....:: ##:::::::",
+		" ####: ##: ##::::::::. ##'##:::::: ##:::::::::: ##::::::: ##::::::: ##:::: ##: ##::::::: ##:::::::",
+		" ## ## ##: ######:::::. ###::::::: ##:::::::::: ##::::::: ######::: ##:::: ##: ######::: ##:::::::",
+		" ##. ####: ##...:::::: ## ##:::::: ##:::::::::: ##::::::: ##...::::. ##:: ##:: ##...:::: ##:::::::",
+		" ##:. ###: ##:::::::: ##:. ##::::: ##:::::::::: ##::::::: ##::::::::. ## ##::: ##::::::: ##:::::::",
+		" ##::. ##: ########: ##:::. ##:::: ##:::::::::: ########: ########:::. ###:::: ########: ########:",
+		"..::::..::........::..:::::..:::::..:::::::::::........::........:::::...:::::........::........::"
+	};
+	int startscreenPrintSpot = consoleSize.X/2 - startscreen[0].length()/2;
+
+	for(size_t i = 0; i < START_SCREEN_TITLE; ++i)
+	{
+		gotoXY(startscreenPrintSpot, 6 + i);
+		cout << startscreen[i];
+	}
+	cout << endl<<endl<<endl<< "                             Loading level : " << mapName << endl;
+}
+void endScreen()
+{
+	cls();
+	system("color 0F");
+	const size_t END_SCREEN_TITLE = 8;
+	string endscreen[END_SCREEN_TITLE] =
+	{
+		":'######::::::'###::::'##::::'##:'########::::::::'#######::'##::::'##:'########:'########::",
+		"'##... ##::::'## ##::: ###::'###: ##.....::::::::'##.... ##: ##:::: ##: ##.....:: ##.... ##:",
+		" ##:::..::::'##:. ##:: ####'####: ##::::::::::::: ##:::: ##: ##:::: ##: ##::::::: ##:::: ##:",
+		" ##::'####:'##:::. ##: ## ### ##: ######::::::::: ##:::: ##: ##:::: ##: ######::: ########::",
+		" ##::: ##:: #########: ##. #: ##: ##...:::::::::: ##:::: ##:. ##:: ##:: ##...:::: ##.. ##:::",
+		" ##::: ##:: ##.... ##: ##:.:: ##: ##::::::::::::: ##:::: ##::. ## ##::: ##::::::: ##::. ##::",
+		". ######::: ##:::: ##: ##:::: ##: ########:::::::. #######::::. ###:::: ########: ##:::. ##:",
+		":......::::..:::::..::..:::::..::........:::::::::.......::::::...:::::........::..:::::..::"
+	};
+	int endscreenPrintSpot = consoleSize.X/2 - endscreen[0].length()/2;
+
+	for(size_t i = 0; i < END_SCREEN_TITLE; ++i)
+	{
+		gotoXY(endscreenPrintSpot, 6 + i);
+		cout << endscreen[i];
+	}
+	cout << endl << endl << endl <<"                    Press Enter to conitnue ";
+	if( cin.get() == '\n')
+	{
+	}
+}
 bool quit(gameState &game)
 {
 	char input;

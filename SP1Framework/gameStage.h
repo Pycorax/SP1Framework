@@ -11,12 +11,18 @@ enum gameState
 	LOAD_MENU,
 	GAME,
 	QUIT_MENU,
+	PAUSE_MENU,
 	EXIT,
 	MAX_STATES
 };
 
 void mainMenu(gameState &game);
 void gameLoop(string maps[], gameState &game);
+void gameLoop(string maps[]);
+void pauseMenu();
+void loadingScreen(string mapName);
+void startScreen(string mapName);
+void endScreen();
 bool quit(gameState &game);
 
 #endif

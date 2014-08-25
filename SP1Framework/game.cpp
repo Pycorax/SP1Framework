@@ -10,6 +10,7 @@
 #include "globals.h"
 #include "userInterface.h"
 #include "scorePoints.h"
+#include "gameStage.h"
 
 using std::ostringstream;
 using std::cout;
@@ -89,7 +90,6 @@ void update(double dt, Map &currentMap, Pacman &player)
 		player.direct = E_RIGHT_DIRECTION;
 		player.move(currentMap);
 	}
-
 	//Pellet eating
 	if(currentMap.processedMap[player.coord.Y][player.coord.X] == '.')
 	{
@@ -162,7 +162,6 @@ void update(double dt, Map &currentMap, Pacman &player)
 	}
 
 	//Check level states E.g. Win/Lose conditions
-	
 	if (player.isAlive())
 	{
 		if (currentMap.pellets < 1)
@@ -187,6 +186,7 @@ void update(double dt, Map &currentMap, Pacman &player)
 		else
 		{
 			currentMap.levelState = E_LOSS;
+			endScreen();
 		}
 	}
 
@@ -268,6 +268,8 @@ void levelLoop(string mapName, gameState &game)
 {
 	//Load & Print Map
 	//TODO: Spawn loading screen here
+	loadingScreen(mapName);
+	cls();
 	Map currentMap(mapName);
 
 	bool loadMap = true;
@@ -283,6 +285,9 @@ void levelLoop(string mapName, gameState &game)
 
 	if(loadMap)
 	{
+		//Level start screen here
+		startScreen(mapName);
+		cls();
 		currentMap.renderMap();
 
 		Pacman player(currentMap);
@@ -297,9 +302,13 @@ void levelLoop(string mapName, gameState &game)
 			g_timer.waitUntil(frameTime);						// Frame rate limiter. Limits each frame to a specified time in ms.
 			if(currentMap.levelState == E_PAUSE)
 			{
+				cls();
 				gotoXY(0,0);
 				colour(BACKGROUND_GREEN);
 				//TODO: Pause menu here
+				int response = pauseMenu();
+				if(response == 2 )
+				{
 				char input;
 				do
 				{
@@ -317,6 +326,7 @@ void levelLoop(string mapName, gameState &game)
 					default:
 						currentMap.levelState = E_PLAYING;
 						break;
+				}
 				}
 			}
 		}
