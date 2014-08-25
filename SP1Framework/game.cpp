@@ -10,6 +10,7 @@
 #include "globals.h"
 #include "userInterface.h"
 #include "scorePoints.h"
+#include "gameStage.h"
 
 using std::ostringstream;
 using std::cout;
@@ -89,7 +90,6 @@ void update(double dt, Map &currentMap, Pacman &player)
 		player.direct = E_RIGHT_DIRECTION;
 		player.move(currentMap);
 	}
-
 	//Pellet eating
 	if(currentMap.processedMap[player.coord.Y][player.coord.X] == '.')
 	{
@@ -162,7 +162,6 @@ void update(double dt, Map &currentMap, Pacman &player)
 	}
 
 	//Check level states E.g. Win/Lose conditions
-	
 	if (player.isAlive())
 	{
 		if (currentMap.pellets < 1)
@@ -187,6 +186,7 @@ void update(double dt, Map &currentMap, Pacman &player)
 		else
 		{
 			currentMap.levelState = E_LOSS;
+			endScreen();
 		}
 	}
 
@@ -209,13 +209,11 @@ void render(Map &currentMap, Pacman &player)
     std::cout << elapsedTime << "secs" << std::endl;
 	*/
 
-	colour(BACKGROUND_GREEN);
+	//Print HUD
 	gotoXY(0,0);
 	printInterface(currentMap.scorePoints);
-
-	gotoXY(70,0);
+	gotoXY(39,0);
 	printPellets(currentMap.pellets);
-
 
 	//Wipe old Player
 	colour(FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED);
@@ -259,6 +257,8 @@ void levelLoop(string mapName, gameState &game)
 {
 	//Load & Print Map
 	//TODO: Spawn loading screen here
+	loadingScreen(mapName);
+
 	Map currentMap(mapName);
 
 	bool loadMap = true;
@@ -274,21 +274,18 @@ void levelLoop(string mapName, gameState &game)
 
 	if(loadMap)
 	{
-		//Print HUD background
-		colour(BACKGROUND_GREEN);
-		//gotoXY(0, 0);
-		//printBlank(currentMap.blanks);
-		gotoXY(0, 1);
-		printBlank(currentMap.blanks);
-		gotoXY(0, 2);
-		printBlank(currentMap.blanks);
-		gotoXY(0, 0);
-		printBlank(currentMap.blanks);
-		gotoXY(39,0);
-		printminScore(currentMap.minScore);
+		//Level start screen here
+		startScreen(mapName);
+		Sleep(1500);
+		cls();
 
+		//Print static HUD
+		printHUDBackground();
+		gotoXY(20,0);
+		printMinScore(currentMap.minScore);
 
 		currentMap.renderMap();
+
 		Pacman player(currentMap);
 		Bullet shoot (currentMap);
 
@@ -301,27 +298,11 @@ void levelLoop(string mapName, gameState &game)
 			g_timer.waitUntil(frameTime);						// Frame rate limiter. Limits each frame to a specified time in ms.
 			if(currentMap.levelState == E_PAUSE)
 			{
+				cls();
 				gotoXY(0,0);
 				colour(BACKGROUND_GREEN);
 				//TODO: Pause menu here
-				char input;
-				do
-				{
-					cout << "Do you wish to end the game? (Y/N)";
-					input = getch();
-					input = toupper(input);
-				}
-				while(!(input == 'Y' || input == 'N'));
-
-				switch(toupper(getch()))
-				{
-					case'Y':
-						currentMap.levelState = E_LOSS;
-						break;
-					default:
-						currentMap.levelState = E_PLAYING;
-						break;
-				}
+				pauseMenu(currentMap.levelState);
 			}
 		}
 

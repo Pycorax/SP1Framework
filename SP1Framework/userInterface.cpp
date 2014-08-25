@@ -4,22 +4,33 @@
 #include "Framework/console.h"
 
 using std::cout;
+using std::endl;
 
 extern COORD consoleSize;
 
 void printInterface(int score)
 {
+	colour(BACKGROUND_GREEN);
 	cout << "Score: " << score;
 }
 
-void printminScore(int minScore)
+void printMinScore(int minScore)
 {
+	colour(BACKGROUND_GREEN);
 	cout << "Minimum Score: " << minScore;
 }
 
-void printBlank(int blanks)
+void printHUDBackground()
 {
-	cout << "                                                                                                                        ";
+	colour(BACKGROUND_GREEN);
+	for(int j = 0; j < HUD_OFFSET; ++j)
+	{
+		gotoXY(0,0 + j);
+		for(int i = 0; i < consoleSize.X; ++i)
+		{
+			cout << " ";
+		}
+	}
 }
 
 void printBorder()
@@ -48,5 +59,6 @@ void printBorder()
 
 void printPellets(int pellets)
 {
+	colour(BACKGROUND_GREEN);
 	cout << "Remaining Pellets: " << pellets;
 }
