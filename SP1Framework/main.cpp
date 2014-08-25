@@ -17,7 +17,7 @@ int main()
 	init();      // initialize your variables
 	gameState game = MAIN_MENU;
 	
-	string maps[] = {"testing", "testing2", "testing3"};
+	string maps[] = {"testing", "testing2", "testing3","testing4","testing5","testing6","testing7","testing8"};
 
 	while(game != EXIT)
 	{
@@ -29,7 +29,10 @@ int main()
 				break;
 			case GAME:
 				gameLoop(maps, game);
-				game = MAIN_MENU;
+				game = GAME_OVER;
+				break;
+			case GAME_OVER:
+				gameOver(game);
 				break;
 			case QUIT_MENU:
 				if(quit(game))
