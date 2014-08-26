@@ -91,6 +91,9 @@ void mainMenu(gameState &game)
 
 void gameOver(gameState &game)
 {
+	newSetConsoleSize(defaultConsoleSize);
+	consoleSize = defaultConsoleSize;
+	
 	printBorder();
 
 	colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
@@ -107,7 +110,7 @@ void gameOver(gameState &game)
 		"..########:::: ##:::: ##: ##:::::: ##: ########::::::: #######::::::::: ###::::::: ########: ##::::: ##:::",
 	};
 
-	int gameOverTitlePrintSpot = consoleSize.X/2 - gameOverTitle[0].length()/2;
+	int gameOverTitlePrintSpot = defaultConsoleSize.X/2 - gameOverTitle[0].length()/2;
 
 	for(size_t i = 0; i < GAME_OVER_TITLE; ++i)
 	{
@@ -122,12 +125,13 @@ void gameOver(gameState &game)
 		"|                  |", //Total Length 20
 		"|                  |",
 		"|  (1) Main Menu   |",
-		"|  (3) Exit Game   |",
+		"|                  |",
+		"|  (2) Exit Game   |",
 		"|                  |",
 		"|__________________|"
 	};
 
-	int gameOverOptionsPrintSpot = consoleSize.X/2 - gameOverOptions[0].length()/2;
+	int gameOverOptionsPrintSpot = defaultConsoleSize.X/2 - gameOverOptions[0].length()/2;
 
 	for(size_t i = 0; i < GAME_OVER_OPTIONS; ++i)
 	{
@@ -159,7 +163,6 @@ void gameLoop(string maps[], const size_t NUM_OF_MAPS, gameState &game)
 {
 	for(size_t currentLevel = 0; currentLevel < NUM_OF_MAPS; ++currentLevel)
 	{
-		//TODO: Add a level splash screen
 		if(game == GAME)
 		{
 			levelLoop(maps[currentLevel], game);
@@ -169,7 +172,9 @@ void gameLoop(string maps[], const size_t NUM_OF_MAPS, gameState &game)
 			break;
 		}
 	}
+	game = MAIN_MENU;
 }
+
 bool pauseMenu(E_LEVEL_STATE &levelState)
 {
 	colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
@@ -201,7 +206,7 @@ bool pauseMenu(E_LEVEL_STATE &levelState)
 		"|                   |",
 		"|  (1) Resume Game  |",
 		"|                   |",
-		"|  (2) Exit Game    |",
+		"|  (2) Exit Level   |",
 		"|                   |",
 		"|___________________|"
 	};
@@ -214,7 +219,7 @@ bool pauseMenu(E_LEVEL_STATE &levelState)
 		cout << pauseMenuOptions[i];
 	}
 
-	gotoXY(60, 17 + PAUSE_MENU_OPTIONS);
+	gotoXY(consoleSize.X/2, 17 + PAUSE_MENU_OPTIONS);
 	
 	while (levelState == E_PAUSE)
 	{
@@ -236,6 +241,7 @@ bool pauseMenu(E_LEVEL_STATE &levelState)
 }
 void loadingScreen(string mapName)
 {
+	colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
 	newSetConsoleSize(defaultConsoleSize);
 	cls();
 	const size_t LOADING_SCREEN_TITLE = 8;
@@ -268,7 +274,7 @@ void loadingScreen(string mapName)
 void startScreen(string mapName)
 {
 	cls();
-	system("color 0F");
+	colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
 	const size_t START_SCREEN_TITLE = 8;
 	string startscreen[START_SCREEN_TITLE] =
 	{
@@ -295,11 +301,13 @@ void startScreen(string mapName)
 
 	cout << mapLoaded;
 }
+
+/*
 void endScreen()
 {
 	newSetConsoleSize(defaultConsoleSize);
 	cls();
-	system("color 0F");
+	colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
 	const size_t END_SCREEN_TITLE = 8;
 	string endscreen[END_SCREEN_TITLE] =
 	{
@@ -319,31 +327,83 @@ void endScreen()
 		gotoXY(endscreenPrintSpot, 6 + i);
 		cout << endscreen[i];
 	}
-	cout << endl << endl << endl <<"                    Press Enter to conitnue ";
+	cout << endl << endl << endl <<"                    Press Enter to continue ";
 	if( cin.get() == '\n')
 	{
 	}
-}
+}*/
+
 bool quit(gameState &game)
 {
-	char input;
+	colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
+	cls();
 
-	do 
-	{
-		cout << "Are you sure you want to quit? (Y/N)"<< endl;
-		input = toupper(getch());
-	}
-	while (!(input == 'Y' || input == 'N'));
+	newSetConsoleSize(defaultConsoleSize);
+	consoleSize = defaultConsoleSize;
+
+	printBorder();
+
+	colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
 	
-	if(input == 'Y')
+	const size_t QUIT_SCREEN_TITLE = 8;
+	string quitScreen[QUIT_SCREEN_TITLE] =
 	{
-		game = EXIT;
-		return true;
+		":'#######::'##::::'##:'####:'########::'#######::",
+		"'##.... ##: ##:::: ##:. ##::... ##..::'##.... ##:",
+		" ##:::: ##: ##:::: ##:: ##::::: ##::::..:::: ##::",
+		" ##:::: ##: ##:::: ##:: ##::::: ##:::::::: ###:::",
+	 	" ##:'## ##: ##:::: ##:: ##::::: ##::::::: ##.::::",
+		" ##:.. ##:: ##:::: ##:: ##::::: ##:::::::..::::::",
+		": ##### ##:. #######::'####:::: ##:::::::'##:::::",
+		":.....:..:::.......:::....:::::..::::::::..::::::"
+	};
+	int quitScreenPrintSpot = defaultConsoleSize.X/2 - quitScreen[0].length()/2;
+
+	for(size_t i = 0; i < QUIT_SCREEN_TITLE; ++i)
+	{
+		gotoXY(quitScreenPrintSpot, 6 + i);
+		cout << quitScreen[i];
 	}
-	else if(input == 'N')
+
+	const size_t QUIT_MENU_OPTIONS = 8;
+	string quitMenuOptions[QUIT_MENU_OPTIONS] =
 	{
-		game = MAIN_MENU;
-		return false;
+		" ___________________ ",
+		"|                   |",
+		"|                   |",
+		"|   (1) Return      |",
+		"|                   |",
+		"|   (2) Exit Game   |",
+		"|                   |",
+		"|___________________|"
+	};
+
+	int quitMenuOptionsPrintSpot = consoleSize.X/2 - quitMenuOptions[0].length()/2;
+
+	for(size_t i = 0; i < QUIT_MENU_OPTIONS; ++i)
+	{
+		gotoXY(quitMenuOptionsPrintSpot, 17 + i);
+		cout << quitMenuOptions[i];
+	}
+
+	gotoXY(consoleSize.X/2, 17 + QUIT_MENU_OPTIONS);
+
+	while(game == QUIT_MENU)
+	{
+		switch(getch())
+		{
+		case '1':
+			game = MAIN_MENU;
+			return false;
+			break;
+		case '2':
+			game = EXIT;
+			return true;
+			break;
+		default:
+			game = QUIT_MENU;
+			break;
+		}
 	}
 
 	return false;

@@ -198,7 +198,6 @@ void update(double dt, Map &currentMap, Pacman &player)
 		else
 		{
 			currentMap.levelState = E_LOSS;
-			endScreen();
 		}
 	}
 

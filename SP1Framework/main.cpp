@@ -2,12 +2,10 @@
 
 #include "gameStage.h"
 #include "game.h"
-#include <vector>
 #include <string>
 #include "Framework/console.h"
 
 using std::string;
-using std::vector;
 
 // TODO:
 // Bug in waitUnitil. it waits for the time from getElapsedTime to waitUntil, but should be insignificant.
@@ -28,9 +26,14 @@ int main()
 			case MAIN_MENU:
 				mainMenu(game);
 				break;
+			case LOAD_MENU:
+				//Insert load menu here
+				break;
 			case GAME:
 				gameLoop(maps, NUM_OF_MAPS, game);
-				game = MAIN_MENU;
+				break;
+			case GAME_OVER:
+				gameOver(game);
 				break;
 			case QUIT_MENU:
 				if(quit(game))
