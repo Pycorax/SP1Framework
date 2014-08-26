@@ -133,5 +133,11 @@
     <None Include="testing8.map">
       <Filter>Source Files\Maps</Filter>
     </None>
+    <None Include="ghostCollisionTest.map">
+      <Filter>Source Files\Maps</Filter>
+    </None>
+    <None Include="ghostCollisionTest.aimap">
+      <Filter>Source Files\Maps</Filter>
+    </None>
   </ItemGroup>
 </Project>

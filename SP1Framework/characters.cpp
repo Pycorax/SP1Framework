@@ -215,10 +215,6 @@ bool Ghost::isHitByBullet(Bullet shot, Map &currentMap)
 {
 	if((shot.oldCoord.X == coord.X && shot.oldCoord.Y == coord.Y) || (shot.coord.X == coord.X && shot.coord.Y == coord.Y))
 	{
-		health -= shot.damage;
-		respawnTime = time(NULL) + timeToRespawn;
-		currentMap.scorePoints += g_SCORE_PER_HIT;
-		printTile(currentMap.processedMap[coord.Y][coord.X], coord);
 		return true;
 	}
 	else

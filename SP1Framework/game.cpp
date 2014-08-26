@@ -129,13 +129,13 @@ void update(double dt, Map &currentMap, Pacman &player)
 		//Check for ghost collision
 		for(size_t i = 0; i < currentMap.ghostStorage.size(); ++i)
 		{
-			//TODO: Fix bug.
-			//Assume that there are 2 ghosts.
-			//Ghost 1 - ghostStorage[1] & is in front of Ghost 2 on the map
-			//Ghost 2 - ghostStorage[0] & is behind Ghost 1 on the map
-			//If bullet fires thru both of them, Ghost 2 dies instead of Ghost 1
-			if(currentMap.ghostStorage[i].isHitByBullet(*(currentMap.shot), currentMap))
+			if(currentMap.ghostStorage[i].isHitByBullet(*(currentMap.shot), currentMap) && currentMap.ghostStorage[i].isAlive())
 			{
+				currentMap.ghostStorage[i].health -= currentMap.shot->damage;
+				currentMap.ghostStorage[i].respawnTime = time(NULL) + currentMap.ghostStorage[i].timeToRespawn;
+				currentMap.scorePoints += g_SCORE_PER_HIT;
+				printTile(currentMap.processedMap[currentMap.ghostStorage[i].coord.Y][currentMap.ghostStorage[i].coord.X], currentMap.ghostStorage[i].coord);
+
 				currentMap.shot->collided = true;
 				break;
 			}
