@@ -409,6 +409,7 @@ bool Pacman::isHitByGhost(Ghost enemy)
 {
 	if(coord.X == enemy.oldCoord.X && coord.Y == enemy.oldCoord.Y)
 	{
+		Beep(200, 100);
 		return true;
 	}
 	else

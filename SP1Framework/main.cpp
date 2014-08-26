@@ -17,7 +17,7 @@ int main()
 	init();      // initialize your variables
 	gameState game = MAIN_MENU;
 	
-	string maps[] = {"testing", "testing2", "testing3"};
+	string maps[] = {"testingA", "testing2", "testing"};
 
 	while(game != EXIT)
 	{

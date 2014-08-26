@@ -80,6 +80,9 @@
     <ClInclude Include="globals.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="scorePoints.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="testing.map">
@@ -92,6 +95,14 @@
       <Filter>Source Files\Maps</Filter>
     </None>
     <None Include="testing2.aimap">
+      <Filter>Source Files\Maps</Filter>
+    </None>
+    <None Include="testing3.aimap" />
+    <None Include="testing3.map" />
+    <None Include="testingA.aimap">
+      <Filter>Source Files\Maps</Filter>
+    </None>
+    <None Include="testingA.map">
       <Filter>Source Files\Maps</Filter>
     </None>
   </ItemGroup>

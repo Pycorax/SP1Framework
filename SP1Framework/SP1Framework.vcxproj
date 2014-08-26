@@ -104,6 +104,8 @@
     <None Include="testing2.map" />
     <None Include="testing3.aimap" />
     <None Include="testing3.map" />
+    <None Include="testingA.aimap" />
+    <None Include="testingA.map" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
