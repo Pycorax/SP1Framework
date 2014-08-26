@@ -310,17 +310,21 @@ void Pacman::draw()
 			if(even)
 			{
 				gotoXYTile(coord);
-				cout << "___";
+				cout << "\\/";
 				gotoXYTileDown(coord, 1);
-				cout << "(*<";
+				cout << "||";
+				gotoXYTileDown(coord, 2);
+				cout << "~*";
 				even = false;
 			}
 			else
 			{
 				gotoXYTile(coord);
-				cout << "___";
+				cout << "|";
 				gotoXYTileDown(coord, 1);
-				cout << "(*=";
+				cout << "||";
+				gotoXYTileDown(coord, 2);
+				cout << "~*";
 				even = true;
 			}
 				
@@ -330,17 +334,21 @@ void Pacman::draw()
 			if(even)
 			{
 				gotoXYTile(coord);
-				cout << "___";
+				cout << "~*";
 				gotoXYTileDown(coord, 1);
-				cout << "(*<";
+				cout << "||";
+				gotoXYTileDown(coord, 2);
+				cout << "/\\";
 				even = false;
 			}
 			else
 			{
 				gotoXYTile(coord);
-				cout << "___";
+				cout << "~*";
 				gotoXYTileDown(coord, 1);
-				cout << "(*=";
+				cout << "||";
+				gotoXYTileDown(coord, 2);
+				cout << "|";
 				even = true;
 			}
 				 
