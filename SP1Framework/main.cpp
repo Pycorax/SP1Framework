@@ -13,29 +13,31 @@ using std::string;
 int main()
 {
 	init();      // initialize your variables
-	gameState game = MAIN_MENU;
+	GAMESTATE game = E_MAIN_MENU;
+	unsigned int level = 0;
 	
 	const size_t NUM_OF_MAPS = 8;
 	string maps[NUM_OF_MAPS] = {"testing", "testing2", "testing3","testing4","testing5","testing6","testing7","testing8"};
 
-	while(game != EXIT)
+	while(game != E_EXIT)
 	{
 		cls();
 		switch(game)
 		{
-			case MAIN_MENU:
+			case E_MAIN_MENU:
+				level = 0;
 				mainMenu(game);
 				break;
-			case LOAD_MENU:
-				//Insert load menu here
+			case E_GAME:
+				gameLoop(maps, NUM_OF_MAPS, game, level);
 				break;
-			case GAME:
-				gameLoop(maps, NUM_OF_MAPS, game);
+			case E_LOAD_MENU:
+				loadMenu(game, level);
 				break;
-			case GAME_OVER:
-				gameOver(game);
+			case E_DELETE_SAVES:
+				deleteMenu(game);
 				break;
-			case QUIT_MENU:
+			case E_QUIT_MENU:
 				if(quit(game))
 				{
 					shutdown(); // do clean up, if any. free memory.

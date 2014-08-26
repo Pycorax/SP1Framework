@@ -272,7 +272,7 @@ void render(Map &currentMap, Pacman &player)
 
 // This main loop calls functions to get input, update and render the game
 // at a specific frame rate
-void levelLoop(string mapName, gameState &game)
+void levelLoop(string mapName, GAMESTATE &game, unsigned int level)
 {
 	//Load & Print Map
 	//TODO: Spawn loading screen here
@@ -332,7 +332,7 @@ void levelLoop(string mapName, gameState &game)
 				gotoXY(0,0);
 				colour(BACKGROUND_GREEN);
 				//TODO: Pause menu here
-				if(!pauseMenu(currentMap.levelState))
+				if(!pauseMenu(currentMap.levelState, level))
 				{
 					colour(FOREGROUND_GREEN);
 					cls();
@@ -355,7 +355,7 @@ void levelLoop(string mapName, gameState &game)
 		switch(currentMap.levelState)
 		{
 			case E_LOSS:
-				game = GAME_OVER;
+				game = E_GAME_OVER;
 				break;
 		}
 	}

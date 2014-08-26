@@ -6,24 +6,29 @@
 
 using std::string;
 
-enum gameState
+enum GAMESTATE
 {
-	MAIN_MENU,
-	LOAD_MENU,
-	GAME,
-	GAME_OVER,
-	QUIT_MENU,
-	EXIT,
-	MAX_STATES
+	E_MAIN_MENU,
+	E_LOAD_MENU,
+	E_DELETE_SAVES,
+	E_GAME,
+	E_GAME_OVER,
+	E_QUIT_MENU,
+	E_EXIT,
+	E_MAX_GAME_STATES
 };
 
-void mainMenu(gameState &game);
-void gameLoop(string maps[], const size_t NUM_OF_MAPS, gameState &game);
-bool pauseMenu(E_LEVEL_STATE &levelState);
+void mainMenu(GAMESTATE &game);
+void gameLoop(string maps[], const size_t NUM_OF_MAPS, GAMESTATE &game, unsigned int level);
+void saveMenu(unsigned int level);
+void loadMenu(GAMESTATE &game, unsigned int &level);
+bool pauseMenu(E_LEVEL_STATE &levelState, unsigned int level);
 void loadingScreen(string mapName);
-void gameOver(gameState &game);
+void gameOver(GAMESTATE &game);
 void startScreen(string mapName);
-void endScreen();
-bool quit(gameState &game);
+//void endScreen();
+bool quit(GAMESTATE &game);
+void deleteMenu(GAMESTATE &game);
+bool deleteMenu();
 
 #endif
