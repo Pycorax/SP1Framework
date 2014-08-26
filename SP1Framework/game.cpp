@@ -158,9 +158,16 @@ void update(double dt, Map &currentMap, Pacman &player)
 	{
 		if(currentMap.ghostStorage[i].isAlive()) //Moves all the Ghosts
 		{
+			if(player.isHitByGhost(currentMap.ghostStorage[i])) //Checks if player touched the ghost before ghosts move
+			{
+				player.lives -= currentMap.ghostStorage[i].damage;
+				player.coord = currentMap.startPos;
+				currentMap.scorePoints += g_SCORE_PER_DEATH;
+			}
+
 			currentMap.ghostStorage[i].move(currentMap);
 
-			if(player.isHitByGhost(currentMap.ghostStorage[i])) //Checks if player touched the ghost
+			if(player.isHitByGhost(currentMap.ghostStorage[i])) //Checks if player touched the ghost after ghosts move
 			{
 				player.lives -= currentMap.ghostStorage[i].damage;
 				player.coord = currentMap.startPos;
