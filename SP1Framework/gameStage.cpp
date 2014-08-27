@@ -88,11 +88,10 @@ void gameLoop(string maps[], gameState &game)
 {
 	for(size_t currentLevel = 0; currentLevel < sizeof(maps); ++currentLevel)
 	{
-		//TODO: Add a level splash screen
 		if(game == GAME)
 		{
 			levelLoop(maps[currentLevel], game);
-		}
+		} 
 		else
 		{
 			break;
@@ -123,4 +122,59 @@ bool quit(gameState &game)
 	}
 
 	return false;
+}
+
+void victoryScreen()
+{
+	const int b = 13;
+				string victoryScreen[b] =
+				{
+					"'##::::'##:'####::'######::'########::'#######::'########::'##:::'##:",
+					" ##:::: ##:. ##::'##... ##:... ##..::'##.... ##: ##.... ##:. ##:'##::",
+					" ##:::: ##:: ##:: ##:::..::::: ##:::: ##:::: ##: ##:::: ##::. ####:::",
+					" ##:::: ##:: ##:: ##:::::::::: ##:::: ##:::: ##: ########::::. ##::::",
+					". ##:: ##::: ##:: ##:::::::::: ##:::: ##:::: ##: ##.. ##:::::: ##::::",
+					":. ## ##:::: ##:: ##::: ##:::: ##:::: ##:::: ##: ##::. ##::::: ##::::",
+					"::. ###::::'####:. ######::::: ##::::. #######:: ##:::. ##:::: ##::::",
+					"                                                                     ",
+					"                                                                     ",
+					"               CONGRATULATIONS ON COMPLETING THIS LEVEL                 "
+				};
+
+				colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
+				cls();
+				for(int a = 0; a < b; ++a)
+				{
+					gotoXY(consoleSize.X/2 - victoryScreen[a].length()/2, 10 + a);
+					cout << victoryScreen[a];
+				}
+				Sleep(5000);
+}
+
+void loseScreen()
+{
+	const int b = 13;
+		string loseScreen[b] =
+		{
+			"'########::::'###::::'####:'##:::::::'########:'########::",
+			" ##.....::::'## ##:::. ##:: ##::::::: ##.....:: ##.... ##:",
+			" ##::::::::'##:. ##::: ##:: ##::::::: ##::::::: ##:::: ##:",
+			" ######:::'##:::. ##:: ##:: ##::::::: ######::: ##:::: ##:",
+		    " ##...:::: #########:: ##:: ##::::::: ##...:::: ##:::: ##:",
+			" ##::::::: ##.... ##:: ##:: ##::::::: ##::::::: ##:::: ##:",
+			" ##::::::: ##:::: ##:'####: ########: ########: ########::",
+			"                                                          ",
+			"                                                          ",
+			"             YOU FAILED TO COMPLETE THE GAME              "
+		};
+
+		colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
+		cls();
+		for(int a = 0; a < b; ++a)
+		{
+			gotoXY(consoleSize.X/2 - loseScreen[a].length()/2, 10 + a);
+			cout << loseScreen[a];
+		}
+
+		Sleep(5000);
 }

@@ -15,8 +15,6 @@
 using std::ostringstream;
 using std::cout;
 using std::endl;
-
-//Print Sound
  
 
 void init()
@@ -103,12 +101,31 @@ void update(double dt, Map &currentMap, Pacman &player)
 		Beep(1000, 100);
 	}
 
+	//Powerups Eating
+	if(currentMap.processedMap[player.coord.Y][player.coord.X] == 'H')
+	{
+		currentMap.processedMap[player.coord.Y][player.coord.X] = ' ';
+		player.lives += 1;
+	}
+
+	//if(currentMap.processedMap[player.coord.Y][player.coord.X] == 'S')
+	//{
+	//	currentMap.processedMap[player.coord.Y][player.coord.X] = ' ';
+	//	currentMap.shot->speed += 3;
+	//}
+
+	if(currentMap.processedMap[player.coord.Y][player.coord.X] == 'd')
+	{
+		currentMap.processedMap[player.coord.Y][player.coord.X] = ' ';
+		currentMap.bulletDamage = 2;
+	}
+
 	//Bullet shooting
 	if(currentMap.shot == NULL)
 	{
 		if(keyPressed[E_SPACE_KEY])
 		{
-			currentMap.shot = new Bullet(player);
+			currentMap.shot = new Bullet(player, currentMap.bulletDamage);
 			currentMap.shot->move(currentMap);
 		}	
 	}
@@ -300,7 +317,7 @@ void levelLoop(string mapName, gameState &game)
 			printminScore(currentMap.minScore);
 
 		Pacman player(currentMap);
-		Bullet shoot (currentMap);
+		//Bullet shoot (currentMap, );
 
 		g_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
 		while (currentMap.levelState == E_PLAYING || currentMap.levelState == E_MIN_SCORE_HIT || currentMap.levelState == E_PAUSE)      // run this loop until user wants to quit 
@@ -341,8 +358,15 @@ void levelLoop(string mapName, gameState &game)
 		switch(currentMap.levelState)
 		{
 			case E_LOSS:
+				loseScreen();
 				game = MAIN_MENU;
 				break;
+
+			case E_WIN:
+			{
+				victoryScreen();
+				break;
+			}
 		}
 	}
 	else

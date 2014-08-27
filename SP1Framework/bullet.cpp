@@ -4,9 +4,9 @@
 
 using std::cout;
 
-Bullet::Bullet(Pacman player)
+Bullet::Bullet(Pacman player, int bulletDamage)
 {
-	damage = 1;
+	damage = bulletDamage;
 	speed = 1;
 	direct = player.direct;
 	coord = player.coord;

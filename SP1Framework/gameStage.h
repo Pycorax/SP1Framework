@@ -18,5 +18,7 @@ enum gameState
 void mainMenu(gameState &game);
 void gameLoop(string maps[], gameState &game);
 bool quit(gameState &game);
+void victoryScreen();
+void loseScreen();
 
 #endif
