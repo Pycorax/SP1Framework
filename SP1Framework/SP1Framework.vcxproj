@@ -85,6 +85,7 @@
     <ClCompile Include="maps.cpp" />
     <ClCompile Include="otherHelperFunctions.cpp" />
     <ClCompile Include="saves.cpp" />
+    <ClCompile Include="powerups.cpp" />
     <ClCompile Include="userInterface.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -97,6 +98,7 @@
     <ClInclude Include="maps.h" />
     <ClInclude Include="otherHelperFunctions.h" />
     <ClInclude Include="saves.h" />
+    <ClInclude Include="powerups.h" />
     <ClInclude Include="scorePoints.h" />
     <ClInclude Include="userInterface.h" />
   </ItemGroup>

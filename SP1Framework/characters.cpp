@@ -306,17 +306,21 @@ void Pacman::draw()
 			if(even)
 			{
 				gotoXYTile(coord);
-				cout << "___";
+				cout << "\\/";
 				gotoXYTileDown(coord, 1);
-				cout << "(*<";
+				cout << "||";
+				gotoXYTileDown(coord, 2);
+				cout << "~*";
 				even = false;
 			}
 			else
 			{
 				gotoXYTile(coord);
-				cout << "___";
+				cout << "|";
 				gotoXYTileDown(coord, 1);
-				cout << "(*=";
+				cout << "||";
+				gotoXYTileDown(coord, 2);
+				cout << "~*";
 				even = true;
 			}
 				
@@ -326,17 +330,21 @@ void Pacman::draw()
 			if(even)
 			{
 				gotoXYTile(coord);
-				cout << "___";
+				cout << "~*";
 				gotoXYTileDown(coord, 1);
-				cout << "(*<";
+				cout << "||";
+				gotoXYTileDown(coord, 2);
+				cout << "/\\";
 				even = false;
 			}
 			else
 			{
 				gotoXYTile(coord);
-				cout << "___";
+				cout << "~*";
 				gotoXYTileDown(coord, 1);
-				cout << "(*=";
+				cout << "||";
+				gotoXYTileDown(coord, 2);
+				cout << "|";
 				even = true;
 			}
 				 
@@ -405,6 +413,7 @@ bool Pacman::isHitByGhost(Ghost enemy)
 {
 	if(coord.X == enemy.oldCoord.X && coord.Y == enemy.oldCoord.Y)
 	{
+		Beep(200, 100);
 		return true;
 	}
 	else

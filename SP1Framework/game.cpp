@@ -13,6 +13,7 @@
 #include "scorePoints.h"
 #include "gameStage.h"
 #include "otherHelperFunctions.h"
+#include <Windows.h>
 
 using std::ostringstream;
 using std::cout;
@@ -108,6 +109,7 @@ void update(double dt, Map &currentMap, Pacman &player)
 		currentMap.processedMap[player.coord.Y][player.coord.X] = ' ';
 		currentMap.scorePoints += g_SCORE_PER_PELLET;
 		--currentMap.pellets;
+		Beep(1000, 100);
 	}
 
 	//Bullet shooting
@@ -227,7 +229,6 @@ void render(Map &currentMap, Pacman &player)
     std::cout << elapsedTime << "secs" << std::endl;
 	*/
 
-
 	//Print HUD
 	colour(BACKGROUND_GREEN);
 	printScore(currentMap.scorePoints);
@@ -266,6 +267,11 @@ void render(Map &currentMap, Pacman &player)
 		{
 			currentMap.shot->draw();
 			currentMap.shot->firstMove = false;
+		}
+
+		else
+		{
+			Beep(300, 100);
 		}
 	}
 }
