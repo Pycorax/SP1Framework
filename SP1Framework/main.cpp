@@ -4,6 +4,7 @@
 #include "game.h"
 #include <string>
 #include "Framework/console.h"
+#include "saves.h"
 
 using std::string;
 
@@ -14,7 +15,8 @@ int main()
 {
 	init();      // initialize your variables
 	GAMESTATE game = E_MAIN_MENU;
-	unsigned int level = 0;
+	
+	Loadables loads(0,3);
 	
 	const size_t NUM_OF_MAPS = 8;
 	string maps[NUM_OF_MAPS] = {"testing", "testing2", "testing3","testing4","testing5","testing6","testing7","testing8"};
@@ -25,14 +27,14 @@ int main()
 		switch(game)
 		{
 			case E_MAIN_MENU:
-				level = 0;
+				loads.level = 0;
 				mainMenu(game);
 				break;
 			case E_GAME:
-				gameLoop(maps, NUM_OF_MAPS, game, level);
+				gameLoop(maps, NUM_OF_MAPS, game, loads);
 				break;
 			case E_LOAD_MENU:
-				loadMenu(game, level);
+				loadMenu(game, loads);
 				break;
 			case E_DELETE_SAVES:
 				deleteMenu(game);

@@ -14,7 +14,13 @@ using std::endl;
 using std::string;
 using std::remove;
 
-bool saveGame(unsigned int level, string saveName)
+Loadables::Loadables(unsigned int levelToStartFrom, int playerLivesToStartWith)
+{
+	level = levelToStartFrom;
+	playerLives = playerLivesToStartWith;
+}
+
+bool saveGame(unsigned int level, int playerLives, string saveName)
 {
 	extern COORD consoleSize;
 
@@ -78,6 +84,7 @@ bool saveGame(unsigned int level, string saveName)
 		}
 
 		saveFile << level << endl;
+		saveFile << playerLives << endl;
 		saveFile.close();
 		return true;
 
@@ -89,7 +96,7 @@ bool saveGame(unsigned int level, string saveName)
 	}
 }
 
-int loadGame(unsigned int &level, string saveName)
+int loadGame(Loadables &loadInfo, string saveName)
 {
 	ifstream saveFile;
 
@@ -100,7 +107,9 @@ int loadGame(unsigned int &level, string saveName)
 		string levelObtained;
 
 		getline(saveFile, levelObtained);
-		level = atoi(levelObtained.c_str());
+		loadInfo.level = atoi(levelObtained.c_str());
+		getline(saveFile, levelObtained);
+		loadInfo.playerLives = atoi(levelObtained.c_str());
 		saveFile.close();
 
 		return true;

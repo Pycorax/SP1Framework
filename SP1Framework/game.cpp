@@ -77,6 +77,7 @@ void update(double dt, Map &currentMap, Pacman &player)
     elapsedTime += dt;
     deltaTime = dt;
 	Ghost *ghostPtr = NULL;
+	bool gotoNextLevel = false;
 	
 	player.oldCoord = player.coord;
 
@@ -174,6 +175,11 @@ void update(double dt, Map &currentMap, Pacman &player)
 				player.lives -= currentMap.ghostStorage[i].damage;
 				player.coord = currentMap.startPos;
 				currentMap.scorePoints += g_SCORE_PER_DEATH;
+
+				if(currentMap.scorePoints >= currentMap.minScore && player.isAlive())
+				{
+					gotoNextLevel = true;
+				}
 			}
 		}
 		else if (currentMap.ghostStorage[i].respawnTime <= time(NULL)) //Respawns Ghosts
@@ -208,6 +214,11 @@ void update(double dt, Map &currentMap, Pacman &player)
 		{
 			currentMap.levelState = E_LOSS;
 		}
+	}
+
+	if(gotoNextLevel)
+	{
+		currentMap.levelState = E_WIN;
 	}
 
 	if (keyPressed[E_ESCAPE_KEY])
@@ -278,7 +289,7 @@ void render(Map &currentMap, Pacman &player)
 
 // This main loop calls functions to get input, update and render the game
 // at a specific frame rate
-void levelLoop(string mapName, GAMESTATE &game, unsigned int level)
+void levelLoop(string mapName, GAMESTATE &game, unsigned int level, int &playerLives)
 {
 	//Load & Print Map
 	//TODO: Spawn loading screen here
@@ -322,8 +333,8 @@ void levelLoop(string mapName, GAMESTATE &game, unsigned int level)
 		printLevelName(mapName);
 		printMinScore(currentMap.minScore);
 
-		Pacman player(currentMap);
-		Bullet shoot (currentMap);
+		Pacman player(currentMap, playerLives);
+		Bullet shoot(player);
 
 		g_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
 		while (currentMap.levelState == E_PLAYING || currentMap.levelState == E_MIN_SCORE_HIT || currentMap.levelState == E_PAUSE)      // run this loop until user wants to quit 
@@ -338,7 +349,7 @@ void levelLoop(string mapName, GAMESTATE &game, unsigned int level)
 				gotoXY(0,0);
 				colour(BACKGROUND_GREEN);
 				//TODO: Pause menu here
-				if(!pauseMenu(currentMap.levelState, level))
+				if(!pauseMenu(currentMap.levelState, level, player.lives))
 				{
 					colour(FOREGROUND_GREEN);
 					cls();
@@ -353,6 +364,8 @@ void levelLoop(string mapName, GAMESTATE &game, unsigned int level)
 				}
 			}
 		}
+
+		playerLives = player.lives;
 
 		colour(FOREGROUND_GREEN);
 		cls();

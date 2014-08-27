@@ -43,7 +43,7 @@ struct Pacman
 	COORD oldCoord;
 	DIRECTION direct;
 
-	Pacman(Map &currentMap);
+	Pacman(Map &currentMap, int playerLives);
 	void move(Map &currentMap);
 	void draw();
 	void undraw(Map &currentMap);

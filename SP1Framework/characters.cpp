@@ -255,11 +255,11 @@ void Ghost::respawn(Map &currentMap)
 	}
 }
 
-Pacman::Pacman(Map &currentMap)
+Pacman::Pacman(Map &currentMap, int playerLives)
 {
 	health = 1;
 	speed = 1;
-	lives = 3;
+	lives = playerLives;
 	coord.X = currentMap.startPos.X;
 	coord.Y = currentMap.startPos.Y;
 	oldCoord = coord;

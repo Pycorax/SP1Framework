@@ -8,6 +8,7 @@
 #include "userInterface.h"
 #include "otherHelperFunctions.h"
 #include "saves.h"
+#include "scorePoints.h"
 
 extern COORD consoleSize;
 extern COORD defaultConsoleSize;
@@ -164,24 +165,27 @@ void gameOver(GAMESTATE &game)
 
 }
 
-void gameLoop(string maps[], const size_t NUM_OF_MAPS, GAMESTATE &game, unsigned int level)
+void gameLoop(string maps[], const size_t NUM_OF_MAPS, GAMESTATE &game, Loadables loads)
 {
-	for(size_t currentLevel = level; currentLevel < sizeof(maps); ++currentLevel)
+	for(size_t currentLevel = loads.level; currentLevel < sizeof(maps); ++currentLevel)
 	{
 		if(game == E_GAME)
 		{
-			levelLoop(maps[currentLevel], game, level);
+			levelLoop(maps[currentLevel], game, currentLevel, loads.playerLives);
 		}
 		else
 		{
 			break;
 		}
+
+		//Gives player a life after each level
+		loads.playerLives += g_LIVES_PER_WIN;
 	}
 	game = E_MAIN_MENU;
 }
 
 //Pause Menu stuff
-void saveMenu(unsigned int level)
+void saveMenu(unsigned int level, int playerLives)
 {
 	colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
 	cls();
@@ -221,7 +225,7 @@ void saveMenu(unsigned int level)
 
 		gotoXY(consoleSize.X/2, 17 + SAVE_MENU_TITLE);
 
-		saveGame(level, saveFileName);
+		saveGame(level, playerLives, saveFileName);
 	}
 	else
 	{
@@ -262,7 +266,7 @@ void saveMenu(unsigned int level)
 				case'1':
 					if(deleteMenu())
 					{
-						saveMenu(level);
+						saveMenu(level, playerLives);
 					}
 					exit = true;
 					break;
@@ -274,7 +278,7 @@ void saveMenu(unsigned int level)
 	}
 }
 
-void loadMenu(GAMESTATE &game, unsigned int &level) //WIP
+void loadMenu(GAMESTATE &game, Loadables &loadInfo)
 {
 	vector<string> listOfLevels;
 	findSaveFiles(listOfLevels);
@@ -372,7 +376,7 @@ void loadMenu(GAMESTATE &game, unsigned int &level) //WIP
 		{
 			if (input > '1' && input <= '9')
 			{
-				if(loadGame(level, listOfLevels[input - 48 - 2]))
+				if(loadGame(loadInfo, listOfLevels[input - 48 - 2]))
 				{
 					game = E_GAME;
 				}
@@ -392,7 +396,7 @@ void loadMenu(GAMESTATE &game, unsigned int &level) //WIP
 	}
 }
 
-bool pauseMenu(E_LEVEL_STATE &levelState, unsigned int level)
+bool pauseMenu(E_LEVEL_STATE &levelState, unsigned int level, int playerLives)
 {
 	colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
 	cls();
@@ -452,7 +456,7 @@ bool pauseMenu(E_LEVEL_STATE &levelState, unsigned int level)
 				return false;
 				break;
 			case'2':
-				saveMenu(level);
+				saveMenu(level, playerLives);
 				levelState = E_PLAYING;
 				return false;
 				break;
@@ -644,8 +648,10 @@ void deleteMenu(GAMESTATE &game)
 		vector<string> listOfLevels;
 		findSaveFiles(listOfLevels);
 
-		printBorder();
+		colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
+		cls();
 
+		printBorder();
 		colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
 
 		const size_t DELETE_MENU_TITLE = 8;
@@ -740,9 +746,9 @@ void deleteMenu(GAMESTATE &game)
 					if(deleteGame(listOfLevels[input - 48 - 2]))
 					{
 						string deletePassMsg = "Successfully deleted save!";
-						gotoXY(consoleSize.X/2 - deletePassMsg.length()/2, 17 + DELETE_MENU_OPTIONS_HEAD + saveFilesToPrint + DELETE_MENU_OPTIONS_FOOT);
+						gotoXY(consoleSize.X/2 - deletePassMsg.length()/2, 19 + DELETE_MENU_OPTIONS_HEAD + saveFilesToPrint + DELETE_MENU_OPTIONS_FOOT);
 						cout << deletePassMsg;
-						gotoXY(consoleSize.X/2 - deletePassMsg.length()/2, 18 + DELETE_MENU_OPTIONS_HEAD + saveFilesToPrint + DELETE_MENU_OPTIONS_FOOT);
+						gotoXY(consoleSize.X/2 - deletePassMsg.length()/2, 20 + DELETE_MENU_OPTIONS_HEAD + saveFilesToPrint + DELETE_MENU_OPTIONS_FOOT);
 						system("pause");
 						game = E_DELETE_SAVES;
 						break;
@@ -750,7 +756,7 @@ void deleteMenu(GAMESTATE &game)
 					else
 					{
 						string errorLoading = "Error deleting save!";
-						gotoXY(consoleSize.X/2 - errorLoading.length()/2, 17 + DELETE_MENU_OPTIONS_HEAD + saveFilesToPrint + DELETE_MENU_OPTIONS_FOOT);
+						gotoXY(consoleSize.X/2 - errorLoading.length()/2, 19 + DELETE_MENU_OPTIONS_HEAD + saveFilesToPrint + DELETE_MENU_OPTIONS_FOOT);
 						cout << errorLoading;
 					}
 				}
@@ -868,16 +874,16 @@ bool deleteMenu()
 				if(deleteGame(listOfLevels[input - 48 - 2]))
 				{
 					string deletePassMsg = "Successfully deleted save!";
-					gotoXY(consoleSize.X/2 - deletePassMsg.length()/2, 18 + DELETE_MENU_OPTIONS_HEAD + saveFilesToPrint + DELETE_MENU_OPTIONS_FOOT);
-					cout << deletePassMsg;
 					gotoXY(consoleSize.X/2 - deletePassMsg.length()/2, 19 + DELETE_MENU_OPTIONS_HEAD + saveFilesToPrint + DELETE_MENU_OPTIONS_FOOT);
+					cout << deletePassMsg;
+					gotoXY(consoleSize.X/2 - deletePassMsg.length()/2, 20 + DELETE_MENU_OPTIONS_HEAD + saveFilesToPrint + DELETE_MENU_OPTIONS_FOOT);
 					returnValue = true;
 					break;
 				}
 				else
 				{
 					string errorLoading = "Error deleting save!";
-					gotoXY(consoleSize.X/2 - errorLoading.length()/2, 18 + DELETE_MENU_OPTIONS_HEAD + saveFilesToPrint + DELETE_MENU_OPTIONS_FOOT);
+					gotoXY(consoleSize.X/2 - errorLoading.length()/2, 19 + DELETE_MENU_OPTIONS_HEAD + saveFilesToPrint + DELETE_MENU_OPTIONS_FOOT);
 					cout << errorLoading;
 				}
 			}

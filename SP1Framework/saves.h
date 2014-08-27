@@ -7,8 +7,16 @@
 using std::string;
 using std::vector;
 
-bool saveGame(unsigned int level, string saveName);
-int loadGame(unsigned int &level, string saveName);
+struct Loadables
+{
+	unsigned int level;
+	int playerLives;
+
+	Loadables(unsigned int level, int playerLives);
+};
+
+bool saveGame(unsigned int level, int playerLives, string saveName);
+int loadGame(Loadables &loadInfo, string saveName);
 bool fileExists(string saveName);
 int findSaveFiles(vector<string> &fileNames); //Stores list of save files in fileNames
 int findSaveFiles();

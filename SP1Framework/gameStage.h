@@ -3,6 +3,7 @@
 
 #include <string>
 #include "maps.h"
+#include "saves.h"
 
 using std::string;
 
@@ -19,10 +20,10 @@ enum GAMESTATE
 };
 
 void mainMenu(GAMESTATE &game);
-void gameLoop(string maps[], const size_t NUM_OF_MAPS, GAMESTATE &game, unsigned int level);
-void saveMenu(unsigned int level);
-void loadMenu(GAMESTATE &game, unsigned int &level);
-bool pauseMenu(E_LEVEL_STATE &levelState, unsigned int level);
+void gameLoop(string maps[], const size_t NUM_OF_MAPS, GAMESTATE &game, Loadables loads);
+void saveMenu(unsigned int level, int playerLives);
+void loadMenu(GAMESTATE &game, Loadables &loadInfo);
+bool pauseMenu(E_LEVEL_STATE &levelState, unsigned int level, int playerLives);
 void loadingScreen(string mapName);
 void gameOver(GAMESTATE &game);
 void startScreen(string mapName);
