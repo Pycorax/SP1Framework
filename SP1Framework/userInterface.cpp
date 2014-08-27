@@ -1,35 +1,36 @@
 #include "userInterface.h"
 #include <iostream>
+#include <iomanip>
 #include "maps.h"
 #include "Framework/console.h"
 #include <sstream>
 
 using std::cout;
 using std::endl;
+using std::setw;
+using std::setfill;
 using std::ostringstream;
 
 extern COORD consoleSize;
 
 void printScore(int score)
 {
-	ostringstream output;
-	output << "Score: " << score;
 	colour(BACKGROUND_GREEN | FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_INTENSITY);
-	gotoXY(consoleSize.X - output.str().length(), 1);
-	cout << output.str();
+	gotoXY(0, 2);
+	cout << "Score: " << score;
 }
 
 void printMinScore(int minScore)
 {
-	colour(BACKGROUND_GREEN | FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_INTENSITY);
-	gotoXY(0,2);
-	cout << "Minimum Score to Hit: " << minScore;
+	colour(BACKGROUND_GREEN | FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
+	gotoXY(0,1);
+	cout << "Min. Score: " << minScore;
 }
 
 void printLevelName(string mapName)
 {
 	colour(BACKGROUND_GREEN | FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_INTENSITY);
-	gotoXY(0,1);
+	gotoXY(0,0);
 	cout << "Map: " << mapName;
 }
 
@@ -72,18 +73,22 @@ void printBorder()
 
 void printPellets(int pellets)
 {
-	ostringstream output;
-	output << "Pellets Remaining: " << pellets;
+	const short MAX_PELLET_LENGTH = 3;
+	string output = " Pellets Left";
 	colour(BACKGROUND_GREEN | FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_INTENSITY);
-	gotoXY(consoleSize.X - output.str().length(), 2);
-	cout << output.str();
+	gotoXY(consoleSize.X - output.length() - MAX_PELLET_LENGTH, 2);
+	cout << setw(MAX_PELLET_LENGTH) << setfill(' ');
+	cout << pellets;
+	cout << output;
 }
 
 void printLives(int lives)
 {
-	ostringstream output;
-	output << "Lives: " << lives;
+	const short MAX_LIFE_LENGTH = 6;
+	string output = " Lives";
 	colour(BACKGROUND_GREEN | FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_INTENSITY);
-	gotoXY(consoleSize.X - output.str().length(), 0);
-	cout << output.str();
+	gotoXY(consoleSize.X - output.length() - MAX_LIFE_LENGTH, 0);
+	cout << setw(MAX_LIFE_LENGTH) << setfill(' ');
+	cout << lives;
+	cout << output;
 }
