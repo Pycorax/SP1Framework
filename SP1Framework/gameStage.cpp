@@ -1,5 +1,6 @@
 #include "gameStage.h"
 #include <iostream>
+#include <fstream>
 #include "maps.h"
 #include "game.h"
 #include <conio.h>
@@ -10,12 +11,14 @@
 #include "saves.h"
 #include "scorePoints.h"
 
+
 extern COORD consoleSize;
 extern COORD defaultConsoleSize;
 
 using std::cout;
 using std::cin;
 using std::endl;
+using std::ifstream;
 using std::string;
 
 void mainMenu(GAMESTATE &game)
@@ -48,18 +51,19 @@ void mainMenu(GAMESTATE &game)
 		cout << mainMenuTitle[i];
 	}
 
-	const size_t MAIN_MENU_OPTIONS = 9;
+	const size_t MAIN_MENU_OPTIONS = 10;
 	string mainMenuOptions[MAIN_MENU_OPTIONS] =
 	{
-		" __________________ ",
-		"|                  |", //Total Length 20
-		"|                  |",
-		"|  (1) Start Game  |",
-		"|  (2) Load Game   |",
-		"|  (3) Del Saves   |",
-		"|  (4) Exit Game   |",
-		"|                  |",
-		"|__________________|"
+		" ___________________",
+		"|                   |", //Total Length 20
+		"|                   |",
+		"|  (1) Start Game   |",
+		"|  (2) Load Game    |",
+		"|  (3) Del Saves    |",
+		"|  (4) High Scores  |",
+		"|  (5) Exit Game    |",
+		"|                   |",
+		"|___________________|"
 	};
 
 	int mainMenuOptionsPrintSpot = defaultConsoleSize.X/2 - mainMenuOptions[0].length()/2;
@@ -86,6 +90,9 @@ void mainMenu(GAMESTATE &game)
 			game = E_DELETE_SAVES;
 			break;
 		case'4':
+			highScoreBoard(-1);
+			break;
+		case'5':
 			game = E_QUIT_MENU;
 			break;
 		default:
@@ -116,7 +123,7 @@ void gameOver(GAMESTATE &game)
 		"..########:::: ##:::: ##: ##:::::: ##: ########::::::: #######::::::::: ###::::::: ########: ##::::: ##:::",
 	};
 
-	int gameOverTitlePrintSpot = defaultConsoleSize.X/2 - gameOverTitle[0].length()/2;
+	int gameOverTitlePrintSpot = consoleSize.X/2 - gameOverTitle[0].length()/2;
 
 	for(size_t i = 0; i < GAME_OVER_TITLE; ++i)
 	{
@@ -534,7 +541,6 @@ void startScreen(string mapName)
 	cout << mapLoaded;
 }
 
-/*
 void endScreen()
 {
 	newSetConsoleSize(defaultConsoleSize);
@@ -559,11 +565,54 @@ void endScreen()
 		gotoXY(endscreenPrintSpot, 6 + i);
 		cout << endscreen[i];
 	}
-	cout << endl << endl << endl <<"                    Press Enter to continue ";
-	if( cin.get() == '\n')
+	cout << endl << endl << endl <<"                    Press Enter to conitnue ";
+	getch();
+}
+void winScreen()
+{
+	newSetConsoleSize(defaultConsoleSize);
+	cls();
+	system("color 0F");
+	const size_t END_SCREEN_TITLE = 8;
+	string endscreen[END_SCREEN_TITLE] =
 	{
+		"'##::::'##:'####::'######::'########::'#######::'########::'##:::'##:",
+		" ##:::: ##:. ##::'##... ##:... ##..::'##.... ##: ##.... ##:. ##:'##::",
+		" ##:::: ##:: ##:: ##:::..::::: ##:::: ##:::: ##: ##:::: ##::. ####:::",
+		" ##:::: ##:: ##:: ##:::::::::: ##:::: ##:::: ##: ########::::. ##::::",
+		". ##:: ##::: ##:: ##:::::::::: ##:::: ##:::: ##: ##.. ##:::::: ##::::",
+		":. ## ##:::: ##:: ##::: ##:::: ##:::: ##:::: ##: ##::. ##::::: ##::::",
+		"::. ###::::'####:. ######::::: ##::::. #######:: ##:::. ##:::: ##::::",
+		":::...:::::....:::......::::::..::::::.......:::..:::::..:::::..:::::"
+	};
+	int endscreenPrintSpot = defaultConsoleSize.X/2 - endscreen[0].length()/2;
+
+	for(size_t i = 0; i < END_SCREEN_TITLE; ++i)
+	{
+		gotoXY(endscreenPrintSpot, 6 + i);
+		cout << endscreen[i];
 	}
-}*/
+	const size_t PAUSE_MENU_OPTIONS = 6;
+	string pauseMenuOptions[PAUSE_MENU_OPTIONS] =
+	{
+		" You have completed PacGun, Congratulations ",
+		" This game is brought to you by Team 11     ",
+		"       Members :   Tng Kah Wei              ",
+		"                   Leng Wei Shao, Sean      ",
+		"                   Rayner Tay Yi Zhe        ",
+		"                   Koh Tim Lin              "
+	};
+
+	int pauseMenuOptionsPrintSpot = consoleSize.X/2 - pauseMenuOptions[0].length()/2;
+
+	for(size_t i = 0; i < PAUSE_MENU_OPTIONS; ++i)
+	{
+		gotoXY(pauseMenuOptionsPrintSpot, 17 + i);
+		cout << pauseMenuOptions[i];
+	}
+
+	gotoXY(60, 17 + PAUSE_MENU_OPTIONS);
+}
 
 bool quit(GAMESTATE &game)
 {

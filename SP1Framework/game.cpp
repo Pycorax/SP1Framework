@@ -14,6 +14,7 @@
 #include "gameStage.h"
 #include "otherHelperFunctions.h"
 #include <Windows.h>
+#include "highscore.h"
 
 using std::ostringstream;
 using std::cout;
@@ -216,6 +217,8 @@ void update(double dt, Map &currentMap, Pacman &player)
 		else
 		{
 			currentMap.levelState = E_LOSS;
+			endScreen();
+			highScoreBoard(currentMap.scorePoints);
 		}
 	}
 

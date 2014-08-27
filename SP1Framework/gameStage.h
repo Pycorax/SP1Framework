@@ -31,5 +31,8 @@ void startScreen(string mapName);
 bool quit(GAMESTATE &game);
 void deleteMenu(GAMESTATE &game);
 bool deleteMenu();
+void endScreen();
+void winScreen();
+void highScoreBoard(int scorePoints);
 
 #endif

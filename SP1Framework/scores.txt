@@ -1,0 +1,10 @@
+konichiwa 1100
+jack 1000
+jane 900
+hello 900
+BYEBYE 900
+tom 800
+jerry 700
+jasmine 600
+jonathan 500
+timothy 400
