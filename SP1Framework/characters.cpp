@@ -68,147 +68,152 @@ void Ghost::undraw(Map &currentMap)
 
 void Ghost::move(Map &currentMap, bool clockwise)
 {
-	if(currentMap.processedAIMap[coord.Y + change.Y][coord.X + change.X] != zoneID)
+	bool oldCoordsNotSet = true;
+
+	for (short turns = 0; turns < speed; ++turns)
 	{
-		if(wasVertical)
+		if(currentMap.processedAIMap[coord.Y + change.Y][coord.X + change.X] != zoneID)
 		{
-			if(clockwise)
+			if(wasVertical)
 			{
-				if(currentMap.processedAIMap[coord.Y][coord.X + speed] == zoneID) //Right
-				{ 
-					change.X = speed;
-					change.Y = 0;
-					wasVertical = false;
-				}
-				else if (currentMap.processedAIMap[coord.Y][coord.X - speed] == zoneID) // Left
-				{ 
-					change.X = -speed;
-					change.Y = 0;
-					wasVertical = false;
+				if(clockwise)
+				{
+					if(currentMap.processedAIMap[coord.Y][coord.X + 1] == zoneID) //Right
+					{ 
+						change.X = 1;
+						change.Y = 0;
+						wasVertical = false;
+					}
+					else if (currentMap.processedAIMap[coord.Y][coord.X - 1] == zoneID) // Left
+					{ 
+						change.X = -1;
+						change.Y = 0;
+						wasVertical = false;
+					}
+					else
+					{
+						if (currentMap.processedAIMap[coord.Y +1][coord.X] == zoneID)//Down
+						{
+							change.X = 0;
+							change.Y = 1;
+							wasVertical = true;
+						}
+						else if(currentMap.processedAIMap[coord.Y - 1][coord.X] == zoneID) //Up
+						{
+							change.X = 0;
+							change.Y = -1;
+							wasVertical = true;
+						}
+					}
+
 				}
 				else
 				{
-					if (currentMap.processedAIMap[coord.Y + speed][coord.X] == zoneID)//Down
-					{
-						change.X = 0;
-						change.Y = speed;
-						wasVertical = true;
+					if (currentMap.processedAIMap[coord.Y][coord.X - 1] == zoneID) // Left
+					{ 
+						change.X = -1;
+						change.Y = 0;
+						wasVertical = false;
 					}
-					else if(currentMap.processedAIMap[coord.Y - speed][coord.X] == zoneID) //Up
+					else if(currentMap.processedAIMap[coord.Y][coord.X + 1] == zoneID) //Right
+					{ 
+						change.X = 1;
+						change.Y = 0;
+						wasVertical = false;
+					}
+					else
 					{
-						change.X = 0;
-						change.Y = -speed;
-						wasVertical = true;
+						if(currentMap.processedAIMap[coord.Y - 1][coord.X] == zoneID) //Up
+						{
+							change.X = 0;
+							change.Y = -1;
+							wasVertical = true;
+						}
+						else if (currentMap.processedAIMap[coord.Y + 1][coord.X] == zoneID)//Down
+						{
+							change.X = 0;
+							change.Y = 1;
+							wasVertical = true;
+						}
 					}
 				}
 
 			}
 			else
 			{
-				if (currentMap.processedAIMap[coord.Y][coord.X - speed] == zoneID) // Left
-				{ 
-					change.X = -speed;
-					change.Y = 0;
-					wasVertical = false;
-				}
-				else if(currentMap.processedAIMap[coord.Y][coord.X + speed] == zoneID) //Right
-				{ 
-					change.X = speed;
-					change.Y = 0;
-					wasVertical = false;
+				if(clockwise)
+				{
+					if (currentMap.processedAIMap[coord.Y + 1][coord.X] == zoneID)//Down
+					{
+						change.X = 0;
+						change.Y = 1;
+						wasVertical = true;
+					}
+					else if(currentMap.processedAIMap[coord.Y - 1][coord.X] == zoneID) //Up
+					{
+						change.X = 0;
+						change.Y = -1;
+						wasVertical = true;
+					}
+					else
+					{
+						if(currentMap.processedAIMap[coord.Y][coord.X + 1] == zoneID) //Right
+						{ 
+							change.X = 1;
+							change.Y = 0;
+							wasVertical = false;
+						}
+						else if (currentMap.processedAIMap[coord.Y][coord.X - 1] == zoneID) // Left
+						{ 
+							change.X = -1;
+							change.Y = 0;
+							wasVertical = false;
+						}
+					}
+
 				}
 				else
 				{
-					if(currentMap.processedAIMap[coord.Y - speed][coord.X] == zoneID) //Up
+					if(currentMap.processedAIMap[coord.Y - 1][coord.X] == zoneID) //Up
 					{
 						change.X = 0;
-						change.Y = -speed;
+						change.Y = -1;
 						wasVertical = true;
 					}
-					else if (currentMap.processedAIMap[coord.Y + speed][coord.X] == zoneID)//Down
+					else if (currentMap.processedAIMap[coord.Y + 1][coord.X] == zoneID)//Down
 					{
 						change.X = 0;
-						change.Y = speed;
+						change.Y = 1;
 						wasVertical = true;
+					}
+					else
+					{
+						if (currentMap.processedAIMap[coord.Y][coord.X - 1] == zoneID) // Left
+						{ 
+							change.X = -1;
+							change.Y = 0;
+							wasVertical = false;
+						}
+						else if(currentMap.processedAIMap[coord.Y][coord.X + 1] == zoneID) //Right
+						{ 
+							change.X = 1;
+							change.Y = 0;
+							wasVertical = false;
+						}
 					}
 				}
 			}
-			
 		}
-		else
+
+		//Prevents oldCoord from being changed if the ghost did not move at all
+		if ((change.X != 0 || change.Y != 0) && oldCoordsNotSet)
 		{
-			if(clockwise)
-			{
-				if (currentMap.processedAIMap[coord.Y + speed][coord.X] == zoneID)//Down
-				{
-					change.X = 0;
-					change.Y = speed;
-					wasVertical = true;
-				}
-				else if(currentMap.processedAIMap[coord.Y - speed][coord.X] == zoneID) //Up
-				{
-					change.X = 0;
-					change.Y = -speed;
-					wasVertical = true;
-				}
-				else
-				{
-					if(currentMap.processedAIMap[coord.Y][coord.X + speed] == zoneID) //Right
-					{ 
-						change.X = speed;
-						change.Y = 0;
-						wasVertical = false;
-					}
-					else if (currentMap.processedAIMap[coord.Y][coord.X - speed] == zoneID) // Left
-					{ 
-						change.X = -speed;
-						change.Y = 0;
-						wasVertical = false;
-					}
-				}
-
-			}
-			else
-			{
-				if(currentMap.processedAIMap[coord.Y - speed][coord.X] == zoneID) //Up
-				{
-					change.X = 0;
-					change.Y = -speed;
-					wasVertical = true;
-				}
-				else if (currentMap.processedAIMap[coord.Y + speed][coord.X] == zoneID)//Down
-				{
-					change.X = 0;
-					change.Y = speed;
-					wasVertical = true;
-				}
-				else
-				{
-					if (currentMap.processedAIMap[coord.Y][coord.X - speed] == zoneID) // Left
-					{ 
-						change.X = -speed;
-						change.Y = 0;
-						wasVertical = false;
-					}
-					else if(currentMap.processedAIMap[coord.Y][coord.X + speed] == zoneID) //Right
-					{ 
-						change.X = speed;
-						change.Y = 0;
-						wasVertical = false;
-					}
-				}
-			}
+			oldCoord = coord;
+			oldCoordsNotSet = false;
 		}
+		coord.X += change.X;
+		coord.Y += change.Y;
 	}
-
-	//Prevents oldCoord from being changed if the ghost did not move at all
-	if (change.X != 0 || change.Y != 0)
-	{
-		oldCoord = coord;
-	}
-
-	coord.X += change.X;
-	coord.Y += change.Y;
 }
 
 bool Ghost::isHitByBullet(Bullet shot, Map &currentMap)
@@ -411,13 +416,14 @@ bool Pacman::isAlive()
 
 bool Pacman::isHitByGhost(Ghost enemy)
 {
-	if(coord.X == enemy.oldCoord.X && coord.Y == enemy.oldCoord.Y)
+	for(size_t position = 0; position < enemy.speed; ++position)
 	{
-		Beep(200, 100);
-		return true;
+		if(coord.X == enemy.coord.X - (enemy.change.X * position) && coord.Y == enemy.coord.Y - (enemy.change.Y * position))
+		{
+			Beep(200, 100);
+			return true;
+		}
 	}
-	else
-	{
-		return false;
-	}
+
+	return false;
 }

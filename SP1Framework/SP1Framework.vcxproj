@@ -105,6 +105,8 @@
   <ItemGroup>
     <None Include="ghostCollisionTest.aimap" />
     <None Include="ghostCollisionTest.map" />
+    <None Include="speedyGhostHitTest.aimap" />
+    <None Include="speedyGhostHitTest.map" />
     <None Include="testing.aimap" />
     <None Include="testing.map" />
     <None Include="testing2.aimap" />

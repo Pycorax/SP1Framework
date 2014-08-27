@@ -25,10 +25,15 @@ struct Ghost
 	unsigned int timeToRespawn; //The time needed before the Ghost can respawn
 	time_t respawnTime; //Time when the Ghost will respawn
 
+	//Constructor
 	Ghost(short healthPoints, short speedPoints, unsigned short givenZoneID, unsigned short respawn, Map &currentMap);
+
+	//Drawing
 	void draw();
 	void undraw(Map &currentMap);
+	//Movement
 	void move(Map &currentMap, bool clockwise = true);
+	//Interaction
 	bool isHitByBullet(Bullet shot, Map &currentMap); //Contains code for killing Ghost as well
 	bool isAlive();
 	void respawn(Map &currentMap);

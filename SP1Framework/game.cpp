@@ -104,6 +104,7 @@ void update(double dt, Map &currentMap, Pacman &player)
 		player.direct = E_RIGHT_DIRECTION;
 		player.move(currentMap);
 	}
+
 	//Pellet eating
 	if(currentMap.processedMap[player.coord.Y][player.coord.X] == '.')
 	{
@@ -161,7 +162,8 @@ void update(double dt, Map &currentMap, Pacman &player)
 	{
 		if(currentMap.ghostStorage[i].isAlive()) //Moves all the Ghosts
 		{
-			if(player.isHitByGhost(currentMap.ghostStorage[i])) //Checks if player touched the ghost before ghosts move
+			//Checks if player touched the ghost before ghosts move
+			if(player.isHitByGhost(currentMap.ghostStorage[i]))
 			{
 				player.lives -= currentMap.ghostStorage[i].damage;
 				player.coord = currentMap.startPos;
@@ -170,7 +172,8 @@ void update(double dt, Map &currentMap, Pacman &player)
 
 			currentMap.ghostStorage[i].move(currentMap);
 
-			if(player.isHitByGhost(currentMap.ghostStorage[i])) //Checks if player touched the ghost after ghosts move
+			//Checks if player touched the ghost after ghosts move
+			if(player.isHitByGhost(currentMap.ghostStorage[i])) 
 			{
 				player.lives -= currentMap.ghostStorage[i].damage;
 				player.coord = currentMap.startPos;

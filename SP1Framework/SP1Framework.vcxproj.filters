@@ -57,6 +57,9 @@
     <ClCompile Include="powerups.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="saves.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework\console.h">
@@ -90,6 +93,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="powerups.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="saves.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -146,6 +152,12 @@
       <Filter>Source Files\Maps</Filter>
     </None>
     <None Include="ghostCollisionTest.aimap">
+      <Filter>Source Files\Maps</Filter>
+    </None>
+    <None Include="speedyGhostHitTest.map">
+      <Filter>Source Files\Maps</Filter>
+    </None>
+    <None Include="speedyGhostHitTest.aimap">
       <Filter>Source Files\Maps</Filter>
     </None>
   </ItemGroup>
