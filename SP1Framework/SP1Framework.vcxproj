@@ -81,6 +81,7 @@
     <ClCompile Include="Framework\timer.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="gameStage.cpp" />
+    <ClCompile Include="highscore.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="maps.cpp" />
     <ClCompile Include="otherHelperFunctions.cpp" />
@@ -93,6 +94,7 @@
     <ClInclude Include="Framework\timer.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="gameStage.h" />
+    <ClInclude Include="highscore.h" />
     <ClInclude Include="maps.h" />
     <ClInclude Include="otherHelperFunctions.h" />
     <ClInclude Include="userInterface.h" />
@@ -100,6 +102,7 @@
   <ItemGroup>
     <None Include="ghostCollisionTest.aimap" />
     <None Include="ghostCollisionTest.map" />
+    <None Include="scores.txt" />
     <None Include="testing.aimap" />
     <None Include="testing.map" />
     <None Include="testing2.aimap" />

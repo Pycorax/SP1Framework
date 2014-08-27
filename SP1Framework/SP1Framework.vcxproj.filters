@@ -22,6 +22,9 @@
     <Filter Include="Source Files\Maps">
       <UniqueIdentifier>{79b5a00c-aa8b-47eb-86d7-4a199d0a453a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\SaveFiles">
+      <UniqueIdentifier>{70156b66-58ae-499b-baba-a76beb679a2b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -54,6 +57,9 @@
     <ClCompile Include="otherHelperFunctions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="highscore.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework\console.h">
@@ -81,6 +87,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="otherHelperFunctions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="highscore.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -138,6 +147,9 @@
     </None>
     <None Include="ghostCollisionTest.aimap">
       <Filter>Source Files\Maps</Filter>
+    </None>
+    <None Include="scores.txt">
+      <Filter>Source Files\SaveFiles</Filter>
     </None>
   </ItemGroup>
 </Project>

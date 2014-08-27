@@ -24,6 +24,8 @@ void loadingScreen(string mapName);
 void gameOver(gameState &game);
 void startScreen(string mapName);
 void endScreen();
+void winScreen();
+void highScoreBoard(int scorePoints);
 bool quit(gameState &game);
 
 #endif
