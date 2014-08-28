@@ -115,6 +115,7 @@ void write(string fileName, playerScore * playerScore)
 	openfile.close();
 
 }
+
 void highScoreBoard(int scorePoint)
 {
 	highScoreTitle();
@@ -135,8 +136,8 @@ void highScoreBoard(int scorePoint)
 	cls();
 	highScoreTitle();
 	displayScores(playerScore);
-	gotoXY(40,30);
-	cout <<"Press any key to continue...";
-	getch();
+	
+	pressToContinue(30);
+
 	write("scores.txt",playerScore);
 }

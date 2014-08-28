@@ -2,6 +2,7 @@
 #define HIGH_SCORE_H
 
 #include <string>
+#include "gameStage.h"
 
 using std::string;
 

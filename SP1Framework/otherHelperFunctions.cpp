@@ -1,7 +1,15 @@
 #include "otherHelperFunctions.h"
 #include <sstream>
+#include <string>
+#include <iostream>
+#include <conio.h>
+#include "Framework/console.h"
 
 using std::ostringstream;
+using std::string;
+using std::cout;
+
+extern COORD consoleSize;
 
 void newSetConsoleSize(COORD size)
 {
@@ -14,4 +22,23 @@ void newSetConsoleSize(int x, int y)
 	oss << "mode " << x << "," << y;
 
 	system(oss.str().c_str());
+}
+
+void flushInputBuffer()
+{
+	HANDLE hIn = GetStdHandle(STD_INPUT_HANDLE);
+	FlushConsoleInputBuffer(hIn);
+}
+
+void pressToContinue(int y_coord)
+{
+	Sleep(300);
+	string pressToContinue = "Press any key to continue...";
+	gotoXY(consoleSize.X/2 - pressToContinue.length()/2, y_coord);
+	cout << pressToContinue;
+
+	HANDLE hIn = GetStdHandle(STD_INPUT_HANDLE);
+	FlushConsoleInputBuffer(hIn);
+	gotoXY(consoleSize.X/2, y_coord + 1);
+	_getch();
 }

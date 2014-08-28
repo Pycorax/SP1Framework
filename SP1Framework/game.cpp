@@ -236,7 +236,7 @@ void update(double dt, Map &currentMap, Pacman &player)
 		else
 		{
 			currentMap.levelState = E_LOSS;
-			endScreen();
+			loseScreen();
 			highScoreBoard(currentMap.scorePoints);
 		}
 	}
@@ -399,10 +399,8 @@ void levelLoop(string mapName, GAMESTATE &game, unsigned int level, int &playerL
 		switch(currentMap.levelState)
 		{
 			case E_LOSS:
-				loseScreen();
-				game = E_MAIN_MENU;
+				game = E_LOSS_SCREEN;
 				break;
-
 			case E_WIN:
 			{
 				victoryScreen();

@@ -7,4 +7,4 @@ tom 800
 jerry 700
 jasmine 600
 jonathan 500
-timothy 400
+jo 500

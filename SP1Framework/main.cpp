@@ -39,6 +39,10 @@ int main()
 			case E_DELETE_SAVES:
 				deleteMenu(game);
 				break;
+			case E_HIGH_SCORES:
+				highScoreBoard(-1);
+				game = E_MAIN_MENU;
+				break;
 			case E_QUIT_MENU:
 				if(quit(game))
 				{

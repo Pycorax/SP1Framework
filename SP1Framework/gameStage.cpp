@@ -90,7 +90,7 @@ void mainMenu(GAMESTATE &game)
 			game = E_DELETE_SAVES;
 			break;
 		case'4':
-			highScoreBoard(-1);
+			game = E_HIGH_SCORES;
 			break;
 		case'5':
 			game = E_QUIT_MENU;
@@ -179,6 +179,10 @@ void gameLoop(string maps[], const size_t NUM_OF_MAPS, GAMESTATE &game, Loadable
 		if(game == E_GAME)
 		{
 			levelLoop(maps[currentLevel], game, currentLevel, loads.playerLives);
+		}
+		else
+		{
+			break;
 		}
 
 		//Gives player a life after each level
@@ -940,35 +944,36 @@ bool deleteMenu()
 
 void victoryScreen()
 {
-	const int b = 13;
-				string victoryScreen[b] =
-				{
-					"'##::::'##:'####::'######::'########::'#######::'########::'##:::'##:",
-					" ##:::: ##:. ##::'##... ##:... ##..::'##.... ##: ##.... ##:. ##:'##::",
-					" ##:::: ##:: ##:: ##:::..::::: ##:::: ##:::: ##: ##:::: ##::. ####:::",
-					" ##:::: ##:: ##:: ##:::::::::: ##:::: ##:::: ##: ########::::. ##::::",
-					". ##:: ##::: ##:: ##:::::::::: ##:::: ##:::: ##: ##.. ##:::::: ##::::",
-					":. ## ##:::: ##:: ##::: ##:::: ##:::: ##:::: ##: ##::. ##::::: ##::::",
-					"::. ###::::'####:. ######::::: ##::::. #######:: ##:::. ##:::: ##::::",
-					"                                                                     ",
-					"                                                                     ",
-					"               CONGRATULATIONS ON COMPLETING THIS LEVEL                 "
-				};
+	const int VICTORY_SCREEN_SIZE = 13;
+	string victoryScreen[VICTORY_SCREEN_SIZE] =
+	{
+		"'##::::'##:'####::'######::'########::'#######::'########::'##:::'##:",
+		" ##:::: ##:. ##::'##... ##:... ##..::'##.... ##: ##.... ##:. ##:'##::",
+		" ##:::: ##:: ##:: ##:::..::::: ##:::: ##:::: ##: ##:::: ##::. ####:::",
+		" ##:::: ##:: ##:: ##:::::::::: ##:::: ##:::: ##: ########::::. ##::::",
+		". ##:: ##::: ##:: ##:::::::::: ##:::: ##:::: ##: ##.. ##:::::: ##::::",
+		":. ## ##:::: ##:: ##::: ##:::: ##:::: ##:::: ##: ##::. ##::::: ##::::",
+		"::. ###::::'####:. ######::::: ##::::. #######:: ##:::. ##:::: ##::::",
+		"                                                                     ",
+		"                                                                     ",
+		"               CONGRATULATIONS ON COMPLETING THIS LEVEL                 "
+	};
 
-				colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
-				cls();
-				for(int a = 0; a < b; ++a)
-				{
-					gotoXY(consoleSize.X/2 - victoryScreen[a].length()/2, 10 + a);
-					cout << victoryScreen[a];
-				}
-				Sleep(5000);
+	colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
+	cls();
+	for(int a = 0; a < VICTORY_SCREEN_SIZE; ++a)
+	{
+		gotoXY(consoleSize.X/2 - victoryScreen[a].length()/2, 10 + a);
+		cout << victoryScreen[a];
+	}
+	
+	pressToContinue(17 + VICTORY_SCREEN_SIZE);
 }
 
 void loseScreen()
 {
-	const int b = 13;
-	string loseScreen[b] =
+	const int LOSE_SCREEN_SIZE = 13;
+	string loseScreen[LOSE_SCREEN_SIZE] =
 	{
 		"'########::::'###::::'####:'##:::::::'########:'########::",
 		" ##.....::::'## ##:::. ##:: ##::::::: ##.....:: ##.... ##:",
@@ -984,11 +989,11 @@ void loseScreen()
 
 	colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
 	cls();
-	for(int a = 0; a < b; ++a)
+	for(int a = 0; a < LOSE_SCREEN_SIZE; ++a)
 	{
 		gotoXY(consoleSize.X/2 - loseScreen[a].length()/2, 10 + a);
 		cout << loseScreen[a];
 	}
 
-	Sleep(5000);
+	pressToContinue(17 + LOSE_SCREEN_SIZE);
 }
