@@ -267,7 +267,7 @@ void render(Map &currentMap, Pacman &player)
 
 	//Print HUD
 	colour(BACKGROUND_GREEN);
-	printScore(currentMap.scorePoints);
+	printScore(currentMap.scorePoints, currentMap.minScore);
 	printPellets(currentMap.pellets);
 	printLives(player.lives);
 
@@ -347,7 +347,6 @@ void levelLoop(string mapName, GAMESTATE &game, unsigned int level, int &playerL
 
 		//Print static HUD
 		printHUDBackground();
-		printMinScore(currentMap.minScore);
 
 		currentMap.renderMap();
 
@@ -356,7 +355,7 @@ void levelLoop(string mapName, GAMESTATE &game, unsigned int level, int &playerL
 		printHUDBackground();
 		gotoXY(20,0);
 		printLevelName(mapName);
-		printMinScore(currentMap.minScore);
+		printLevel(level);
 
 		Pacman player(currentMap, playerLives);
 		Bullet shoot(player, currentMap.bulletDamage);
@@ -385,7 +384,6 @@ void levelLoop(string mapName, GAMESTATE &game, unsigned int level, int &playerL
 					printHUDBackground();
 					gotoXY(20,0);
 					printLevelName(mapName);
-					printMinScore(currentMap.minScore);
 				}
 			}
 		}

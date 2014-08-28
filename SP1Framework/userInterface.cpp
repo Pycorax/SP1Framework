@@ -13,18 +13,15 @@ using std::ostringstream;
 
 extern COORD consoleSize;
 
-void printScore(int score)
+void printScore(int score, int minScore)
 {
 	colour(BACKGROUND_GREEN | FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_INTENSITY);
 	gotoXY(0, 2);
-	cout << "Score: " << score;
-}
-
-void printMinScore(int minScore)
-{
-	colour(BACKGROUND_GREEN | FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
-	gotoXY(0,1);
-	cout << "Min. Score: " << minScore;
+	cout << "Score: ";
+	const short MAX_SCORE_LENGTH = 5;
+	cout << setw(MAX_SCORE_LENGTH) << setfill(' ');
+	cout << score;
+	cout << " / " << minScore;
 }
 
 void printLevelName(string mapName)
@@ -91,4 +88,13 @@ void printLives(int lives)
 	cout << setw(MAX_LIFE_LENGTH) << setfill(' ');
 	cout << lives;
 	cout << output;
+}
+
+void printLevel(int level)
+{
+	ostringstream oss;
+	oss << "Level " << level;
+
+	gotoXY(consoleSize.X/2 - oss.str().length()/2, 1);
+	cout << oss.str();
 }
