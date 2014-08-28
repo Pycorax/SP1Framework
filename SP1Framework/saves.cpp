@@ -14,13 +14,14 @@ using std::endl;
 using std::string;
 using std::remove;
 
-Loadables::Loadables(unsigned int levelToStartFrom, int playerLivesToStartWith)
+Loadables::Loadables(unsigned int levelToStartFrom, int playerLivesToStartWith, int scoreToStartWith)
 {
 	level = levelToStartFrom;
 	playerLives = playerLivesToStartWith;
+	cumulativeScore = scoreToStartWith;
 }
 
-bool saveGame(unsigned int level, int playerLives, string saveName)
+bool saveGame(Loadables loads, string saveName)
 {
 	extern COORD consoleSize;
 
@@ -83,8 +84,9 @@ bool saveGame(unsigned int level, int playerLives, string saveName)
 			}
 		}
 
-		saveFile << level << endl;
-		saveFile << playerLives << endl;
+		saveFile << loads.level << endl;
+		saveFile << loads.playerLives << endl;
+		saveFile << loads.cumulativeScore << endl;
 		saveFile.close();
 		return true;
 
@@ -110,6 +112,8 @@ int loadGame(Loadables &loadInfo, string saveName)
 		loadInfo.level = atoi(levelObtained.c_str());
 		getline(saveFile, levelObtained);
 		loadInfo.playerLives = atoi(levelObtained.c_str());
+		getline(saveFile, levelObtained);
+		loadInfo.cumulativeScore = atoi(levelObtained.c_str());
 		saveFile.close();
 
 		return true;

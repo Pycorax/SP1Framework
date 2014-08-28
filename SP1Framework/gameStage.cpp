@@ -172,13 +172,13 @@ void gameOver(GAMESTATE &game)
 
 }
 
-void gameLoop(string maps[], const size_t NUM_OF_MAPS, GAMESTATE &game, Loadables loads)
+void gameLoop(string maps[], const size_t NUM_OF_MAPS, GAMESTATE &game, Loadables &loads)
 {
 	for(size_t currentLevel = loads.level; currentLevel < sizeof(maps); ++currentLevel)
 	{
 		if(game == E_GAME)
 		{
-			levelLoop(maps[currentLevel], game, currentLevel, loads.playerLives);
+			levelLoop(maps[currentLevel], game, currentLevel, loads);
 		}
 		else
 		{
@@ -192,7 +192,7 @@ void gameLoop(string maps[], const size_t NUM_OF_MAPS, GAMESTATE &game, Loadable
 }
 
 //Pause Menu stuff
-void saveMenu(unsigned int level, int playerLives)
+void saveMenu(Loadables loads)
 {
 	colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
 	cls();
@@ -232,16 +232,16 @@ void saveMenu(unsigned int level, int playerLives)
 
 		gotoXY(consoleSize.X/2, 17 + SAVE_MENU_TITLE);
 
-		saveGame(level, playerLives, saveFileName);
+		saveGame(loads, saveFileName);
 	}
 	else
 	{
 		string qnDelete = "Save file limit reached.";
-		gotoXY(consoleSize.X/2 - qnDelete.length()/2, 17 + SAVE_MENU_TITLE);
+		gotoXY(consoleSize.X/2 - qnDelete.length()/2, 14 + SAVE_MENU_TITLE);
 		cout << qnDelete;
 
 		qnDelete = "Do you want to delete a save file?";
-		gotoXY(consoleSize.X/2 - qnDelete.length()/2, 1 + 17 + SAVE_MENU_TITLE);
+		gotoXY(consoleSize.X/2 - qnDelete.length()/2, 15 + SAVE_MENU_TITLE);
 		cout << qnDelete;
 
 		const size_t CANT_SAVE_OPTIONS = 8;
@@ -261,7 +261,7 @@ void saveMenu(unsigned int level, int playerLives)
 
 		for(size_t i = 0; i < CANT_SAVE_OPTIONS; ++i)
 		{
-			gotoXY(cantSaveOptionsPrintSpot, 17 + i);
+			gotoXY(cantSaveOptionsPrintSpot, 18 + SAVE_MENU_TITLE + i);
 			cout << cantSaveOptions[i];
 		}
 
@@ -273,7 +273,7 @@ void saveMenu(unsigned int level, int playerLives)
 				case'1':
 					if(deleteMenu())
 					{
-						saveMenu(level, playerLives);
+						saveMenu(loads);
 					}
 					exit = true;
 					break;
@@ -403,7 +403,7 @@ void loadMenu(GAMESTATE &game, Loadables &loadInfo)
 	}
 }
 
-bool pauseMenu(E_LEVEL_STATE &levelState, unsigned int level, int playerLives)
+bool pauseMenu(E_LEVEL_STATE &levelState, Loadables loads)
 {
 	colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
 	cls();
@@ -463,7 +463,7 @@ bool pauseMenu(E_LEVEL_STATE &levelState, unsigned int level, int playerLives)
 				return false;
 				break;
 			case'2':
-				saveMenu(level, playerLives);
+				saveMenu(loads);
 				levelState = E_PLAYING;
 				return false;
 				break;
@@ -795,9 +795,9 @@ void deleteMenu(GAMESTATE &game)
 					if(deleteGame(listOfLevels[input - 48 - 2]))
 					{
 						string deletePassMsg = "Successfully deleted save!";
-						gotoXY(consoleSize.X/2 - deletePassMsg.length()/2, 19 + DELETE_MENU_OPTIONS_HEAD + saveFilesToPrint + DELETE_MENU_OPTIONS_FOOT);
+						gotoXY(consoleSize.X/2 - deletePassMsg.length()/2, 24 + DELETE_MENU_OPTIONS_HEAD + saveFilesToPrint + DELETE_MENU_OPTIONS_FOOT);
 						cout << deletePassMsg;
-						gotoXY(consoleSize.X/2 - deletePassMsg.length()/2, 20 + DELETE_MENU_OPTIONS_HEAD + saveFilesToPrint + DELETE_MENU_OPTIONS_FOOT);
+						gotoXY(consoleSize.X/2 - deletePassMsg.length()/2, 25 + DELETE_MENU_OPTIONS_HEAD + saveFilesToPrint + DELETE_MENU_OPTIONS_FOOT);
 						system("pause");
 						game = E_DELETE_SAVES;
 						break;
@@ -805,7 +805,7 @@ void deleteMenu(GAMESTATE &game)
 					else
 					{
 						string errorLoading = "Error deleting save!";
-						gotoXY(consoleSize.X/2 - errorLoading.length()/2, 19 + DELETE_MENU_OPTIONS_HEAD + saveFilesToPrint + DELETE_MENU_OPTIONS_FOOT);
+						gotoXY(consoleSize.X/2 - errorLoading.length()/2, 24 + DELETE_MENU_OPTIONS_HEAD + saveFilesToPrint + DELETE_MENU_OPTIONS_FOOT);
 						cout << errorLoading;
 					}
 				}

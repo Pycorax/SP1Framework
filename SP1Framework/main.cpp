@@ -16,7 +16,7 @@ int main()
 	init();      // initialize your variables
 	GAMESTATE game = E_MAIN_MENU;
 	
-	Loadables loads(0,3);
+	Loadables loads(0,3,0);
 	
 	const size_t NUM_OF_MAPS = 8;
 	string maps[NUM_OF_MAPS] = {"testing", "testing2", "testing3","testing4","testing5","testing6","testing7","testing8"};
@@ -28,6 +28,8 @@ int main()
 		{
 			case E_MAIN_MENU:
 				loads.level = 0;
+				loads.playerLives = 3;
+				loads.cumulativeScore = 0;
 				mainMenu(game);
 				break;
 			case E_GAME:

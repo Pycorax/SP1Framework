@@ -21,11 +21,13 @@ enum GAMESTATE
 	E_MAX_GAME_STATES
 };
 
+extern struct Loadables;
+
 void mainMenu(GAMESTATE &game);
-void gameLoop(string maps[], const size_t NUM_OF_MAPS, GAMESTATE &game, Loadables loads);
-void saveMenu(unsigned int level, int playerLives);
+void gameLoop(string maps[], const size_t NUM_OF_MAPS, GAMESTATE &game, Loadables &loads);
+void saveMenu(Loadables loads);
 void loadMenu(GAMESTATE &game, Loadables &loadInfo);
-bool pauseMenu(E_LEVEL_STATE &levelState, unsigned int level, int playerLives);
+bool pauseMenu(E_LEVEL_STATE &levelState, Loadables loads);
 void loadingScreen(string mapName);
 void gameOver(GAMESTATE &game);
 void startScreen(string mapName);

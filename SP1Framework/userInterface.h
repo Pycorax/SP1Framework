@@ -16,4 +16,5 @@ void printBorder();
 void printPellets(int pellets);
 void printLives(int lives);
 void printLevel(int level);
+void printCumulativeScore(int score, int cumulativeScore);
 #endif

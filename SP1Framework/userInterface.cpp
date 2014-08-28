@@ -17,7 +17,7 @@ void printScore(int score, int minScore)
 {
 	colour(BACKGROUND_GREEN | FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_INTENSITY);
 	gotoXY(0, 2);
-	cout << "Score: ";
+	cout << "Level Score: ";
 	const short MAX_SCORE_LENGTH = 5;
 	cout << setw(MAX_SCORE_LENGTH) << setfill(' ');
 	cout << score;
@@ -28,7 +28,7 @@ void printLevelName(string mapName)
 {
 	colour(BACKGROUND_GREEN | FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_INTENSITY);
 	gotoXY(0,0);
-	cout << "Map: " << mapName;
+	cout << "Map Name: " << mapName;
 }
 
 void printHUDBackground()
@@ -97,4 +97,11 @@ void printLevel(int level)
 
 	gotoXY(consoleSize.X/2 - oss.str().length()/2, 1);
 	cout << oss.str();
+}
+
+void printCumulativeScore(int score, int cumulativeScore)
+{
+	gotoXY(0,1);
+	cout << "Total Score: ";
+	cout << cumulativeScore + score;
 }

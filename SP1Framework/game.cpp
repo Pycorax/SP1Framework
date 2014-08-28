@@ -115,7 +115,7 @@ void update(double dt, Map &currentMap, Pacman &player)
 		Beep(1000, 100);
 	}
 
-	//Powerups Eating
+	//Power-ups Eating
 	if(currentMap.processedMap[player.coord.Y][player.coord.X] == 'H')
 	{
 		currentMap.processedMap[player.coord.Y][player.coord.X] = ' ';
@@ -252,7 +252,7 @@ void update(double dt, Map &currentMap, Pacman &player)
 	}
 }
 
-void render(Map &currentMap, Pacman &player)
+void render(Map &currentMap, Pacman &player, Loadables loads)
 {
 	/*
     // render time taken to calculate this frame
@@ -270,6 +270,7 @@ void render(Map &currentMap, Pacman &player)
 	printScore(currentMap.scorePoints, currentMap.minScore);
 	printPellets(currentMap.pellets);
 	printLives(player.lives);
+	printCumulativeScore(currentMap.scorePoints, loads.cumulativeScore);
 
 	//Wipe old Player
 	colour(FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED);
@@ -314,10 +315,9 @@ void render(Map &currentMap, Pacman &player)
 
 // This main loop calls functions to get input, update and render the game
 // at a specific frame rate
-void levelLoop(string mapName, GAMESTATE &game, unsigned int level, int &playerLives)
+void levelLoop(string mapName, GAMESTATE &game, unsigned int level, Loadables &loads)
 {
 	//Load & Print Map
-	//TODO: Spawn loading screen here
 	loadingScreen(mapName);
 
 	Map currentMap(mapName);
@@ -357,7 +357,7 @@ void levelLoop(string mapName, GAMESTATE &game, unsigned int level, int &playerL
 		printLevelName(mapName);
 		printLevel(level);
 
-		Pacman player(currentMap, playerLives);
+		Pacman player(currentMap, loads.playerLives);
 		Bullet shoot(player, currentMap.bulletDamage);
 
 		g_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
@@ -365,7 +365,7 @@ void levelLoop(string mapName, GAMESTATE &game, unsigned int level, int &playerL
 		{        
 			getInput();												// get keyboard input
 			update(g_timer.getElapsedTime(), currentMap, player);   // update the game
-			render(currentMap, player);
+			render(currentMap, player, loads);
 			g_timer.waitUntil(frameTime);						// Frame rate limiter. Limits each frame to a specified time in ms.
 			if(currentMap.levelState == E_PAUSE)
 			{
@@ -373,7 +373,7 @@ void levelLoop(string mapName, GAMESTATE &game, unsigned int level, int &playerL
 				gotoXY(0,0);
 				colour(BACKGROUND_GREEN);
 				//TODO: Pause menu here
-				if(!pauseMenu(currentMap.levelState, level, player.lives))
+				if(!pauseMenu(currentMap.levelState, loads))
 				{
 					colour(FOREGROUND_GREEN);
 					cls();
@@ -388,7 +388,10 @@ void levelLoop(string mapName, GAMESTATE &game, unsigned int level, int &playerL
 			}
 		}
 
-		playerLives = player.lives;
+		//Saves info
+		loads.playerLives = player.lives;
+		loads.cumulativeScore += currentMap.scorePoints;
+		loads.level = level;
 
 		colour(FOREGROUND_GREEN);
 		cls();
