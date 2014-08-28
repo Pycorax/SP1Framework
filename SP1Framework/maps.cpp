@@ -4,6 +4,7 @@
 #include "Framework\console.h"
 #include "userInterface.h"
 #include "scorePoints.h"
+#include <clocale>
 
 using std::ifstream;
 using std::cout;
@@ -95,6 +96,7 @@ Map::Map(string mapName)
 		shot = NULL;
 		scorePoints = 0;
 		levelState = E_PLAYING;
+		bulletDamage = 1;
 	}
 	
 	//Delete Ghost Data
@@ -288,6 +290,9 @@ void Map::renderMap()
 	const char space = ' ';
 	const char obstacle = 176;
 	const char pellet = 'o';
+	char powerupsLife = 3;
+	const char increaseDmg = 'd';
+	//const char increasebulletSpeed = 'S';
 
 	//Controls Rows
 	for (size_t coord_y = 0; coord_y < processedMap.size(); ++coord_y)
@@ -309,6 +314,9 @@ void printTile(char tile, COORD tileLocation)
 	const char space = ' ';
 	const char obstacle = 176;
 	const char pellet = 'o';
+	char powerupsLife = 3;
+	const char increaseDmg = 'D';
+	//const char increasebulletSpeed = 'S';
 
 	colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
 
@@ -354,6 +362,33 @@ void printTile(char tile, COORD tileLocation)
 				}
 			}
 			break;
+		case 'H':
+			gotoXYTileDown(tileLocation, 0);
+			cout << "   ";
+			gotoXYTileDown(tileLocation, 1);
+			cout << " " << powerupsLife << " ";
+			gotoXYTileDown(tileLocation, 2);
+			cout << "   ";
+			break;
+
+		//case 'S':
+		//	gotoXYTileDown(tileLocation, 0);
+		//	cout << "   ";
+		//	gotoXYTileDown(tileLocation, 1);
+		//	cout << " " << increasebulletSpeed << " ";
+		//	gotoXYTileDown(tileLocation, 2);
+		//	cout << "   ";
+		//	break;
+
+		case 'd':
+			gotoXYTileDown(tileLocation, 0);
+			cout << "   ";
+			gotoXYTileDown(tileLocation, 1);
+			cout << " " << increaseDmg << " ";
+			gotoXYTileDown(tileLocation, 2);
+			cout << "   ";
+			break;
+
 		default:
 			for (size_t height = 0; height < TILE_HEIGHT; ++height)
 			{

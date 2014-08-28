@@ -34,5 +34,7 @@ bool deleteMenu();
 void endScreen();
 void winScreen();
 void highScoreBoard(int scorePoints);
+void victoryScreen();
+void loseScreen();
 
 #endif

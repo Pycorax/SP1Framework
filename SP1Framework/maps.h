@@ -87,6 +87,7 @@ struct Map
 	int minScore;
 	int pellets;
 	int blanks;
+	int bulletDamage;
 	Bullet *shot;
 	E_LEVEL_STATE levelState;
 
