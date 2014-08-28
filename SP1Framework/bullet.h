@@ -18,7 +18,7 @@ struct Bullet
 	bool collided;
 	bool firstMove;
 
-	Bullet(Pacman player, int bulletDamage);
+	Bullet(Pacman player, int bulletDamage,int bulletSpeed);
 	void draw();
 	void undraw(Map currentMap);
 	bool move(Map currentMap);

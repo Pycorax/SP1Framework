@@ -122,24 +122,25 @@ void update(double dt, Map &currentMap, Pacman &player)
 		player.lives += 1;
 	}
 
-	//if(currentMap.processedMap[player.coord.Y][player.coord.X] == 'S')
-	//{
-	//	currentMap.processedMap[player.coord.Y][player.coord.X] = ' ';
-	//	currentMap.shot->speed += 3;
-	//}
+	if(currentMap.processedMap[player.coord.Y][player.coord.X] == 's')
+	{
+		currentMap.processedMap[player.coord.Y][player.coord.X] = ' ';
+
+		currentMap.bulletSpeed = 3;
+	}
 
 	if(currentMap.processedMap[player.coord.Y][player.coord.X] == 'd')
 	{
 		currentMap.processedMap[player.coord.Y][player.coord.X] = ' ';
 		currentMap.bulletDamage = 2;
 	}
-
+	
 	//Bullet shooting
 	if(currentMap.shot == NULL)
 	{
 		if(keyPressed[E_SPACE_KEY])
 		{
-			currentMap.shot = new Bullet(player, currentMap.bulletDamage);
+			currentMap.shot = new Bullet(player, currentMap.bulletDamage,currentMap.bulletSpeed);
 			currentMap.shot->move(currentMap);
 		}	
 	}
@@ -358,7 +359,7 @@ void levelLoop(string mapName, GAMESTATE &game, unsigned int level, Loadables &l
 		printLevel(level);
 
 		Pacman player(currentMap, loads.playerLives);
-		Bullet shoot(player, currentMap.bulletDamage);
+		Bullet shoot(player, currentMap.bulletDamage,currentMap.bulletSpeed);
 
 		g_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
 		while (currentMap.levelState == E_PLAYING || currentMap.levelState == E_MIN_SCORE_HIT || currentMap.levelState == E_PAUSE)      // run this loop until user wants to quit 

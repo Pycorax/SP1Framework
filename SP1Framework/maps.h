@@ -88,6 +88,7 @@ struct Map
 	int pellets;
 	int blanks;
 	int bulletDamage;
+	int bulletSpeed;
 	Bullet *shot;
 	E_LEVEL_STATE levelState;
 
