@@ -39,26 +39,89 @@ void Ghost::draw()
 
 	if(even)
 	{
-		gotoXYTile(coord.X, coord.Y);
+		/*gotoXYTile(coord.X, coord.Y);
 		cout << "/ \\";
 		gotoXYTileDown(coord, 1);
 		cout << "o-o";
 		gotoXYTileDown(coord, 2);
-		cout << "vvv";
+		cout << "vvv";*/
 
+		switch(health)
+		{
+			case 1:
+				colour(FOREGROUND_GREEN);
+				gotoXYTile(coord.X, coord.Y);
+				cout << "/1\\";
+				gotoXYTileDown(coord, 1);
+				cout << "o-o";
+				gotoXYTileDown(coord, 2);
+				cout << "vvv";
+				break;
+
+			case 2:
+				gotoXYTile(coord.X, coord.Y);
+				cout << "/2\\";
+				gotoXYTileDown(coord, 1);
+				cout << "o-o";
+				gotoXYTileDown(coord, 2);
+				cout << "vvv";
+				break;
+
+			case 3:
+				colour(FOREGROUND_RED);
+				gotoXYTile(coord.X, coord.Y);
+				cout << "[3]";
+				gotoXYTileDown(coord, 1);
+				cout << "O-O";
+				gotoXYTileDown(coord, 2);
+				cout << "vvv";
+				break;
+		}
 		even = false;
 	}
 	else
 	{
-		gotoXYTile(coord.X, coord.Y);
+		/*gotoXYTile(coord.X, coord.Y);
 		cout << "/ \\";
 		gotoXYTileDown(coord, 1);
 		cout << "o-o";
 		gotoXYTileDown(coord, 2);
-		cout << "VVV";
+		cout << "VVV";*/
 
+		switch(health)
+		{
+			case 1:
+				colour(FOREGROUND_GREEN);
+				gotoXYTile(coord.X, coord.Y);
+				cout << "/1\\";
+				gotoXYTileDown(coord, 1);
+				cout << "o-o";
+				gotoXYTileDown(coord, 2);
+				cout << "VVV";
+				break;
+
+			case 2:
+				gotoXYTile(coord.X, coord.Y);
+				cout << "/2\\";
+				gotoXYTileDown(coord, 1);
+				cout << "o-o";
+				gotoXYTileDown(coord, 2);
+				cout << "VVV";
+				break;
+
+			case 3:
+				colour(FOREGROUND_RED);
+				gotoXYTile(coord.X, coord.Y);
+				cout << "[3]";
+				gotoXYTileDown(coord, 1);
+				cout << "O-O";
+				gotoXYTileDown(coord, 2);
+				cout << "VVV";
+				break;
+		}
 		even = true;
 	}
+
 }
 
 void Ghost::undraw(Map &currentMap)

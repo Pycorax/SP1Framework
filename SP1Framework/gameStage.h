@@ -17,6 +17,7 @@ enum GAMESTATE
 	E_QUIT_MENU,
 	E_LOSS_SCREEN,
 	E_HIGH_SCORES,
+	E_GAME_GUIDE,
 	E_EXIT,
 	E_MAX_GAME_STATES
 };
@@ -40,5 +41,6 @@ void winScreen();
 void highScoreBoard(int scorePoints);
 void victoryScreen();
 void loseScreen();
+void gameGuide(GAMESTATE &game);
 
 #endif

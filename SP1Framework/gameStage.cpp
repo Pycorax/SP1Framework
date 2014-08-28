@@ -51,7 +51,7 @@ void mainMenu(GAMESTATE &game)
 		cout << mainMenuTitle[i];
 	}
 
-	const size_t MAIN_MENU_OPTIONS = 10;
+	const size_t MAIN_MENU_OPTIONS = 11;
 	string mainMenuOptions[MAIN_MENU_OPTIONS] =
 	{
 		" ___________________",
@@ -61,7 +61,8 @@ void mainMenu(GAMESTATE &game)
 		"|  (2) Load Game    |",
 		"|  (3) Del Saves    |",
 		"|  (4) High Scores  |",
-		"|  (5) Exit Game    |",
+		"|  (5) Game Guide   |",
+		"|  (6) Exit Game    |",
 		"|                   |",
 		"|___________________|"
 	};
@@ -93,6 +94,9 @@ void mainMenu(GAMESTATE &game)
 			game = E_HIGH_SCORES;
 			break;
 		case'5':
+			game = E_GAME_GUIDE;
+			break;
+		case'6':
 			game = E_QUIT_MENU;
 			break;
 		default:
@@ -101,6 +105,79 @@ void mainMenu(GAMESTATE &game)
 		}
 	}
 }
+
+void gameGuide(GAMESTATE &game)
+	{
+		//consoleSize = consoleSize;
+		//setConsoleSize;
+		colour(FOREGROUND_GREEN | FOREGROUND_RED);
+		const size_t GAME_GUIDE_MENU = 8;
+		string gameguideMenu[GAME_GUIDE_MENU] =
+		{
+			":'######::::::'###::::'##::::'##:'########:::::'######:::'##::::'##:'####:'########::'########:",
+			"'##... ##::::'## ##::: ###::'###: ##.....:::::'##... ##:: ##:::: ##:. ##:: ##.... ##: ##.....::",
+			" ##:::..::::'##:. ##:: ####'####: ##:::::::::: ##:::..::: ##:::: ##:: ##:: ##:::: ##: ##:::::::",
+			" ##::'####:'##:::. ##: ## ### ##: ######:::::: ##::'####: ##:::: ##:: ##:: ##:::: ##: ######:::",
+			" ##::: ##:: #########: ##. #: ##: ##...::::::: ##::: ##:: ##:::: ##:: ##:: ##:::: ##: ##...::::",
+			" ##::: ##:: ##.... ##: ##:.:: ##: ##:::::::::: ##::: ##:: ##:::: ##:: ##:: ##:::: ##: ##:::::::",
+			". ######::: ##:::: ##: ##:::: ##: ########::::. ######:::. #######::'####: ########:: ########:",
+			":......::::..:::::..::..:::::..::........::::::......:::::.......:::....::........:::........::"
+		};
+
+		const size_t GAME_INSTRUCTIONS = 30;
+		string gameInstructions[GAME_INSTRUCTIONS] =
+		{
+			"HOW TO PLAY?",
+			"	1: Use Arrow Keys to move the pacman around",
+			"	2: Collect all pellets or reach minimum points to go to the next level",
+			"	3: Kill Ghosts or collect pellets to gain points",
+			"	4: Try not to let ghosts touch you",
+			"	                                  ",
+			"Introductions    ",
+			"                    ",
+			"	Ghosts:          ",
+			"	   /1\\  Health: 1",
+			"	   o-o  Damage: 1",
+			"	   VVV           ",
+			"                    ",
+			"	   /2\\  Health: 2",
+			"	   o-o  Damage: 1",
+			"	   VVV           ",
+			"                    ",
+			"	   [3]  Health: 3",
+			"	   o-o  Damage: 1",
+			"	   VVV           ",
+			"                    ",
+			"	Pacman:          ",
+			"	   ___ ",
+			"	   (*=  Health: 1",
+			"                    ",
+			"	Bullets:         ",
+			"	   =>>  Damage: 1",
+
+
+		};
+
+		int gameguideprintSpots = consoleSize.X/2 - gameguideMenu[0].length()/2;
+
+		for(size_t a = 0; a < GAME_GUIDE_MENU; ++a)
+		{
+			gotoXY(gameguideprintSpots, 2 + a);
+			cout << gameguideMenu[a];
+		}
+
+		//int gameinstructionsprintSpots = consoleSize.X/2 - gameInstructions[0].length()/2;
+
+		for(size_t b = 0; b < GAME_INSTRUCTIONS; ++b)
+		{
+			gotoXY(13, 2 + GAME_GUIDE_MENU + b);
+			cout << gameInstructions[b] << endl;
+		}
+
+		pressToContinue(GAME_GUIDE_MENU + GAME_INSTRUCTIONS + 5);
+
+		game = E_MAIN_MENU;
+	}
 
 void gameOver(GAMESTATE &game)
 {
