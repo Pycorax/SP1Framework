@@ -300,12 +300,38 @@ void saveMenu(Loadables loads)
 
 	if(findSaveFiles() < 5)
 	{
-		string qnSaveName = "Enter a Save name (Max. 20 Chars): ";
+		string qnSaveName = "(Max. 20 Chars.)  ";
 		string saveFileName;
 
-		gotoXY(qnSaveName.length()/2, 17 + SAVE_MENU_TITLE);
+		gotoXY(consoleSize.X/2 - qnSaveName.length(), 18 + SAVE_MENU_TITLE);
+		cout << qnSaveName;
+		qnSaveName = "Enter a Save name: ";
+		gotoXY(consoleSize.X/2 - qnSaveName.length(), 17 + SAVE_MENU_TITLE);
 		cout << qnSaveName;
 		cin >> saveFileName;
+		flushInputBuffer();
+
+		while(saveFileName.length() > 20)
+		{
+			cls();
+			printBorder();
+
+			colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
+			for(size_t i = 0; i < SAVE_MENU_TITLE; ++i)
+			{
+				gotoXY(saveMenuTitlePrintSpot, 6 + i);
+				cout << saveMenuTitle[i];
+			}
+
+			qnSaveName = "Save name has exceeded 20 characters!";
+			gotoXY(qnSaveName.length()/2, 17 + SAVE_MENU_TITLE);
+			cout << qnSaveName;
+			qnSaveName = "Enter another Save name: ";
+			gotoXY(consoleSize.X/2 - qnSaveName.length(), 18 + SAVE_MENU_TITLE);
+			cout << qnSaveName;
+			cin >> saveFileName;
+			flushInputBuffer();
+		}
 
 		gotoXY(consoleSize.X/2, 17 + SAVE_MENU_TITLE);
 
@@ -801,20 +827,21 @@ void deleteMenu(GAMESTATE &game)
 			cout << deleteMenuTitle[i];
 		}
 
-		const size_t DELETE_MENU_OPTIONS_HEAD = 4;
+		const size_t DELETE_MENU_OPTIONS_HEAD = 5;
 		string deleteMenuOptionsHead[DELETE_MENU_OPTIONS_HEAD] =
 		{
-			" __________________ ",
-			"|                  |", //Total Length 20
-			"|                  |",
-			"|  (1) Return      |"
+			" _______________________________ ",
+			"|                               |", //Total Length 20
+			"|                               |",
+			"|  (1) Return                   |",
+			"|                               |"
 		};
 
 		const size_t DELETE_MENU_OPTIONS_FOOT = 2;
 		string deleteMenuOptionsFoot[DELETE_MENU_OPTIONS_FOOT] =
 		{
-			"|                  |",
-			"|__________________|"
+			"|                               |",
+			"|_______________________________|"
 		};
 
 		int deleteMenuOptionsPrintSpot = consoleSize.X/2 - deleteMenuOptionsHead[0].length()/2;
@@ -832,7 +859,7 @@ void deleteMenu(GAMESTATE &game)
 		{
 			gotoXY(deleteMenuOptionsPrintSpot, 17 + DELETE_MENU_OPTIONS_HEAD + numOfSaves);
 			cout << "|  (" << numOfSaves + 2 << ") " << listOfLevels[numOfSaves];
-			gotoXY(deleteMenuOptionsPrintSpot + deleteMenuOptionsHeadLength, 17 + DELETE_MENU_OPTIONS_HEAD + numOfSaves);
+			gotoXY(deleteMenuOptionsPrintSpot + deleteMenuOptionsHead[0].length() - 1, 17 + DELETE_MENU_OPTIONS_HEAD + numOfSaves);
 			cout << "|";
 
 			saveFilesPresent = true;
@@ -843,9 +870,9 @@ void deleteMenu(GAMESTATE &game)
 		if(!saveFilesPresent)
 		{
 			gotoXY(deleteMenuOptionsPrintSpot, 17 + DELETE_MENU_OPTIONS_HEAD + numOfSaves);
-			cout << "|                  |";
+			cout << "|                               |";
 			gotoXY(deleteMenuOptionsPrintSpot, 17 + DELETE_MENU_OPTIONS_HEAD + numOfSaves + 1);
-			cout << "|     No Saves     |";
+			cout << "|        No Saves Found         |";
 			saveFilesToPrint = 2;
 		}
 
@@ -929,20 +956,21 @@ bool deleteMenu()
 		cout << deleteMenuTitle[i];
 	}
 
-	const size_t DELETE_MENU_OPTIONS_HEAD = 4;
+	const size_t DELETE_MENU_OPTIONS_HEAD = 5;
 	string deleteMenuOptionsHead[DELETE_MENU_OPTIONS_HEAD] =
 	{
-		" __________________ ",
-		"|                  |", //Total Length 20
-		"|                  |",
-		"|  (1) Return      |"
+		" _______________________________ ",
+		"|                               |", //Total Length 20
+		"|                               |",
+		"|  (1) Return                   |",
+		"|                               |"
 	};
 
 	const size_t DELETE_MENU_OPTIONS_FOOT = 2;
 	string deleteMenuOptionsFoot[DELETE_MENU_OPTIONS_FOOT] =
 	{
-		"|                  |",
-		"|__________________|"
+		"|                               |",
+		"|_______________________________|"
 	};
 
 	int deleteMenuOptionsPrintSpot = consoleSize.X/2 - deleteMenuOptionsHead[0].length()/2;
@@ -960,7 +988,7 @@ bool deleteMenu()
 	{
 		gotoXY(deleteMenuOptionsPrintSpot, 17 + DELETE_MENU_OPTIONS_HEAD + numOfSaves);
 		cout << "|  (" << numOfSaves + 2 << ") " << listOfLevels[numOfSaves];
-		gotoXY(deleteMenuOptionsPrintSpot + deleteMenuOptionsHeadLength, 17 + DELETE_MENU_OPTIONS_HEAD + numOfSaves);
+		gotoXY(deleteMenuOptionsPrintSpot + deleteMenuOptionsHead[0].length() - 1, 17 + DELETE_MENU_OPTIONS_HEAD + numOfSaves);
 		cout << "|";
 
 		saveFilesPresent = true;
@@ -971,9 +999,9 @@ bool deleteMenu()
 	if(!saveFilesPresent)
 	{
 		gotoXY(deleteMenuOptionsPrintSpot, 17 + DELETE_MENU_OPTIONS_HEAD + numOfSaves);
-		cout << "|                  |";
+		cout << "|                               |";
 		gotoXY(deleteMenuOptionsPrintSpot, 17 + DELETE_MENU_OPTIONS_HEAD + numOfSaves + 1);
-		cout << "|     No Saves     |";
+		cout << "|        No Saves Found         |";
 		saveFilesToPrint = 2;
 	}
 
