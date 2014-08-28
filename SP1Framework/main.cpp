@@ -37,6 +37,9 @@ int main()
 					shutdown(); // do clean up, if any. free memory.
 				}
 				break;
+			case GAME_GUIDE:
+				 gameGuide(game);
+				 break;
 		}
 	}
 	

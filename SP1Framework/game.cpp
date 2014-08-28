@@ -106,6 +106,7 @@ void update(double dt, Map &currentMap, Pacman &player)
 	{
 		currentMap.processedMap[player.coord.Y][player.coord.X] = ' ';
 		player.lives += 1;
+		Beep(1000, 100);
 	}
 
 	//if(currentMap.processedMap[player.coord.Y][player.coord.X] == 'S')
@@ -118,6 +119,7 @@ void update(double dt, Map &currentMap, Pacman &player)
 	{
 		currentMap.processedMap[player.coord.Y][player.coord.X] = ' ';
 		currentMap.bulletDamage = 2;
+		Beep(1000, 100);
 	}
 
 	//Bullet shooting
