@@ -11,6 +11,8 @@ Bullet::Bullet(Pacman player, int bulletDamage, int bulletSpeed)
 	direct = player.direct;
 	coord = player.coord;
 	oldCoord = coord;
+	change.X = 0;
+	change.Y = 0;
 	collided = false;
 	firstMove = true;
 }
@@ -67,38 +69,36 @@ void Bullet::undraw(Map currentMap)
 bool Bullet::move(Map currentMap)
 {
 	oldCoord = coord;
-	short changeX = 0;
-	short changeY = 0;
 
 	switch(direct)
 	{
 		case E_UP_DIRECTION:
-			changeX += 0;
-			changeY += -speed;
+			change.X = 0;
+			change.Y = -1;
 			break;
 		case E_DOWN_DIRECTION:
-			changeX += 0;
-			changeY += speed;
+			change.X = 0;
+			change.Y = 1;
 			break;
 		case E_LEFT_DIRECTION:
-			changeX += -speed;
-			changeY += 0;
+			change.X = -1;
+			change.Y = 0;
 			break;
 		case E_RIGHT_DIRECTION:
-			changeX += speed;
-			changeY += 0;
+			change.X = 1;
+			change.Y = 0;
 			break;
 	}
 
-	if(coord.X + changeX >= 0 && coord.X + changeX < currentMap.processedMap[coord.Y].size() && coord.Y + changeY >= 0 && coord.Y + changeY < currentMap.processedMap.size() && currentMap.processedMap[coord.Y + changeY][coord.X + changeX] != '#')
+	for(int position = speed; position > 0; --position)
 	{
-		coord.X += changeX;
-		coord.Y += changeY;
-		
-		return true;
+		if(coord.X + (change.X * position) >= 0 && coord.X + (change.X * position) < currentMap.processedMap[coord.Y].size() && coord.Y + (change.Y * position) >= 0 && coord.Y + (change.Y * position) < currentMap.processedMap.size() && currentMap.processedMap[coord.Y + (change.Y * position)][coord.X + (change.X * position)] != '#')
+		{
+			coord.X += change.X * position;
+			coord.Y += change.Y * position;
+
+			return true;
+		}
 	}
-	else
-	{
-		return false;
-	}
+	return false;
 }

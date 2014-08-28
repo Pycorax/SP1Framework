@@ -14,6 +14,7 @@ struct Bullet
 	int speed;
 	COORD coord;
 	COORD oldCoord;
+	COORD change;
 	DIRECTION direct;
 	bool collided;
 	bool firstMove;

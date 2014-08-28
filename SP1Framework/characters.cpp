@@ -218,14 +218,16 @@ void Ghost::move(Map &currentMap, bool clockwise)
 
 bool Ghost::isHitByBullet(Bullet shot, Map &currentMap)
 {
-	if((shot.oldCoord.X == coord.X && shot.oldCoord.Y == coord.Y) || (shot.coord.X == coord.X && shot.coord.Y == coord.Y))
+	for (int position = 0; position < shot.speed; ++position)
 	{
-		return true;
+		if(coord.X == shot.coord.X - (shot.change.X * position) && coord.Y == shot.coord.Y - (shot.change.Y * position))
+		{
+			return true;
+		}
 	}
-	else
-	{
-		return false;
-	}
+
+	return false;
+	
 }
 
 bool Ghost::isAlive()
