@@ -27,15 +27,15 @@ bool saveGame(Loadables loads, string saveName)
 
 	ofstream saveFile;
 	bool needOverwrite = false;
+	string directory = "Saves/";
+	string fullFileName = directory + saveName + ".sav";
 
-	saveName += ".sav";
-
-	if(fileExists(saveName))
+	if(fileExists(fullFileName))
 	{
 		needOverwrite = true;
 	}
 
-	saveFile.open(saveName.c_str());
+	saveFile.open(fullFileName.c_str());
 
 	if(saveFile.is_open())
 	{
@@ -71,7 +71,7 @@ bool saveGame(Loadables loads, string saveName)
 			bool resume = true;
 			while(resume)
 			{
-				switch(getch())
+				switch(_getch())
 				{
 				case'1':
 					resume = false;
@@ -101,6 +101,10 @@ bool saveGame(Loadables loads, string saveName)
 int loadGame(Loadables &loadInfo, string saveName)
 {
 	ifstream saveFile;
+
+	string directory = "Saves/";
+
+	saveName = directory + saveName;
 
 	saveFile.open(saveName.c_str(), fstream::in);
 
@@ -158,7 +162,7 @@ int findSaveFiles(vector<string> &fileNames)
 	ifstream files;
 
 	//Gets all file names
-	system("dir /b /a-d *.sav > file_names");
+	system("dir \"Saves\" /b /a-d *.sav > file_names");
 
 	files.open("file_names");
 
@@ -177,6 +181,8 @@ int findSaveFiles(vector<string> &fileNames)
 		}
 
 		files.close();
+
+		remove("file_names");
 	}
 	else
 	{
@@ -193,7 +199,7 @@ int findSaveFiles()
 	ifstream files;
 
 	//Gets all file names
-	system("dir /b /a-d *.sav > file_names");
+	system("dir \"Saves\" /b /a-d *.sav > file_names");
 
 	files.open("file_names");
 
@@ -204,13 +210,15 @@ int findSaveFiles()
 		while(!files.eof())
 		{
 			getline(files,output);
-			if (!(output == "file_names.txt" || output == ""))
+			if (!(output == "file_names" || output == ""))
 			{
 				++numOfFiles;
 			}
 		}
 
 		files.close();
+
+		remove("file_names");
 	}
 	else
 	{
@@ -223,6 +231,10 @@ int findSaveFiles()
 
 bool deleteGame(string saveName)
 {
+	string directory = "Saves/";
+
+	saveName = directory + saveName;
+
 	if(remove(saveName.c_str()) != 0)
 	{
 		return false;

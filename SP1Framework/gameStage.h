@@ -26,21 +26,31 @@ extern struct Loadables;
 
 void mainMenu(GAMESTATE &game);
 void gameLoop(string maps[], const size_t NUM_OF_MAPS, GAMESTATE &game, Loadables &loads);
+bool pauseMenu(E_LEVEL_STATE &levelState, Loadables loads);
+void loadCustomGame(GAMESTATE &game);
+bool quit(GAMESTATE &game);
+
+//Save & Load
 void saveMenu(Loadables loads);
 void loadMenu(GAMESTATE &game, Loadables &loadInfo);
-bool pauseMenu(E_LEVEL_STATE &levelState, Loadables loads);
+
+//Between Level Screens
 void loadingScreen(string mapName);
-void gameOver(GAMESTATE &game);
 void startScreen(string mapName);
-//void endScreen();
-bool quit(GAMESTATE &game);
+
+//Delete Menus
 void deleteMenu(GAMESTATE &game);
 bool deleteMenu();
+
+//Victory/Lose Screens
 void endScreen();
 void winScreen();
-void highScoreBoard(int scorePoints);
 void victoryScreen();
 void loseScreen();
+void gameOver(GAMESTATE &game);
+
+//Others
+void highScoreBoard(int scorePoints);
 void gameGuide(GAMESTATE &game);
 
 #endif

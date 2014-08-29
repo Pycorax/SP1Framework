@@ -271,6 +271,8 @@ void gameLoop(string maps[], const size_t NUM_OF_MAPS, GAMESTATE &game, Loadable
 //Pause Menu stuff
 void saveMenu(Loadables loads)
 {
+	int numOfSaves = findSaveFiles();
+
 	colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
 	cls();
 	printBorder();
@@ -298,7 +300,7 @@ void saveMenu(Loadables loads)
 		cout << saveMenuTitle[i];
 	}
 
-	if(findSaveFiles() < 5)
+	if(numOfSaves < 5)
 	{
 		string qnSaveName = "(Max. 20 Chars.)  ";
 		string saveFileName;
@@ -715,6 +717,8 @@ void winScreen()
 	}
 
 	gotoXY(60, 17 + PAUSE_MENU_OPTIONS);
+
+	pressToContinue(20 + PAUSE_MENU_OPTIONS);
 }
 
 bool quit(GAMESTATE &game)
@@ -1101,4 +1105,9 @@ void loseScreen()
 	}
 
 	pressToContinue(17 + LOSE_SCREEN_SIZE);
+}
+
+void loadCustomGame(GAMESTATE &game)
+{
+
 }

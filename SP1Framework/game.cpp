@@ -394,7 +394,7 @@ void levelLoop(string mapName, GAMESTATE &game, unsigned int level, Loadables &l
 		//Saves info
 		loads.playerLives = player.lives;
 		loads.cumulativeScore += currentMap.scorePoints;
-		loads.level = level;
+		loads.level = level + 1; //Sets level after this to be the one to load
 
 		colour(FOREGROUND_GREEN);
 		cls();

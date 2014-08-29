@@ -104,7 +104,7 @@ Map::Map(string mapName)
 	delete ghostDataStorage;
 }
 
-bool Map::processMap(const char mapName[])
+bool Map::processMap(const char mapName[]) //TODO: Add more validation code
 {
 	string readLine;
 	char readChar;
@@ -250,7 +250,7 @@ bool Map::processMap(const char mapName[])
 	}
 }
 
-bool Map::processAIMap(const char mapName[])
+bool Map::processAIMap(const char mapName[]) //TODO: Add code for AI Map validation
 {
 	string readLine;
 	char readChar;
