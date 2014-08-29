@@ -5,6 +5,7 @@
 #include <string>
 #include "Framework/console.h"
 #include "saves.h"
+#include "otherHelperFunctions.h"
 
 using std::string;
 
@@ -23,6 +24,7 @@ int main()
 
 	while(game != E_EXIT)
 	{
+		flushInputBuffer();
 		cls();
 		switch(game)
 		{
