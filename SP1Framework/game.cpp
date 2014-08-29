@@ -110,7 +110,8 @@ void update(double dt, Map &currentMap, Pacman &player)
 	if(currentMap.processedMap[player.coord.Y][player.coord.X] == '.')
 	{
 		currentMap.processedMap[player.coord.Y][player.coord.X] = ' ';
-		currentMap.scorePoints += g_SCORE_PER_PELLET;
+		currentMap.scorePoints += g_SCORE_PER_PELLET * currentMap.scoreMultiplier;
+		//currentMap.scorePoints += (currentMap.scoreMultiplier + g_SCORE_PER_PELLET) * 2;
 		--currentMap.pellets;
 		Beep(1000, 100);
 	}
@@ -128,6 +129,7 @@ void update(double dt, Map &currentMap, Pacman &player)
 		currentMap.processedMap[player.coord.Y][player.coord.X] = ' ';
 
 		currentMap.bulletSpeed = 3;
+		Beep(1000, 100);
 	}
 
 	if(currentMap.processedMap[player.coord.Y][player.coord.X] == 'd')
@@ -136,7 +138,14 @@ void update(double dt, Map &currentMap, Pacman &player)
 		currentMap.bulletDamage = 2;
 		Beep(1000, 100);
 	}
-	
+
+	if(currentMap.processedMap[player.coord.Y][player.coord.X] == 'M')
+	{
+		currentMap.processedMap[player.coord.Y][player.coord.X] = ' ';
+		currentMap.scoreMultiplier = 2;
+		Beep(1000, 100);
+	}
+
 	//Bullet shooting
 	if(currentMap.shot == NULL)
 	{

@@ -98,6 +98,7 @@ Map::Map(string mapName)
 		levelState = E_PLAYING;
 		bulletDamage = 1;
 		bulletSpeed = 1;
+		scoreMultiplier = 1;
 	}
 	
 	//Delete Ghost Data
@@ -294,6 +295,7 @@ void Map::renderMap()
 	char powerupsLife = 3;
 	const char increaseDmg = 'd';
 	const char increasebulletSpeed = 's';
+	const char scoreMultiplier = 'M';
 
 	//Controls Rows
 	for (size_t coord_y = 0; coord_y < processedMap.size(); ++coord_y)
@@ -318,6 +320,7 @@ void printTile(char tile, COORD tileLocation)
 	char powerupsLife = 3;
 	const char increaseDmg = 'D';
 	const char increasebulletSpeed = 's';
+	const char scoreMultiplier = 'M';
 
 	colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
 
@@ -386,6 +389,15 @@ void printTile(char tile, COORD tileLocation)
 			cout << "   ";
 			gotoXYTileDown(tileLocation, 1);
 			cout << " " << increaseDmg << " ";
+			gotoXYTileDown(tileLocation, 2);
+			cout << "   ";
+			break;
+
+		case 'M':
+			gotoXYTileDown(tileLocation, 0);
+			cout << "   ";
+			gotoXYTileDown(tileLocation, 1);
+			cout << " " << scoreMultiplier << " ";
 			gotoXYTileDown(tileLocation, 2);
 			cout << "   ";
 			break;

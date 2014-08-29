@@ -8,6 +8,7 @@ struct Power
 	int giveLife;
 	int increaseDmg;
 	int increasebulletSpeed;
+	int scoreMultiplier;
 	
 	Power(Pacman player);
 	void draw();
