@@ -35,8 +35,11 @@ int main()
 			case E_GAME:
 				gameLoop(maps, NUM_OF_MAPS, game, loads);
 				break;
-			case E_LOAD_MENU:
+			case E_LOAD_SAVES:
 				loadMenu(game, loads);
+				break;
+			case E_LOAD_CUSTOM:
+				loadCustomLevelMenu(game);
 				break;
 			case E_DELETE_SAVES:
 				deleteMenu(game);

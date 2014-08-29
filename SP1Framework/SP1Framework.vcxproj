@@ -77,6 +77,7 @@
   <ItemGroup>
     <ClCompile Include="bullet.cpp" />
     <ClCompile Include="characters.cpp" />
+    <ClCompile Include="customLevels.cpp" />
     <ClCompile Include="Framework\console.cpp" />
     <ClCompile Include="Framework\timer.cpp" />
     <ClCompile Include="game.cpp" />
@@ -92,6 +93,7 @@
   <ItemGroup>
     <ClInclude Include="bullet.h" />
     <ClInclude Include="characters.h" />
+    <ClInclude Include="customLevels.h" />
     <ClInclude Include="Framework\console.h" />
     <ClInclude Include="Framework\timer.h" />
     <ClInclude Include="game.h" />

@@ -10,6 +10,7 @@
 #include "otherHelperFunctions.h"
 #include "saves.h"
 #include "scorePoints.h"
+#include "customLevels.h"
 
 
 extern COORD consoleSize;
@@ -25,6 +26,7 @@ void mainMenu(GAMESTATE &game)
 {
 	newSetConsoleSize(defaultConsoleSize);
 	consoleSize = defaultConsoleSize;
+	colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_BLUE);
 	cls();
 	printBorder();
 
@@ -51,7 +53,7 @@ void mainMenu(GAMESTATE &game)
 		cout << mainMenuTitle[i];
 	}
 
-	const size_t MAIN_MENU_OPTIONS = 11;
+	const size_t MAIN_MENU_OPTIONS = 12;
 	string mainMenuOptions[MAIN_MENU_OPTIONS] =
 	{
 		" ___________________",
@@ -59,10 +61,11 @@ void mainMenu(GAMESTATE &game)
 		"|                   |",
 		"|  (1) Start Game   |",
 		"|  (2) Load Game    |",
-		"|  (3) Del Saves    |",
-		"|  (4) High Scores  |",
-		"|  (5) Game Guide   |",
-		"|  (6) Exit Game    |",
+		"|  (3) Load Custom  |",
+		"|  (4) Del Saves    |",
+		"|  (5) High Scores  |",
+		"|  (6) Game Guide   |",
+		"|  (7) Exit Game    |",
 		"|                   |",
 		"|___________________|"
 	};
@@ -85,18 +88,21 @@ void mainMenu(GAMESTATE &game)
 			game = E_GAME;
 			break;
 		case'2':
-			game = E_LOAD_MENU;
+			game = E_LOAD_SAVES;
 			break;
 		case'3':
-			game = E_DELETE_SAVES;
+			game = E_LOAD_CUSTOM;
 			break;
 		case'4':
-			game = E_HIGH_SCORES;
+			game = E_DELETE_SAVES;
 			break;
 		case'5':
-			game = E_GAME_GUIDE;
+			game = E_HIGH_SCORES;
 			break;
 		case'6':
+			game = E_GAME_GUIDE;
+			break;
+		case'7':
 			game = E_QUIT_MENU;
 			break;
 		default:
@@ -476,7 +482,7 @@ void loadMenu(GAMESTATE &game, Loadables &loadInfo)
 
 	gotoXY(consoleSize.X/2, 17 + LOAD_MENU_OPTIONS_HEAD + saveFilesToPrint + LOAD_MENU_OPTIONS_FOOT);
 
-	while(game == E_LOAD_MENU)
+	while(game == E_LOAD_SAVES)
 	{
 		char input = getch();
 
@@ -502,13 +508,13 @@ void loadMenu(GAMESTATE &game, Loadables &loadInfo)
 		}
 		else
 		{
-			game = E_LOAD_MENU;
+			game = E_LOAD_SAVES;
 		}
 
 	}
 }
 
-bool pauseMenu(E_LEVEL_STATE &levelState, Loadables loads)
+bool pauseMenu(E_LEVEL_STATE &levelState, Loadables loads, bool isCustom)
 {
 	colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
 	cls();
@@ -549,6 +555,12 @@ bool pauseMenu(E_LEVEL_STATE &levelState, Loadables loads)
 		"|___________________|"
 	};
 
+	if(isCustom)
+	{
+		pauseMenuOptions[4] = "|                   |";
+		pauseMenuOptions[5] = "|  (2) Exit Level   |";
+	}
+
 	int pauseMenuOptionsPrintSpot = consoleSize.X/2 - pauseMenuOptions[0].length()/2;
 
 	for(size_t i = 0; i < PAUSE_MENU_OPTIONS; ++i)
@@ -568,13 +580,24 @@ bool pauseMenu(E_LEVEL_STATE &levelState, Loadables loads)
 				return false;
 				break;
 			case'2':
-				saveMenu(loads);
-				levelState = E_PLAYING;
-				return false;
+				if(isCustom)
+				{
+					levelState = E_LOSS;
+					return true;
+				}
+				else
+				{
+					saveMenu(loads);
+					levelState = E_PLAYING;
+					return false;
+				}
 				break;
 			case'3':
-				levelState = E_LOSS;
-				return true;
+				if(!isCustom)
+				{
+					levelState = E_LOSS;
+					return true;
+				}
 				break;
 			default:
 				levelState = E_PAUSE;
@@ -582,6 +605,7 @@ bool pauseMenu(E_LEVEL_STATE &levelState, Loadables loads)
 		}
 	}
 }
+
 void loadingScreen(string mapName)
 {
 	colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
@@ -1107,7 +1131,171 @@ void loseScreen()
 	pressToContinue(17 + LOSE_SCREEN_SIZE);
 }
 
-void loadCustomGame(GAMESTATE &game)
+void loadCustomLevelMenu(GAMESTATE &game)
 {
+	extern bool keyPressed[E_MAX_KEYS];
 
+	int selection = -1;
+	int oldSelection = -1;
+	bool selectionChanged = false;
+	vector<string> listOfCustomMaps;
+	findCustomMaps(listOfCustomMaps);
+
+	int maxMapNameLength = 6;
+	//Get longest map name
+	for(size_t i = 0; i < listOfCustomMaps.size(); ++i)
+	{
+		if(listOfCustomMaps[i].length() > maxMapNameLength)
+		{
+			maxMapNameLength = listOfCustomMaps[i].length();
+		}
+	}
+
+	printBorder();
+
+	colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
+
+	const size_t CUSTOM_MAPS_MENU_TITLE = 8;
+	string customMapsMenuTitle[CUSTOM_MAPS_MENU_TITLE] = 
+	{
+		":'######::'##::::'##::'######::'########::'#######::'##::::'##::::'##::::'##::::'###::::'########:::'######::",
+		"'##... ##: ##:::: ##:'##... ##:... ##..::'##.... ##: ###::'###:::: ###::'###:::'## ##::: ##.... ##:'##... ##:",
+		" ##:::..:: ##:::: ##: ##:::..::::: ##:::: ##:::: ##: ####'####:::: ####'####::'##:. ##:: ##:::: ##: ##:::..::",
+		" ##::::::: ##:::: ##:. ######::::: ##:::: ##:::: ##: ## ### ##:::: ## ### ##:'##:::. ##: ########::. ######::",
+		" ##::::::: ##:::: ##::..... ##:::: ##:::: ##:::: ##: ##. #: ##:::: ##. #: ##: #########: ##.....::::..... ##:",
+		" ##::: ##: ##:::: ##:'##::: ##:::: ##:::: ##:::: ##: ##:.:: ##:::: ##:.:: ##: ##.... ##: ##::::::::'##::: ##:",
+		". ######::. #######::. ######::::: ##::::. #######:: ##:::: ##:::: ##:::: ##: ##:::: ##: ##::::::::. ######::",
+		":......::::.......::::......::::::..::::::.......:::..:::::..:::::..:::::..::..:::::..::..::::::::::......:::"
+	};
+
+	int customMapsMenuTitlePrintSpot = consoleSize.X/2 - customMapsMenuTitle[0].length()/2;
+
+	for(size_t i = 0; i < CUSTOM_MAPS_MENU_TITLE; ++i)
+	{
+		gotoXY(customMapsMenuTitlePrintSpot, 6 + i);
+		cout << customMapsMenuTitle[i];
+	}
+
+	string customMapsMenuOptionsHead = "Return";
+
+	int customMapsMenuOptionsPrintSpot = consoleSize.X/2 - maxMapNameLength/2;
+	int customMapsMenuOptionsHeadLength = customMapsMenuOptionsHead.length();
+
+	gotoXY(customMapsMenuOptionsPrintSpot, 21);
+	cout << customMapsMenuOptionsHead;
+
+	size_t numOfMaps = 0;
+	bool mapFilesPresent = false;
+	for(; numOfMaps < listOfCustomMaps.size(); ++numOfMaps)
+	{
+		gotoXY(customMapsMenuOptionsPrintSpot, 23 + numOfMaps);
+		cout << listOfCustomMaps[numOfMaps];
+
+		mapFilesPresent = true;
+	}
+
+	int mapFilesToPrint = numOfMaps;
+
+	if(!mapFilesPresent)
+	{
+		gotoXY(customMapsMenuOptionsPrintSpot, 20 + numOfMaps + 1);
+		cout << "No Saves";
+		mapFilesToPrint = 2;
+	}
+
+	//Draws Border
+	//--Top
+	gotoXY(consoleSize.X/2 - maxMapNameLength/2 - 1 - g_MENU_TICKER.length(), 19);
+	for(int i = 1; i < maxMapNameLength + (g_MENU_TICKER.length() + 1) * 2; ++i)
+	{
+		cout << "_";
+	}
+	//--Bottom
+	gotoXY(consoleSize.X/2 - maxMapNameLength/2 - 1 - g_MENU_TICKER.length(), 19 + 4 + mapFilesToPrint);
+	for(int i = 1; i < maxMapNameLength + (g_MENU_TICKER.length() + 1) * 2; ++i)
+	{
+		cout << "_";
+	}
+	//--Left
+	for(int i = 1; i < mapFilesToPrint + 5; ++i)
+	{
+		gotoXY(consoleSize.X/2 - maxMapNameLength/2 - g_MENU_TICKER.length() - 2, 19 + i);
+		cout << "|";
+	}
+	//--Right
+	for(int i = 1; i < mapFilesToPrint + 5; ++i)
+	{
+		gotoXY(consoleSize.X/2 + maxMapNameLength/2 + g_MENU_TICKER.length(), 19 + i);
+		cout << "|";
+	}
+
+	gotoXY(consoleSize.X/2 - maxMapNameLength/2 - g_MENU_TICKER.length(), 21);
+	cout << g_MENU_TICKER;
+
+	while(game == E_LOAD_CUSTOM)
+	{
+		gotoXY(consoleSize.X/2, 25 + numOfMaps);
+		selectionChanged = false;
+		getInput();
+
+		if(keyPressed[E_UP_KEY] && selection > -1)
+		{
+			oldSelection = selection;
+			--selection;
+			selectionChanged = true;
+		}
+		else if(keyPressed[E_DOWN_KEY] && selection + 1 < numOfMaps)
+		{
+			oldSelection = selection;
+			++selection;
+			selectionChanged = true;
+		}
+		else if(keyPressed[E_SPACE_KEY])
+		{
+			if(selection == -1)
+			{
+				game = E_MAIN_MENU;
+			}
+			else
+			{
+				game = E_LOAD_CUSTOM;
+				customGame(listOfCustomMaps[selection]);
+				break;
+			}
+		}
+
+		if(selectionChanged)
+		{
+			if (oldSelection == -1)
+			{
+				gotoXY(consoleSize.X/2 - maxMapNameLength/2 - g_MENU_TICKER.length(), 21);
+				cout << " ";
+			}
+			else
+			{
+				gotoXY(consoleSize.X/2 - maxMapNameLength/2 - g_MENU_TICKER.length(), 23 + oldSelection);
+				cout << " ";
+			}
+
+			if (selection == -1)
+			{
+				gotoXY(consoleSize.X/2 - maxMapNameLength/2 - g_MENU_TICKER.length(), 21);
+				cout << g_MENU_TICKER;
+			}
+			else
+			{
+				gotoXY(consoleSize.X/2 - maxMapNameLength/2 - g_MENU_TICKER.length(), 23 + selection);
+				cout << g_MENU_TICKER;
+			}
+		}
+		Sleep(100);
+	}
+}
+
+void customGame(string mapName)
+{
+	mapName = "Custom Maps/" + mapName;
+	Loadables tempLoads(0,3,0);
+
+	customLevelLoop(mapName, tempLoads);
 }

@@ -162,7 +162,7 @@ int findSaveFiles(vector<string> &fileNames)
 	ifstream files;
 
 	//Gets all file names
-	system("dir \"Saves\" /b /a-d *.sav > file_names");
+	system("dir \"Saves\\*.sav\" /b /a-d > file_names");
 
 	files.open("file_names");
 
@@ -199,7 +199,7 @@ int findSaveFiles()
 	ifstream files;
 
 	//Gets all file names
-	system("dir \"Saves\" /b /a-d *.sav > file_names");
+	system("dir \"Saves\\*.sav\" /b /a-d > file_names");
 
 	files.open("file_names");
 

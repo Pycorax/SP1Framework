@@ -10,8 +10,9 @@ using std::string;
 enum GAMESTATE
 {
 	E_MAIN_MENU,
-	E_LOAD_MENU,
+	E_LOAD_SAVES,
 	E_DELETE_SAVES,
+	E_LOAD_CUSTOM,
 	E_GAME,
 	E_GAME_OVER,
 	E_QUIT_MENU,
@@ -26,8 +27,7 @@ extern struct Loadables;
 
 void mainMenu(GAMESTATE &game);
 void gameLoop(string maps[], const size_t NUM_OF_MAPS, GAMESTATE &game, Loadables &loads);
-bool pauseMenu(E_LEVEL_STATE &levelState, Loadables loads);
-void loadCustomGame(GAMESTATE &game);
+bool pauseMenu(E_LEVEL_STATE &levelState, Loadables loads, bool isCustom = false);
 bool quit(GAMESTATE &game);
 
 //Save & Load
@@ -48,6 +48,10 @@ void winScreen();
 void victoryScreen();
 void loseScreen();
 void gameOver(GAMESTATE &game);
+
+//Custom Maps
+void loadCustomLevelMenu(GAMESTATE &game);
+void customGame(string mapName);
 
 //Others
 void highScoreBoard(int scorePoints);

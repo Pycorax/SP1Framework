@@ -66,6 +66,9 @@
     <ClCompile Include="highscore.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="customLevels.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework\console.h">
@@ -105,6 +108,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="highscore.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="customLevels.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -169,5 +175,6 @@
     <None Include="speedyGhostHitTest.aimap">
       <Filter>Source Files\Maps</Filter>
     </None>
+    <None Include="scores.txt" />
   </ItemGroup>
 </Project>
