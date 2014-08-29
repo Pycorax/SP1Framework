@@ -23,6 +23,7 @@ struct Bullet
 	void draw();
 	void undraw(Map currentMap);
 	bool move(Map currentMap);
+	void drawPacman();
 };
 
 #endif
