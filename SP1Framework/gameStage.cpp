@@ -251,7 +251,7 @@ void gameOver(GAMESTATE &game)
 
 void gameLoop(string maps[], const size_t NUM_OF_MAPS, GAMESTATE &game, Loadables &loads)
 {
-	for(size_t currentLevel = loads.level; currentLevel < sizeof(maps); ++currentLevel)
+	for(size_t currentLevel = loads.level; currentLevel < NUM_OF_MAPS; ++currentLevel)
 	{
 		if(game == E_GAME)
 		{
