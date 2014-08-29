@@ -148,6 +148,7 @@ void update(double dt, Map &currentMap, Pacman &player)
 	}
 	else if(currentMap.shot->collided == false)
 	{
+
 		if(!(currentMap.shot->move(currentMap)))
 		{
 			currentMap.shot->collided = true;
@@ -183,7 +184,7 @@ void update(double dt, Map &currentMap, Pacman &player)
 	//Ghost related code
 	for(size_t i = 0; i < currentMap.ghostStorage.size(); ++i)
 	{
-		if(currentMap.ghostStorage[i].isAlive()) //Moves all the Ghosts
+		if(currentMap.ghostStorage[i].isAlive())
 		{
 			//Checks if player touched the ghost before ghosts move
 			if(player.isHitByGhost(currentMap.ghostStorage[i]))
@@ -193,6 +194,7 @@ void update(double dt, Map &currentMap, Pacman &player)
 				currentMap.scorePoints += g_SCORE_PER_DEATH;
 			}
 
+			//Moves Ghosts
 			currentMap.ghostStorage[i].move(currentMap);
 
 			//Checks if player touched the ghost after ghosts move
@@ -205,6 +207,26 @@ void update(double dt, Map &currentMap, Pacman &player)
 				if(currentMap.scorePoints >= currentMap.minScore && player.isAlive())
 				{
 					gotoNextLevel = true;
+				}
+			}
+
+			if(currentMap.shot != NULL)
+			{
+				//Check for ghost collision again after ghosts move
+				if(currentMap.ghostStorage[i].isHitByBullet(*(currentMap.shot), currentMap) && currentMap.shot->collided == false)
+				{
+					currentMap.ghostStorage[i].health -= currentMap.shot->damage;
+					currentMap.ghostStorage[i].respawnTime = time(NULL) + currentMap.ghostStorage[i].timeToRespawn;
+					currentMap.scorePoints += g_SCORE_PER_HIT;
+					printTile(currentMap.processedMap[currentMap.ghostStorage[i].oldCoord.Y][currentMap.ghostStorage[i].oldCoord.X], currentMap.ghostStorage[i].oldCoord);
+
+					currentMap.shot->collided = true;
+					break;
+				}
+				if(currentMap.shot->collided && currentMap.shot->firstMove)
+				{
+					delete currentMap.shot;
+					currentMap.shot = NULL;
 				}
 			}
 		}

@@ -290,7 +290,6 @@ bool Ghost::isHitByBullet(Bullet shot, Map &currentMap)
 	}
 
 	return false;
-	
 }
 
 bool Ghost::isAlive()
