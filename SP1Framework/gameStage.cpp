@@ -24,6 +24,11 @@ using std::string;
 
 void mainMenu(GAMESTATE &game)
 {
+	extern bool keyPressed[E_MAX_KEYS];
+	int selection = 0;
+	int oldSelection = 0;
+	bool selectionChanged = false;
+
 	newSetConsoleSize(defaultConsoleSize);
 	consoleSize = defaultConsoleSize;
 	colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_BLUE);
@@ -53,21 +58,22 @@ void mainMenu(GAMESTATE &game)
 		cout << mainMenuTitle[i];
 	}
 
-	const size_t MAIN_MENU_OPTIONS = 12;
+	const size_t MAIN_MENU_OPTIONS = 13;
 	string mainMenuOptions[MAIN_MENU_OPTIONS] =
 	{
-		" ___________________",
-		"|                   |", //Total Length 20
-		"|                   |",
-		"|  (1) Start Game   |",
-		"|  (2) Load Game    |",
-		"|  (3) Load Custom  |",
-		"|  (4) Del Saves    |",
-		"|  (5) High Scores  |",
-		"|  (6) Game Guide   |",
-		"|  (7) Exit Game    |",
-		"|                   |",
-		"|___________________|"
+		" _____________________",
+		"|                     |", //Total Length 20
+		"|                     |",
+		"|      Start Game     |",
+		"|      Load Saves     |",
+		"|      Play Custom    |",
+		"|      Game Guide     |",
+		"|      Del Saves      |",
+		"|      High Scores    |",
+		"|      About          |",
+		"|      Exit Game      |",
+		"|                     |",
+		"|_____________________|"
 	};
 
 	int mainMenuOptionsPrintSpot = defaultConsoleSize.X/2 - mainMenuOptions[0].length()/2;
@@ -78,37 +84,70 @@ void mainMenu(GAMESTATE &game)
 		cout << mainMenuOptions[i];
 	}
 
-	gotoXY(consoleSize.X/2, 17 + MAIN_MENU_OPTIONS);
-	
+	//New Menu System
+	gotoXY(consoleSize.X/2 - mainMenuOptions[0].length()/2 - g_MENU_TICKER.length() + 7, 20 + selection);
+	cout << g_MENU_TICKER;
+
 	while(game == E_MAIN_MENU)
 	{
-		switch(getch())
+		gotoXY(consoleSize.X/2, 17 + 4 + MAIN_MENU_OPTIONS);
+		selectionChanged = false;
+		getInput();
+
+		if(keyPressed[E_UP_KEY] && selection > 0)
 		{
-		case'1':
-			game = E_GAME;
-			break;
-		case'2':
-			game = E_LOAD_SAVES;
-			break;
-		case'3':
-			game = E_LOAD_CUSTOM;
-			break;
-		case'4':
-			game = E_DELETE_SAVES;
-			break;
-		case'5':
-			game = E_HIGH_SCORES;
-			break;
-		case'6':
-			game = E_GAME_GUIDE;
-			break;
-		case'7':
-			game = E_QUIT_MENU;
-			break;
-		default:
-			game = E_MAIN_MENU;
-			break;
+			oldSelection = selection;
+			--selection;
+			selectionChanged = true;
 		}
+		else if(keyPressed[E_DOWN_KEY] && selection < 7)
+		{
+			oldSelection = selection;
+			++selection;
+			selectionChanged = true;
+		}
+		else if(keyPressed[E_SPACE_KEY])
+		{
+			switch(selection)
+			{
+				case 0:
+					game = E_GAME;
+					break;
+				case 1:
+					game = E_LOAD_SAVES;
+					break;
+				case 2:
+					game = E_LOAD_CUSTOM;
+					break;
+				case 3:
+					game = E_GAME_GUIDE;
+					break;
+				case 4:
+					game = E_DELETE_SAVES;
+					break;
+				case 5:
+					game = E_HIGH_SCORES;
+					break;
+				case 6:
+					game = E_ABOUT_SCREEN;
+					break;
+				case 7:
+					game = E_QUIT_MENU;
+					break;
+				default:
+					game = E_MAIN_MENU;
+					break;
+			}
+		}
+
+		if(selectionChanged)
+		{
+			gotoXY(consoleSize.X/2 - mainMenuOptions[0].length()/2 - g_MENU_TICKER.length() + 7, 20 + oldSelection);
+			cout << " ";
+			gotoXY(consoleSize.X/2 - mainMenuOptions[0].length()/2 - g_MENU_TICKER.length() + 7, 20 + selection);
+			cout << g_MENU_TICKER;
+		}
+		Sleep(100);
 	}
 }
 
@@ -398,8 +437,25 @@ void saveMenu(Loadables loads)
 
 void loadMenu(GAMESTATE &game, Loadables &loadInfo)
 {
+	extern bool keyPressed[E_MAX_KEYS];
+
+	int selection = -1;
+	int oldSelection = -1;
+	bool selectionChanged = false;
+
 	vector<string> listOfLevels;
 	findSaveFiles(listOfLevels);
+	
+	int maxSaveNameLength = 6; //Length of "Return"
+
+	//Get longest save name
+	for(size_t i = 0; i < listOfLevels.size(); ++i)
+	{
+		if(listOfLevels[i].length() >  maxSaveNameLength)
+		{
+			 maxSaveNameLength = listOfLevels[i].length();
+		}
+	}
 
 	printBorder();
 
@@ -426,40 +482,21 @@ void loadMenu(GAMESTATE &game, Loadables &loadInfo)
 		cout << loadMenuTitle[i];
 	}
 
-	const size_t LOAD_MENU_OPTIONS_HEAD = 4;
-	string loadMenuOptionsHead[LOAD_MENU_OPTIONS_HEAD] =
-	{
-		" __________________ ",
-		"|                  |", //Total Length 20
-		"|                  |",
-		"|  (1) Return      |"
-	};
+	string loadMenuOptionsHead = "Return";
 
-	const size_t LOAD_MENU_OPTIONS_FOOT = 2;
-	string loadMenuOptionsFoot[LOAD_MENU_OPTIONS_FOOT] =
-	{
-		"|                  |",
-		"|__________________|"
-	};
+	int loadMenuOptionsPrintSpot = consoleSize.X/2 - maxSaveNameLength/2;
+	int loadMenuOptionsHeadLength = loadMenuOptionsHead.length();
 
-	int loadMenuOptionsPrintSpot = consoleSize.X/2 - loadMenuOptionsHead[0].length()/2;
-	int loadMenuOptionsHeadLength = loadMenuOptionsHead[0].length();
-
-	for(size_t i = 0; i < LOAD_MENU_OPTIONS_HEAD; ++i)
-	{
-		gotoXY(loadMenuOptionsPrintSpot, 17 + i);
-		cout << loadMenuOptionsHead[i];
-	}
+	gotoXY(loadMenuOptionsPrintSpot, 21);
+	cout << loadMenuOptionsHead;
 
 	size_t numOfSaves = 0;
 	bool saveFilesPresent = false;
 	for(; numOfSaves < listOfLevels.size(); ++numOfSaves)
 	{
-		gotoXY(loadMenuOptionsPrintSpot, 17 + LOAD_MENU_OPTIONS_HEAD + numOfSaves);
-		cout << "|  (" << numOfSaves + 2 << ") " << listOfLevels[numOfSaves];
-		gotoXY(loadMenuOptionsPrintSpot + loadMenuOptionsHeadLength, 17 + LOAD_MENU_OPTIONS_HEAD + numOfSaves);
-		cout << "|";
-		
+		gotoXY(loadMenuOptionsPrintSpot, 23 + numOfSaves);
+		cout << listOfLevels[numOfSaves];
+
 		saveFilesPresent = true;
 	}
 
@@ -467,55 +504,124 @@ void loadMenu(GAMESTATE &game, Loadables &loadInfo)
 
 	if(!saveFilesPresent)
 	{
-		gotoXY(loadMenuOptionsPrintSpot, 17 + LOAD_MENU_OPTIONS_HEAD + numOfSaves);
-		cout << "|                  |";
-		gotoXY(loadMenuOptionsPrintSpot, 17 + LOAD_MENU_OPTIONS_HEAD + numOfSaves + 1);
-		cout << "|     No Saves     |";
+		gotoXY(loadMenuOptionsPrintSpot, 23);
+		cout << "No Saves";
 		saveFilesToPrint = 2;
 	}
 
-	for(size_t i = 0; i < LOAD_MENU_OPTIONS_FOOT; ++i)
+	//Draws Border
+	//--Top
+	gotoXY(consoleSize.X/2 - maxSaveNameLength/2 - 1 - g_MENU_TICKER.length(), 19);
+	for(int i = 1; i < maxSaveNameLength + (g_MENU_TICKER.length() + 1) * 2 + 1; ++i)
 	{
-		gotoXY(loadMenuOptionsPrintSpot, 17 + LOAD_MENU_OPTIONS_HEAD + saveFilesToPrint + i);
-		cout << loadMenuOptionsFoot[i];
+		cout << "_";
 	}
-
-	gotoXY(consoleSize.X/2, 17 + LOAD_MENU_OPTIONS_HEAD + saveFilesToPrint + LOAD_MENU_OPTIONS_FOOT);
+	//--Bottom
+	gotoXY(consoleSize.X/2 - maxSaveNameLength/2 - 1 - g_MENU_TICKER.length(), 19 + 4 + saveFilesToPrint);
+	for(int i = 1; i < maxSaveNameLength + (g_MENU_TICKER.length() + 1) * 2 + 1; ++i)
+	{
+		cout << "_";
+	}
+	//--Left
+	for(int i = 1; i < saveFilesToPrint + 5; ++i)
+	{
+		gotoXY(consoleSize.X/2 - maxSaveNameLength/2 - g_MENU_TICKER.length() - 2, 19 + i);
+		cout << "|";
+	}
+	//--Right
+	for(int i = 1; i < saveFilesToPrint + 5; ++i)
+	{
+		gotoXY(consoleSize.X/2 + maxSaveNameLength/2 + g_MENU_TICKER.length() + 2, 19 + i);
+		cout << "|";
+	}
+	
+	gotoXY(consoleSize.X/2 - maxSaveNameLength/2 - g_MENU_TICKER.length(), 21);
+	cout << g_MENU_TICKER;
 
 	while(game == E_LOAD_SAVES)
 	{
-		char input = getch();
+		gotoXY(consoleSize.X/2, 26 + numOfSaves);
+		selectionChanged = false;
+		getInput();
 
-		if (input == '1')
+		if(keyPressed[E_UP_KEY] && selection > -1)
 		{
-			game = E_MAIN_MENU;
+			oldSelection = selection;
+			--selection;
+			selectionChanged = true;
 		}
-		else if (numOfSaves > 0)
+		else if(keyPressed[E_DOWN_KEY] && selection + 1< numOfSaves)
 		{
-			if (input > '1' && input <= '9')
+			oldSelection = selection;
+			++selection;
+			selectionChanged = true;
+		}
+		else if(keyPressed[E_SPACE_KEY])
+		{
+			if (selection == -1)
 			{
-				if(loadGame(loadInfo, listOfLevels[input - 48 - 2]))
+				game = E_MAIN_MENU;
+			}
+			else if (numOfSaves > 0)
+			{
+				if(loadGame(loadInfo, listOfLevels[selection]))
 				{
 					game = E_GAME;
 				}
 				else
 				{
 					string errorLoading = "Error loading game!";
-					gotoXY(consoleSize.X/2 - errorLoading.length()/2, 17 + LOAD_MENU_OPTIONS_HEAD + saveFilesToPrint + LOAD_MENU_OPTIONS_FOOT);
+					gotoXY(consoleSize.X/2 - errorLoading.length()/2, 20 + saveFilesToPrint + 3);
 					cout << errorLoading;
 				}
 			}
-		}
-		else
-		{
-			game = E_LOAD_SAVES;
+			else
+			{
+				game = E_LOAD_SAVES;
+			}
 		}
 
+		if(selectionChanged)
+		{
+			if (oldSelection == -1)
+			{
+				gotoXY(consoleSize.X/2 - maxSaveNameLength/2 - g_MENU_TICKER.length(), 21);
+				cout << " ";
+			}
+			else
+			{
+				gotoXY(consoleSize.X/2 - maxSaveNameLength/2 - g_MENU_TICKER.length(), 23 + oldSelection);
+				cout << " ";
+			}
+
+			if (selection == -1)
+			{
+				gotoXY(consoleSize.X/2 - maxSaveNameLength/2 - g_MENU_TICKER.length(), 21);
+				cout << g_MENU_TICKER;
+			}
+			else
+			{
+				gotoXY(consoleSize.X/2 - maxSaveNameLength/2 - g_MENU_TICKER.length(), 23 + selection);
+				cout << g_MENU_TICKER;
+			}
+		}
+		Sleep(100);
 	}
 }
 
 bool pauseMenu(E_LEVEL_STATE &levelState, Loadables loads, bool isCustom)
 {
+	extern bool keyPressed[E_MAX_KEYS];
+	int selection = 0;
+	int oldSelection = 0;
+	bool selectionChanged = false;
+	int maxSelection = 2;
+
+	if(isCustom)
+	{
+		maxSelection = 1;
+	}
+
 	colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
 	cls();
 
@@ -545,20 +651,19 @@ bool pauseMenu(E_LEVEL_STATE &levelState, Loadables loads, bool isCustom)
 	const size_t PAUSE_MENU_OPTIONS = 8;
 	string pauseMenuOptions[PAUSE_MENU_OPTIONS] =
 	{
-		" ___________________ ",
-		"|                   |",
-		"|                   |",
-		"|  (1) Resume Game  |",
-		"|  (2) Save Game    |",
-		"|  (3) Exit Level   |",
-		"|                   |",
-		"|___________________|"
+		" ____________________",
+		"|                    |",
+		"|                    |",
+		"|      Resume Game   |",
+		"|      Save Game     |",
+		"|      Exit Level    |",
+		"|                    |",
+		"|____________________|"
 	};
 
 	if(isCustom)
 	{
-		pauseMenuOptions[4] = "|                   |";
-		pauseMenuOptions[5] = "|  (2) Exit Level   |";
+		pauseMenuOptions[4] = "|                    |";
 	}
 
 	int pauseMenuOptionsPrintSpot = consoleSize.X/2 - pauseMenuOptions[0].length()/2;
@@ -569,40 +674,80 @@ bool pauseMenu(E_LEVEL_STATE &levelState, Loadables loads, bool isCustom)
 		cout << pauseMenuOptions[i];
 	}
 
-	gotoXY(consoleSize.X/2, 17 + PAUSE_MENU_OPTIONS);
-	
-	while (levelState == E_PAUSE)
+	//New Menu System
+	gotoXY(consoleSize.X/2 - pauseMenuOptions[0].length()/2 - g_MENU_TICKER.length() + 7, 20 + selection);
+	cout << g_MENU_TICKER;
+
+	while(levelState == E_PAUSE)
 	{
-		switch(getch())
+		gotoXY(consoleSize.X/2, 17 + 4 + PAUSE_MENU_OPTIONS);
+		selectionChanged = false;
+		getInput();
+
+		if(keyPressed[E_UP_KEY] && selection > 0)
 		{
-			case'1':
-				levelState = E_PLAYING;
-				return false;
-				break;
-			case'2':
-				if(isCustom)
-				{
-					levelState = E_LOSS;
-					return true;
-				}
-				else
-				{
-					saveMenu(loads);
+			oldSelection = selection;
+			--selection;
+			selectionChanged = true;
+		}
+		else if(keyPressed[E_DOWN_KEY] && selection < maxSelection)
+		{
+			oldSelection = selection;
+			++selection;
+			selectionChanged = true;
+		}
+		else if(keyPressed[E_SPACE_KEY])
+		{
+			switch(selection)
+			{
+				case 0:
 					levelState = E_PLAYING;
 					return false;
-				}
-				break;
-			case'3':
-				if(!isCustom)
-				{
-					levelState = E_LOSS;
-					return true;
-				}
-				break;
-			default:
-				levelState = E_PAUSE;
-				break;
+					break;
+				case 1:
+					if(isCustom)
+					{
+						levelState = E_LOSS;
+						return true;
+					}
+					else
+					{
+						saveMenu(loads);
+						levelState = E_PLAYING;
+						return false;
+					}
+					break;
+				case 2:
+					if(!isCustom)
+					{
+						levelState = E_LOSS;
+						return true;
+					}
+					break;
+				default:
+					levelState = E_PAUSE;
+					break;
+			}
 		}
+
+		if(selectionChanged)
+		{
+			if(isCustom)
+			{
+				gotoXY(consoleSize.X/2 - pauseMenuOptions[0].length()/2 - g_MENU_TICKER.length() + 7, 20 + oldSelection * 2);
+				cout << " ";
+				gotoXY(consoleSize.X/2 - pauseMenuOptions[0].length()/2 - g_MENU_TICKER.length() + 7, 20 + selection * 2);
+				cout << g_MENU_TICKER;
+			}
+			else
+			{
+				gotoXY(consoleSize.X/2 - pauseMenuOptions[0].length()/2 - g_MENU_TICKER.length() + 7, 20 + oldSelection);
+				cout << " ";
+				gotoXY(consoleSize.X/2 - pauseMenuOptions[0].length()/2 - g_MENU_TICKER.length() + 7, 20 + selection);
+				cout << g_MENU_TICKER;
+			}
+		}
+		Sleep(100);
 	}
 }
 
@@ -694,8 +839,8 @@ void endScreen()
 		gotoXY(endscreenPrintSpot, 6 + i);
 		cout << endscreen[i];
 	}
-	cout << endl << endl << endl <<"                    Press Enter to conitnue ";
-	getch();
+	
+	pressToContinue(7 + END_SCREEN_TITLE);
 }
 void winScreen()
 {
@@ -747,6 +892,11 @@ void winScreen()
 
 bool quit(GAMESTATE &game)
 {
+	extern bool keyPressed[E_MAX_KEYS];
+	int selection = 0;
+	int oldSelection = 0;
+	bool selectionChanged = false;
+
 	colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
 	cls();
 
@@ -783,9 +933,9 @@ bool quit(GAMESTATE &game)
 		" ___________________ ",
 		"|                   |",
 		"|                   |",
-		"|   (1) Return      |",
+		"|      Return       |",
 		"|                   |",
-		"|   (2) Exit Game   |",
+		"|      Exit Game    |",
 		"|                   |",
 		"|___________________|"
 	};
@@ -798,24 +948,53 @@ bool quit(GAMESTATE &game)
 		cout << quitMenuOptions[i];
 	}
 
-	gotoXY(consoleSize.X/2, 17 + QUIT_MENU_OPTIONS);
+	gotoXY(consoleSize.X/2 - quitMenuOptions[0].length()/2 - g_MENU_TICKER.length() + 7, 20 + selection);
+	cout << g_MENU_TICKER;
 
 	while(game == E_QUIT_MENU)
 	{
-		switch(getch())
+		gotoXY(consoleSize.X/2, 17 + 4 + QUIT_MENU_OPTIONS);
+		selectionChanged = false;
+		getInput();
+
+		if(keyPressed[E_UP_KEY] && selection > 0)
 		{
-		case '1':
-			game = E_MAIN_MENU;
-			return false;
-			break;
-		case '2':
-			game = E_EXIT;
-			return true;
-			break;
-		default:
-			game = E_QUIT_MENU;
-			break;
+			oldSelection = selection;
+			--selection;
+			selectionChanged = true;
 		}
+		else if(keyPressed[E_DOWN_KEY] && selection < 1)
+		{
+			oldSelection = selection;
+			++selection;
+			selectionChanged = true;
+		}
+		else if(keyPressed[E_SPACE_KEY])
+		{
+			switch(selection)
+			{
+				case 0:
+					game = E_MAIN_MENU;
+					return false;
+					break;
+				case 1:
+					game = E_EXIT;
+					return true;
+					break;
+				default:
+					game = E_QUIT_MENU;
+					break;
+			}
+		}
+
+		if(selectionChanged)
+		{
+			gotoXY(consoleSize.X/2 - quitMenuOptions[0].length()/2 - g_MENU_TICKER.length() + 7, 20 + oldSelection * 2);
+			cout << " ";
+			gotoXY(consoleSize.X/2 - quitMenuOptions[0].length()/2 - g_MENU_TICKER.length() + 7, 20 + selection * 2);
+			cout << g_MENU_TICKER;
+		}
+		Sleep(100);
 	}
 
 	return false;
@@ -823,10 +1002,27 @@ bool quit(GAMESTATE &game)
 
 void deleteMenu(GAMESTATE &game)
 {
+	extern bool keyPressed[E_MAX_KEYS];
+
 	while(game == E_DELETE_SAVES)
 	{
+		int selection = -1;
+		int oldSelection = -1;
+		bool selectionChanged = false;
+
 		vector<string> listOfLevels;
 		findSaveFiles(listOfLevels);
+
+		int maxSaveNameLength = 6; //Length of "return"
+		
+		//Get longest map name
+		for(size_t i = 0; i < listOfLevels.size(); ++i)
+		{
+			if(listOfLevels[i].length() >  maxSaveNameLength)
+			{
+				maxSaveNameLength = listOfLevels[i].length();
+			}
+		}
 
 		colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
 		cls();
@@ -855,40 +1051,20 @@ void deleteMenu(GAMESTATE &game)
 			cout << deleteMenuTitle[i];
 		}
 
-		const size_t DELETE_MENU_OPTIONS_HEAD = 5;
-		string deleteMenuOptionsHead[DELETE_MENU_OPTIONS_HEAD] =
-		{
-			" _______________________________ ",
-			"|                               |", //Total Length 20
-			"|                               |",
-			"|  (1) Return                   |",
-			"|                               |"
-		};
+		string loadMenuOptionsHead = "Return";
 
-		const size_t DELETE_MENU_OPTIONS_FOOT = 2;
-		string deleteMenuOptionsFoot[DELETE_MENU_OPTIONS_FOOT] =
-		{
-			"|                               |",
-			"|_______________________________|"
-		};
+		int loadMenuOptionsPrintSpot = consoleSize.X/2 - maxSaveNameLength/2;
+		int loadMenuOptionsHeadLength = loadMenuOptionsHead.length();
 
-		int deleteMenuOptionsPrintSpot = consoleSize.X/2 - deleteMenuOptionsHead[0].length()/2;
-		int deleteMenuOptionsHeadLength = deleteMenuOptionsHead[0].length();
-
-		for(size_t i = 0; i < DELETE_MENU_OPTIONS_HEAD; ++i)
-		{
-			gotoXY(deleteMenuOptionsPrintSpot, 17 + i);
-			cout << deleteMenuOptionsHead[i];
-		}
+		gotoXY(loadMenuOptionsPrintSpot, 21);
+		cout << loadMenuOptionsHead;
 
 		size_t numOfSaves = 0;
 		bool saveFilesPresent = false;
 		for(; numOfSaves < listOfLevels.size(); ++numOfSaves)
 		{
-			gotoXY(deleteMenuOptionsPrintSpot, 17 + DELETE_MENU_OPTIONS_HEAD + numOfSaves);
-			cout << "|  (" << numOfSaves + 2 << ") " << listOfLevels[numOfSaves];
-			gotoXY(deleteMenuOptionsPrintSpot + deleteMenuOptionsHead[0].length() - 1, 17 + DELETE_MENU_OPTIONS_HEAD + numOfSaves);
-			cout << "|";
+			gotoXY(loadMenuOptionsPrintSpot, 23 + numOfSaves);
+			cout << listOfLevels[numOfSaves];
 
 			saveFilesPresent = true;
 		}
@@ -897,55 +1073,113 @@ void deleteMenu(GAMESTATE &game)
 
 		if(!saveFilesPresent)
 		{
-			gotoXY(deleteMenuOptionsPrintSpot, 17 + DELETE_MENU_OPTIONS_HEAD + numOfSaves);
-			cout << "|                               |";
-			gotoXY(deleteMenuOptionsPrintSpot, 17 + DELETE_MENU_OPTIONS_HEAD + numOfSaves + 1);
-			cout << "|        No Saves Found         |";
+			gotoXY(loadMenuOptionsPrintSpot, 23);
+			cout << "No Saves";
 			saveFilesToPrint = 2;
 		}
 
-		for(size_t i = 0; i < DELETE_MENU_OPTIONS_FOOT; ++i)
+		//Draws Border
+		//--Top
+		gotoXY(consoleSize.X/2 - maxSaveNameLength/2 - 1 - g_MENU_TICKER.length(), 19);
+		for(int i = 1; i < maxSaveNameLength + (g_MENU_TICKER.length() + 1) * 2 + 1; ++i)
 		{
-			gotoXY(deleteMenuOptionsPrintSpot, 17 + DELETE_MENU_OPTIONS_HEAD + saveFilesToPrint + i);
-			cout << deleteMenuOptionsFoot[i];
+			cout << "_";
+		}
+		//--Bottom
+		gotoXY(consoleSize.X/2 - maxSaveNameLength/2 - 1 - g_MENU_TICKER.length(), 19 + 4 + saveFilesToPrint);
+		for(int i = 1; i < maxSaveNameLength + (g_MENU_TICKER.length() + 1) * 2 + 1; ++i)
+		{
+			cout << "_";
+		}
+		//--Left
+		for(int i = 1; i < saveFilesToPrint + 5; ++i)
+		{
+			gotoXY(consoleSize.X/2 - maxSaveNameLength/2 - g_MENU_TICKER.length() - 2, 19 + i);
+			cout << "|";
+		}
+		//--Right
+		for(int i = 1; i < saveFilesToPrint + 5; ++i)
+		{
+			gotoXY(consoleSize.X/2 + maxSaveNameLength/2 + g_MENU_TICKER.length() + 2, 19 + i);
+			cout << "|";
 		}
 
-		gotoXY(consoleSize.X/2, 17 + DELETE_MENU_OPTIONS_HEAD + saveFilesToPrint + DELETE_MENU_OPTIONS_FOOT);
+		gotoXY(consoleSize.X/2 - maxSaveNameLength/2 - g_MENU_TICKER.length(), 21);
+		cout << g_MENU_TICKER;
 
 		while(game == E_DELETE_SAVES)
 		{
-			char input = getch();
+			gotoXY(consoleSize.X/2, 26 + numOfSaves);
+			selectionChanged = false;
+			getInput();
 
-			if (input == '1')
+			if(keyPressed[E_UP_KEY] && selection > -1)
 			{
-				game = E_MAIN_MENU;
+				oldSelection = selection;
+				--selection;
+				selectionChanged = true;
 			}
-			else if (numOfSaves > 0)
+			else if(keyPressed[E_DOWN_KEY] && selection + 1< numOfSaves)
 			{
-				if (input > '1' && input <= '9')
+				oldSelection = selection;
+				++selection;
+				selectionChanged = true;
+			}
+			else if(keyPressed[E_SPACE_KEY])
+			{
+				if (selection == -1)
 				{
-					if(deleteGame(listOfLevels[input - 48 - 2]))
+					game = E_MAIN_MENU;
+				}
+				else if (numOfSaves > 0)
+				{
+					if(deleteGame(listOfLevels[selection]))
 					{
 						string deletePassMsg = "Successfully deleted save!";
-						gotoXY(consoleSize.X/2 - deletePassMsg.length()/2, 24 + DELETE_MENU_OPTIONS_HEAD + saveFilesToPrint + DELETE_MENU_OPTIONS_FOOT);
+						gotoXY(consoleSize.X/2 - deletePassMsg.length()/2, 28 + saveFilesToPrint);
 						cout << deletePassMsg;
-						gotoXY(consoleSize.X/2 - deletePassMsg.length()/2, 25 + DELETE_MENU_OPTIONS_HEAD + saveFilesToPrint + DELETE_MENU_OPTIONS_FOOT);
-						system("pause");
+						pressToContinue(29 + saveFilesToPrint);
 						game = E_DELETE_SAVES;
 						break;
 					}
 					else
 					{
 						string errorLoading = "Error deleting save!";
-						gotoXY(consoleSize.X/2 - errorLoading.length()/2, 24 + DELETE_MENU_OPTIONS_HEAD + saveFilesToPrint + DELETE_MENU_OPTIONS_FOOT);
+						gotoXY(consoleSize.X/2 - errorLoading.length()/2, 28 + saveFilesToPrint);
 						cout << errorLoading;
 					}
 				}
+				else
+				{
+					game = E_LOAD_SAVES;
+				}
 			}
-			else
+
+			if(selectionChanged)
 			{
-				game = E_DELETE_SAVES;
+				if (oldSelection == -1)
+				{
+					gotoXY(consoleSize.X/2 - maxSaveNameLength/2 - g_MENU_TICKER.length(), 21);
+					cout << " ";
+				}
+				else
+				{
+					gotoXY(consoleSize.X/2 - maxSaveNameLength/2 - g_MENU_TICKER.length(), 23 + oldSelection);
+					cout << " ";
+				}
+
+				if (selection == -1)
+				{
+					gotoXY(consoleSize.X/2 - maxSaveNameLength/2 - g_MENU_TICKER.length(), 21);
+					cout << g_MENU_TICKER;
+				}
+				else
+				{
+					gotoXY(consoleSize.X/2 - maxSaveNameLength/2 - g_MENU_TICKER.length(), 23 + selection);
+					cout << g_MENU_TICKER;
+				}
 			}
+			Sleep(100);
 		}
 	}
 }
@@ -953,14 +1187,30 @@ void deleteMenu(GAMESTATE &game)
 bool deleteMenu()
 {
 	bool returnValue = false;
+
+	extern bool keyPressed[E_MAX_KEYS];
+	int selection = -1;
+	int oldSelection = -1;
+	bool selectionChanged = false;
+
 	vector<string> listOfLevels;
 	findSaveFiles(listOfLevels);
+
+	int maxSaveNameLength = 6; //Length of "return"
+
+	//Get longest map name
+	for(size_t i = 0; i < listOfLevels.size(); ++i)
+	{
+		if(listOfLevels[i].length() >  maxSaveNameLength)
+		{
+			maxSaveNameLength = listOfLevels[i].length();
+		}
+	}
 
 	colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
 	cls();
 
 	printBorder();
-
 	colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
 
 	const size_t DELETE_MENU_TITLE = 8;
@@ -984,40 +1234,20 @@ bool deleteMenu()
 		cout << deleteMenuTitle[i];
 	}
 
-	const size_t DELETE_MENU_OPTIONS_HEAD = 5;
-	string deleteMenuOptionsHead[DELETE_MENU_OPTIONS_HEAD] =
-	{
-		" _______________________________ ",
-		"|                               |", //Total Length 20
-		"|                               |",
-		"|  (1) Return                   |",
-		"|                               |"
-	};
+	string loadMenuOptionsHead = "Return";
 
-	const size_t DELETE_MENU_OPTIONS_FOOT = 2;
-	string deleteMenuOptionsFoot[DELETE_MENU_OPTIONS_FOOT] =
-	{
-		"|                               |",
-		"|_______________________________|"
-	};
+	int loadMenuOptionsPrintSpot = consoleSize.X/2 - maxSaveNameLength/2;
+	int loadMenuOptionsHeadLength = loadMenuOptionsHead.length();
 
-	int deleteMenuOptionsPrintSpot = consoleSize.X/2 - deleteMenuOptionsHead[0].length()/2;
-	int deleteMenuOptionsHeadLength = deleteMenuOptionsHead[0].length();
-
-	for(size_t i = 0; i < DELETE_MENU_OPTIONS_HEAD; ++i)
-	{
-		gotoXY(deleteMenuOptionsPrintSpot, 17 + i);
-		cout << deleteMenuOptionsHead[i];
-	}
+	gotoXY(loadMenuOptionsPrintSpot, 21);
+	cout << loadMenuOptionsHead;
 
 	size_t numOfSaves = 0;
 	bool saveFilesPresent = false;
 	for(; numOfSaves < listOfLevels.size(); ++numOfSaves)
 	{
-		gotoXY(deleteMenuOptionsPrintSpot, 17 + DELETE_MENU_OPTIONS_HEAD + numOfSaves);
-		cout << "|  (" << numOfSaves + 2 << ") " << listOfLevels[numOfSaves];
-		gotoXY(deleteMenuOptionsPrintSpot + deleteMenuOptionsHead[0].length() - 1, 17 + DELETE_MENU_OPTIONS_HEAD + numOfSaves);
-		cout << "|";
+		gotoXY(loadMenuOptionsPrintSpot, 23 + numOfSaves);
+		cout << listOfLevels[numOfSaves];
 
 		saveFilesPresent = true;
 	}
@@ -1026,50 +1256,109 @@ bool deleteMenu()
 
 	if(!saveFilesPresent)
 	{
-		gotoXY(deleteMenuOptionsPrintSpot, 17 + DELETE_MENU_OPTIONS_HEAD + numOfSaves);
-		cout << "|                               |";
-		gotoXY(deleteMenuOptionsPrintSpot, 17 + DELETE_MENU_OPTIONS_HEAD + numOfSaves + 1);
-		cout << "|        No Saves Found         |";
+		gotoXY(loadMenuOptionsPrintSpot, 23);
+		cout << "No Saves";
 		saveFilesToPrint = 2;
 	}
 
-	for(size_t i = 0; i < DELETE_MENU_OPTIONS_FOOT; ++i)
+	//Draws Border
+	//--Top
+	gotoXY(consoleSize.X/2 - maxSaveNameLength/2 - 1 - g_MENU_TICKER.length(), 19);
+	for(int i = 1; i < maxSaveNameLength + (g_MENU_TICKER.length() + 1) * 2 + 1; ++i)
 	{
-		gotoXY(deleteMenuOptionsPrintSpot, 17 + DELETE_MENU_OPTIONS_HEAD + saveFilesToPrint + i);
-		cout << deleteMenuOptionsFoot[i];
+		cout << "_";
+	}
+	//--Bottom
+	gotoXY(consoleSize.X/2 - maxSaveNameLength/2 - 1 - g_MENU_TICKER.length(), 19 + 4 + saveFilesToPrint);
+	for(int i = 1; i < maxSaveNameLength + (g_MENU_TICKER.length() + 1) * 2 + 1; ++i)
+	{
+		cout << "_";
+	}
+	//--Left
+	for(int i = 1; i < saveFilesToPrint + 5; ++i)
+	{
+		gotoXY(consoleSize.X/2 - maxSaveNameLength/2 - g_MENU_TICKER.length() - 2, 19 + i);
+		cout << "|";
+	}
+	//--Right
+	for(int i = 1; i < saveFilesToPrint + 5; ++i)
+	{
+		gotoXY(consoleSize.X/2 + maxSaveNameLength/2 + g_MENU_TICKER.length() + 2, 19 + i);
+		cout << "|";
 	}
 
-	gotoXY(consoleSize.X/2, 17 + DELETE_MENU_OPTIONS_HEAD + saveFilesToPrint + DELETE_MENU_OPTIONS_FOOT);
+	gotoXY(consoleSize.X/2 - maxSaveNameLength/2 - g_MENU_TICKER.length(), 21);
+	cout << g_MENU_TICKER;
 
 	while(true)
 	{
-		char input = getch();
+		gotoXY(consoleSize.X/2, 26 + numOfSaves);
+		selectionChanged = false;
+		getInput();
 
-		if (input == '1')
+		if(keyPressed[E_UP_KEY] && selection > -1)
 		{
-			break;
+			oldSelection = selection;
+			--selection;
+			selectionChanged = true;
 		}
-		else if (numOfSaves > 0)
+		else if(keyPressed[E_DOWN_KEY] && selection + 1< numOfSaves)
 		{
-			if (input > '1' && input <= '9')
+			oldSelection = selection;
+			++selection;
+			selectionChanged = true;
+		}
+		else if(keyPressed[E_SPACE_KEY])
+		{
+			if (selection == -1)
 			{
-				if(deleteGame(listOfLevels[input - 48 - 2]))
+				break;
+			}
+			else if (numOfSaves > 0)
+			{
+				if(deleteGame(listOfLevels[selection]))
 				{
 					string deletePassMsg = "Successfully deleted save!";
-					gotoXY(consoleSize.X/2 - deletePassMsg.length()/2, 19 + DELETE_MENU_OPTIONS_HEAD + saveFilesToPrint + DELETE_MENU_OPTIONS_FOOT);
+					gotoXY(consoleSize.X/2 - deletePassMsg.length()/2, 28 + saveFilesToPrint);
 					cout << deletePassMsg;
-					gotoXY(consoleSize.X/2 - deletePassMsg.length()/2, 20 + DELETE_MENU_OPTIONS_HEAD + saveFilesToPrint + DELETE_MENU_OPTIONS_FOOT);
+					pressToContinue(29 + saveFilesToPrint);
 					returnValue = true;
 					break;
 				}
 				else
 				{
 					string errorLoading = "Error deleting save!";
-					gotoXY(consoleSize.X/2 - errorLoading.length()/2, 19 + DELETE_MENU_OPTIONS_HEAD + saveFilesToPrint + DELETE_MENU_OPTIONS_FOOT);
+					gotoXY(consoleSize.X/2 - errorLoading.length()/2, 28 + saveFilesToPrint);
 					cout << errorLoading;
 				}
 			}
 		}
+
+		if(selectionChanged)
+		{
+			if (oldSelection == -1)
+			{
+				gotoXY(consoleSize.X/2 - maxSaveNameLength/2 - g_MENU_TICKER.length(), 21);
+				cout << " ";
+			}
+			else
+			{
+				gotoXY(consoleSize.X/2 - maxSaveNameLength/2 - g_MENU_TICKER.length(), 23 + oldSelection);
+				cout << " ";
+			}
+
+			if (selection == -1)
+			{
+				gotoXY(consoleSize.X/2 - maxSaveNameLength/2 - g_MENU_TICKER.length(), 21);
+				cout << g_MENU_TICKER;
+			}
+			else
+			{
+				gotoXY(consoleSize.X/2 - maxSaveNameLength/2 - g_MENU_TICKER.length(), 23 + selection);
+				cout << g_MENU_TICKER;
+			}
+		}
+		Sleep(100);
 	}
 
 	return returnValue;
@@ -1133,6 +1422,9 @@ void loseScreen()
 
 void loadCustomLevelMenu(GAMESTATE &game)
 {
+	newSetConsoleSize(defaultConsoleSize);
+	consoleSize = defaultConsoleSize;
+
 	extern bool keyPressed[E_MAX_KEYS];
 
 	int selection = -1;
@@ -1141,7 +1433,8 @@ void loadCustomLevelMenu(GAMESTATE &game)
 	vector<string> listOfCustomMaps;
 	findCustomMaps(listOfCustomMaps);
 
-	int maxMapNameLength = 6;
+	int maxMapNameLength = 6; //Length of "Return"
+
 	//Get longest map name
 	for(size_t i = 0; i < listOfCustomMaps.size(); ++i)
 	{
@@ -1152,7 +1445,6 @@ void loadCustomLevelMenu(GAMESTATE &game)
 	}
 
 	printBorder();
-
 	colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
 
 	const size_t CUSTOM_MAPS_MENU_TITLE = 8;
@@ -1290,6 +1582,55 @@ void loadCustomLevelMenu(GAMESTATE &game)
 		}
 		Sleep(100);
 	}
+}
+
+void aboutScreen()
+{
+	newSetConsoleSize(defaultConsoleSize);
+
+	colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
+	cls();
+	
+	const size_t ABOUT_SCREEN_TITLE = 8;
+	string title[ABOUT_SCREEN_TITLE] =
+	{
+		"'########:::::'###:::::'######:::'######:::'##::::'##:'##::: ##:",
+		" ##.... ##:::'## ##:::'##... ##:'##... ##:: ##:::: ##: ###:: ##:", 
+		" ##:::: ##::'##:. ##:: ##:::..:: ##:::..::: ##:::: ##: ####: ##:",
+		" ########::'##:::. ##: ##::::::: ##::'####: ##:::: ##: ## ## ##:",
+		" ##.....::: #########: ##::::::: ##::: ##:: ##:::: ##: ##. ####:",
+		" ##:::::::: ##.... ##: ##::: ##: ##::: ##:: ##:::: ##: ##:. ###:",
+		" ##:::::::: ##:::: ##:. ######::. ######:::. #######:: ##::. ##:",
+		"..:::::::::..:::::..:::......::::......:::::.......:::..::::..::"
+	};
+	int aboutScreenPrintSpot = defaultConsoleSize.X/2 - title[0].length()/2;
+
+	for(size_t i = 0; i < ABOUT_SCREEN_TITLE; ++i)
+	{
+		gotoXY(aboutScreenPrintSpot, 6 + i);
+		cout << title[i];
+	}
+	const size_t ABOUT_MENU_DETAILS = 5;
+	string aboutMenuDetails[ABOUT_MENU_DETAILS] =
+	{
+		" This game is brought to you by Team 11     ",
+		"       Members :   Tng Kah Wei              ",
+		"                   Leng Wei Shao, Sean      ",
+		"                   Rayner Tay Yi Zhe        ",
+		"                   Koh Tim Lin              "
+	};
+
+	int aboutMenuDetailsPrintSpot = consoleSize.X/2 - aboutMenuDetails[0].length()/2;
+
+	for(size_t i = 0; i < ABOUT_MENU_DETAILS; ++i)
+	{
+		gotoXY(aboutMenuDetailsPrintSpot, 17 + i);
+		cout << aboutMenuDetails[i];
+	}
+
+	gotoXY(60, 17 + ABOUT_MENU_DETAILS);
+
+	pressToContinue(20 + ABOUT_MENU_DETAILS);
 }
 
 void customGame(string mapName)

@@ -50,6 +50,10 @@ int main()
 				highScoreBoard(-1);
 				game = E_MAIN_MENU;
 				break;
+			case E_ABOUT_SCREEN:
+				aboutScreen();
+				game = E_MAIN_MENU;
+				break;
 			case E_QUIT_MENU:
 				if(quit(game))
 				{

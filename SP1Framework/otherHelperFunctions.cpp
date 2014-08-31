@@ -33,12 +33,12 @@ void flushInputBuffer()
 void pressToContinue(int y_coord)
 {
 	Sleep(300);
-	string pressToContinue = "Press any key to continue...";
-	gotoXY(consoleSize.X/2 - pressToContinue.length()/2, y_coord);
-	cout << pressToContinue;
+	string text = "Press any key to continue...";
+	gotoXY(consoleSize.X/2 - text.length()/2, y_coord);
+	cout << text;
 
-	HANDLE hIn = GetStdHandle(STD_INPUT_HANDLE);
-	FlushConsoleInputBuffer(hIn);
+	flushInputBuffer();
 	gotoXY(consoleSize.X/2, y_coord + 1);
 	_getch();
+	flushInputBuffer();
 }

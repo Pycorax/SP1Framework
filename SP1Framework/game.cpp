@@ -72,6 +72,16 @@ void getInput()
 	keyPressed[E_SPACE_KEY] = isKeyPressed(VK_SPACE);
 }
 
+void clearInput()
+{
+	keyPressed[E_UP_KEY] = false;
+	keyPressed[E_DOWN_KEY] = false;
+	keyPressed[E_LEFT_KEY] = false;
+	keyPressed[E_RIGHT_KEY] = false;
+	keyPressed[E_ESCAPE_KEY] = false;
+	keyPressed[E_SPACE_KEY] = false;
+}
+
 void update(double dt, Map &currentMap, Pacman &player)
 {
     // get the delta time

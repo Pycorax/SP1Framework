@@ -10,15 +10,16 @@ using std::string;
 enum GAMESTATE
 {
 	E_MAIN_MENU,
-	E_LOAD_SAVES,
-	E_DELETE_SAVES,
-	E_LOAD_CUSTOM,
 	E_GAME,
-	E_GAME_OVER,
-	E_QUIT_MENU,
-	E_LOSS_SCREEN,
-	E_HIGH_SCORES,
+	E_LOAD_SAVES,
+	E_LOAD_CUSTOM,
 	E_GAME_GUIDE,
+	E_DELETE_SAVES,
+	E_HIGH_SCORES,
+	E_ABOUT_SCREEN,
+	E_QUIT_MENU,
+	E_GAME_OVER,
+	E_LOSS_SCREEN,
 	E_EXIT,
 	E_MAX_GAME_STATES
 };
@@ -56,5 +57,6 @@ void customGame(string mapName);
 //Others
 void highScoreBoard(int scorePoints);
 void gameGuide(GAMESTATE &game);
+void aboutScreen();
 
 #endif

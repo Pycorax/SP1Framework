@@ -7,5 +7,6 @@ void newSetConsoleSize(COORD size);
 void newSetConsoleSize(int x, int y);
 void flushInputBuffer();
 void pressToContinue(int y_coord);
+void clearInput();
 
 #endif
