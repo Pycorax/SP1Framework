@@ -3,6 +3,7 @@
 
 #include "maps.h"
 #include "characters.h"
+#include "options.h"
 
 extern enum DIRECTION;
 extern struct Map;
@@ -19,7 +20,10 @@ struct Bullet
 	bool collided;
 	bool firstMove;
 
-	Bullet(Pacman player, int bulletDamage,int bulletSpeed);
+	//Aesthetics
+	COLOR color;
+
+	Bullet(Pacman player, int bulletDamage,int bulletSpeed, COLOR bulletColor);
 	void draw();
 	void undraw(Map currentMap);
 	bool move(Map currentMap);

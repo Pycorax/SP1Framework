@@ -1713,8 +1713,8 @@ void optionsMenu(GAMESTATE &game, OptionSet &options)
 	int selection = 0;
 	int oldSelection = 0;
 	bool selectionChanged = false;
-	const short NUM_OF_OPTIONS = 5;
-	bool colourChanged[NUM_OF_OPTIONS] = {false, false, false, false, false};
+	const short NUM_OF_OPTIONS = 6;
+	bool colourChanged[NUM_OF_OPTIONS];
 
 	string errorSaving = "Unable to save changes!";
 
@@ -1749,13 +1749,14 @@ void optionsMenu(GAMESTATE &game, OptionSet &options)
 		cout << optionsMenuTitle[i];
 	}
 
-	const size_t OPTIONS_MENU_OPTIONS = 14;
+	const size_t OPTIONS_MENU_OPTIONS = 15;
 	string optionsMenuOptions[OPTIONS_MENU_OPTIONS] =
 	{
 		" _______________________",
 		"|                       |", //Total Length 20
 		"|                       |",
 		"|      Player Colour    |",
+		"|      Bullet Colour    |",
 		"|      Wall Colour      |",
 		"|      Pellet Colour    |",
 		"|                       |",
@@ -1785,20 +1786,25 @@ void optionsMenu(GAMESTATE &game, OptionSet &options)
 				break;
 			case 4:
 				gotoXY(mainMenuOptionsPrintSpot + 7, 17 + i);
+				colour(getColourWORD(options.bulletColour));
+				cout << "Bullet Colour";
+				break;
+			case 5:
+				gotoXY(mainMenuOptionsPrintSpot + 7, 17 + i);
 				colour(getColourWORD(options.wallColour));
 				cout << "Wall Colour";
 				break;
-			case 5:
+			case 6:
 				gotoXY(mainMenuOptionsPrintSpot + 7, 17 + i);
 				colour(getColourWORD(options.pelletColour));
 				cout << "Pellet Colour";
 				break;
-			case 7:
+			case 8:
 				gotoXY(mainMenuOptionsPrintSpot + 7, 17 + i);
 				colour(getColourWORD(options.hudTextColour));
 				cout << "HUD Text Colour";
 				break;
-			case 8:
+			case 9:
 				gotoXY(mainMenuOptionsPrintSpot + 7, 17 + i);
 				colour(getBGColourWORD(options.hudBGColour));
 				cout << "HUD BG Colour";
@@ -1841,17 +1847,17 @@ void optionsMenu(GAMESTATE &game, OptionSet &options)
 		{
 			oldSelection = selection;
 			--selection;
-			if(selection == 3 || selection == 6)
+			if(selection == 4 || selection == 7)
 			{
 				--selection;
 			}
 			selectionChanged = true;
 		}
-		else if(keyPressed[E_DOWN_KEY] && selection < 8)
+		else if(keyPressed[E_DOWN_KEY] && selection < 9)
 		{
 			oldSelection = selection;
 			++selection;
-			if(selection == 3 || selection == 6)
+			if(selection == 4 || selection == 7)
 			{
 				++selection;
 			}
@@ -1873,6 +1879,17 @@ void optionsMenu(GAMESTATE &game, OptionSet &options)
 					colourChanged[0] = true;
 					break;
 				case 1:
+					if(newOptions.bulletColour == 0)
+					{
+						newOptions.bulletColour = static_cast<COLOR>(E_MAX_COLORS - 1);
+					}
+					else
+					{
+						newOptions.bulletColour = static_cast<COLOR>(newOptions.bulletColour - 1);
+					}
+					colourChanged[1] = true;
+					break;
+				case 2:
 					if(newOptions.wallColour == 0)
 					{
 						newOptions.wallColour = static_cast<COLOR>(E_MAX_COLORS - 1);
@@ -1881,9 +1898,9 @@ void optionsMenu(GAMESTATE &game, OptionSet &options)
 					{
 						newOptions.wallColour = static_cast<COLOR>(newOptions.wallColour - 1);
 					}
-					colourChanged[1] = true;
+					colourChanged[2] = true;
 					break;
-				case 2:
+				case 3:
 					if(newOptions.pelletColour == 0)
 					{
 						newOptions.pelletColour = static_cast<COLOR>(E_MAX_COLORS - 1);
@@ -1892,9 +1909,9 @@ void optionsMenu(GAMESTATE &game, OptionSet &options)
 					{
 						newOptions.pelletColour = static_cast<COLOR>(newOptions.pelletColour - 1);
 					}
-					colourChanged[2] = true;
+					colourChanged[3] = true;
 					break;
-				case 4:
+				case 5:
 					if(newOptions.hudTextColour == 0)
 					{
 						newOptions.hudTextColour = static_cast<COLOR>(E_MAX_COLORS - 1);
@@ -1903,9 +1920,9 @@ void optionsMenu(GAMESTATE &game, OptionSet &options)
 					{
 						newOptions.hudTextColour = static_cast<COLOR>(newOptions.hudTextColour - 1);
 					}
-					colourChanged[3] = true;
+					colourChanged[4] = true;
 					break;
-				case 5:
+				case 6:
 					if(newOptions.hudBGColour == 0)
 					{
 						newOptions.hudBGColour = static_cast<BG_COLOR>(E_MAX_BG_COLORS - 1);
@@ -1914,7 +1931,7 @@ void optionsMenu(GAMESTATE &game, OptionSet &options)
 					{
 						newOptions.hudBGColour = static_cast<BG_COLOR>(newOptions.hudBGColour - 1);
 					}
-					colourChanged[4] = true;
+					colourChanged[5] = true;
 					break;
 			}
 		}
@@ -1934,6 +1951,17 @@ void optionsMenu(GAMESTATE &game, OptionSet &options)
 				colourChanged[0] = true;
 				break;
 			case 1:
+				if(newOptions.bulletColour == E_MAX_COLORS - 1)
+				{
+					newOptions.bulletColour = static_cast<COLOR>(0);
+				}
+				else
+				{
+					newOptions.bulletColour = static_cast<COLOR>(newOptions.bulletColour + 1);
+				}
+				colourChanged[1] = true;
+				break;
+			case 2:
 				if(newOptions.wallColour == E_MAX_COLORS - 1)
 				{
 					newOptions.wallColour = static_cast<COLOR>(0);
@@ -1942,9 +1970,9 @@ void optionsMenu(GAMESTATE &game, OptionSet &options)
 				{
 					newOptions.wallColour = static_cast<COLOR>(newOptions.wallColour + 1);
 				}
-				colourChanged[1] = true;
+				colourChanged[2] = true;
 				break;
-			case 2:
+			case 3:
 				if(newOptions.pelletColour == E_MAX_COLORS - 1)
 				{
 					newOptions.pelletColour = static_cast<COLOR>(0);
@@ -1953,9 +1981,9 @@ void optionsMenu(GAMESTATE &game, OptionSet &options)
 				{
 					newOptions.pelletColour = static_cast<COLOR>(newOptions.pelletColour + 1);
 				}
-				colourChanged[2] = true;
+				colourChanged[3] = true;
 				break;
-			case 4:
+			case 5:
 				if(newOptions.hudTextColour == E_MAX_COLORS - 1)
 				{
 					newOptions.hudTextColour = static_cast<COLOR>(0);
@@ -1964,9 +1992,9 @@ void optionsMenu(GAMESTATE &game, OptionSet &options)
 				{
 					newOptions.hudTextColour = static_cast<COLOR>(newOptions.hudTextColour + 1);
 				}
-				colourChanged[3] = true;
+				colourChanged[4] = true;
 				break;
-			case 5:
+			case 6:
 				if(newOptions.hudBGColour == E_MAX_BG_COLORS - 1)
 				{
 					newOptions.hudBGColour = static_cast<BG_COLOR>(0);
@@ -1975,7 +2003,7 @@ void optionsMenu(GAMESTATE &game, OptionSet &options)
 				{
 					newOptions.hudBGColour = static_cast<BG_COLOR>(newOptions.hudBGColour + 1);
 				}
-				colourChanged[4] = true;
+				colourChanged[5] = true;
 				break;
 			}
 		}
@@ -1983,7 +2011,7 @@ void optionsMenu(GAMESTATE &game, OptionSet &options)
 		{
 			switch(selection)
 			{
-				case 7:
+				case 8:
 					if(saveOptions(options, newOptions))
 					{
 						game = E_MAIN_MENU;
@@ -1995,7 +2023,7 @@ void optionsMenu(GAMESTATE &game, OptionSet &options)
 						game = E_OPTIONS_MENU;
 					}
 					break;
-				case 8:
+				case 9:
 					game = E_MAIN_MENU;
 					break;
 				default:
@@ -2024,29 +2052,34 @@ void optionsMenu(GAMESTATE &game, OptionSet &options)
 						cout << "Player Colour";
 						break;
 					case 1:
-						colour(getColourWORD(newOptions.wallColour));
+						colour(getColourWORD(newOptions.bulletColour));
 						gotoXY(mainMenuOptionsPrintSpot + 7, 21);
-						cout << "Wall Colour";
+						cout << "Bullet Colour";
 						break;
 					case 2:
-						colour(getColourWORD(newOptions.pelletColour));
+						colour(getColourWORD(newOptions.wallColour));
 						gotoXY(mainMenuOptionsPrintSpot + 7, 22);
-						cout << "Pellet Colour";
+						cout << "Wall Colour";
 						break;
 					case 3:
-						colour(getColourWORD(newOptions.hudTextColour) | getBGColourWORD(newOptions.hudBGColour));
-						gotoXY(mainMenuOptionsPrintSpot + 7, 24);
-						cout << "HUD Text Colour";
-						colour(getBGColourWORD(newOptions.hudBGColour) | getColourWORD(newOptions.hudTextColour));
-						gotoXY(mainMenuOptionsPrintSpot + 7, 25);
-						cout << "HUD BG Colour";
+						colour(getColourWORD(newOptions.pelletColour));
+						gotoXY(mainMenuOptionsPrintSpot + 7, 23);
+						cout << "Pellet Colour";
 						break;
 					case 4:
 						colour(getColourWORD(newOptions.hudTextColour) | getBGColourWORD(newOptions.hudBGColour));
-						gotoXY(mainMenuOptionsPrintSpot + 7, 24);
+						gotoXY(mainMenuOptionsPrintSpot + 7, 25);
 						cout << "HUD Text Colour";
 						colour(getBGColourWORD(newOptions.hudBGColour) | getColourWORD(newOptions.hudTextColour));
+						gotoXY(mainMenuOptionsPrintSpot + 7, 26);
+						cout << "HUD BG Colour";
+						break;
+					case 5:
+						colour(getColourWORD(newOptions.hudTextColour) | getBGColourWORD(newOptions.hudBGColour));
 						gotoXY(mainMenuOptionsPrintSpot + 7, 25);
+						cout << "HUD Text Colour";
+						colour(getBGColourWORD(newOptions.hudBGColour) | getColourWORD(newOptions.hudTextColour));
+						gotoXY(mainMenuOptionsPrintSpot + 7, 26);
 						cout << "HUD BG Colour";
 						break;
 				}

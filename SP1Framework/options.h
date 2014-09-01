@@ -76,8 +76,9 @@ enum BG_COLOR
 
 struct OptionSet
 {
-	//Games
+	//Game
 	COLOR playerColour;
+	COLOR bulletColour;
 	COLOR wallColour;
 	COLOR pelletColour;
 
@@ -86,7 +87,7 @@ struct OptionSet
 	BG_COLOR hudBGColour;
 
 	OptionSet();
-	OptionSet(COLOR player, COLOR wall, COLOR pellet, COLOR hudText, BG_COLOR hudBG);
+	OptionSet(COLOR player, COLOR bullet, COLOR wall, COLOR pellet, COLOR hudText, BG_COLOR hudBG);
 };
 
 WORD getColourWORD(COLOR color = E_WHITE_COLOR);

@@ -152,7 +152,7 @@ void update(double dt, Map &currentMap, Pacman &player)
 	{
 		if(keyPressed[E_SPACE_KEY])
 		{
-			currentMap.shot = new Bullet(player, currentMap.bulletDamage,currentMap.bulletSpeed);
+			currentMap.shot = new Bullet(player, currentMap.bulletDamage,currentMap.bulletSpeed, currentMap.colors.bulletColour);
 			currentMap.shot->move(currentMap);
 		}	
 	}
@@ -376,7 +376,6 @@ void levelLoop(string mapName, GAMESTATE &game, unsigned int level, Loadables &l
 		currentMap.renderMap();
 
 		Pacman player(currentMap, loads.playerLives, options.playerColour);
-		Bullet shoot(player, currentMap.bulletDamage,currentMap.bulletSpeed);
 
 		g_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
 		while (currentMap.levelState == E_PLAYING || currentMap.levelState == E_MIN_SCORE_HIT || currentMap.levelState == E_PAUSE)      // run this loop until user wants to quit 
@@ -489,7 +488,6 @@ void customLevelLoop(string mapName, Loadables loads, OptionSet options)
 		currentMap.renderMap();
 
 		Pacman player(currentMap, loads.playerLives, options.playerColour);
-		Bullet shoot(player, currentMap.bulletDamage,currentMap.bulletSpeed);
 
 		g_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
 		while (currentMap.levelState == E_PLAYING || currentMap.levelState == E_MIN_SCORE_HIT || currentMap.levelState == E_PAUSE)      // run this loop until user wants to quit 

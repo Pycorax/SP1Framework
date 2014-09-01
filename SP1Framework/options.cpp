@@ -10,6 +10,7 @@ using std::endl;
 OptionSet::OptionSet()
 {
 	playerColour = E_YELLOW_COLOR;
+	bulletColour = E_OLIVE_COLOR;
 	wallColour = E_BLUE_COLOR;
 	pelletColour = E_WHITE_COLOR;
 
@@ -17,9 +18,10 @@ OptionSet::OptionSet()
 	hudBGColour = E_TEAL_BG_COLOR;
 }
 
-OptionSet::OptionSet(COLOR player, COLOR wall, COLOR pellet, COLOR hudText, BG_COLOR hudBG)
+OptionSet::OptionSet(COLOR player, COLOR bullet, COLOR wall, COLOR pellet, COLOR hudText, BG_COLOR hudBG)
 {
 	playerColour = player;
+	bulletColour = bullet;
 	wallColour = wall;
 	pelletColour = pellet;
 	
@@ -195,6 +197,7 @@ bool saveOptions(OptionSet &options, OptionSet newOptions)
 	if(saveFile.is_open())
 	{
 		saveFile << options.playerColour << endl;
+		saveFile << options.bulletColour << endl;
 		saveFile << options.wallColour << endl;
 		saveFile << options.pelletColour << endl;
 		saveFile << options.hudTextColour << endl;
@@ -220,6 +223,8 @@ bool loadOptions(OptionSet &options)
 		optionFile.open(fullFileName.c_str());
 		getline(optionFile, input);
 		options.playerColour = static_cast<COLOR>(atoi(input.c_str()));
+		getline(optionFile, input);
+		options.bulletColour = static_cast<COLOR>(atoi(input.c_str()));
 		getline(optionFile, input);
 		options.wallColour = static_cast<COLOR>(atoi(input.c_str()));
 		getline(optionFile, input);

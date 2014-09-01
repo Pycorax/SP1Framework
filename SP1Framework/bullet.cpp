@@ -4,7 +4,7 @@
 
 using std::cout;
 
-Bullet::Bullet(Pacman player, int bulletDamage, int bulletSpeed)
+Bullet::Bullet(Pacman player, int bulletDamage,int bulletSpeed, COLOR bulletColor)
 {
 	damage = bulletDamage;
 	speed = bulletSpeed;
@@ -15,11 +15,13 @@ Bullet::Bullet(Pacman player, int bulletDamage, int bulletSpeed)
 	change.Y = 0;
 	collided = false;
 	firstMove = true;
+
+	color = bulletColor;
 }
 
 void Bullet::draw()
 {
-	colour(FOREGROUND_RED | FOREGROUND_INTENSITY);
+	colour(getColourWORD(color));
 
 	switch(direct)
 	{
