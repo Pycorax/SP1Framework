@@ -185,7 +185,7 @@ void update(double dt, Map &currentMap, Pacman &player)
 			currentMap.shot = NULL;
 		}
 	}
-	else if(currentMap.shot->collided) //Prevent immediate deletion upon collision to allow bullet to be undraw() first
+	else if(currentMap.shot->collided) //Allow drawing of bullet's final destination
 	{
 		delete currentMap.shot;
 		currentMap.shot = NULL;
@@ -324,15 +324,14 @@ void render(Map &currentMap, Pacman &player, Loadables loads, bool isCustom)
 		{
 			currentMap.shot->undraw(currentMap);
 		}
-		if(currentMap.shot->collided == false)
+		if(currentMap.shot->collided)
+		{
+			Beep(300, 100);
+		}
+		else
 		{
 			currentMap.shot->draw();
 			currentMap.shot->firstMove = false;
-		}
-
-		else
-		{
-			Beep(300, 100);
 		}
 	}
 }
