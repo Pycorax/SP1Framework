@@ -403,13 +403,117 @@ void levelLoop(string mapName, GAMESTATE &game, unsigned int level, Loadables &l
 		switch(currentMap.levelState)
 		{
 			case E_LOSS:
-				game = E_LOSS_SCREEN;
+				loseScreen();
+				highScoreBoard(currentMap.scorePoints, mapName);
+				game = E_MAIN_MENU;
 				break;
 			case E_WIN:
+	{
+		gotoXY(0,0);
+		cout << "Error(s) loading level" << endl;
+		cout << "=============================================" << endl;
+		for(size_t i = 0; i < E_MAX_MAP_ERRORS; ++i)
+		{
+			if(currentMap.validity.error[i])
 			{
-				victoryScreen();
+				cout << currentMap.validity.errorMessages[i] << endl;
+			}
+			if(currentMap.validity.error[E_MAP_FILE_DOES_NOT_EXIST])
+			{
 				break;
 			}
+		}
+
+		cout << endl << endl;
+		system("pause");
+		cls();
+	}
+}
+
+void customLevelLoop(string mapName, Loadables loads)
+{
+	//Load & Print Map
+	loadingScreen(mapName);
+
+	Map currentMap(mapName);
+
+	bool loadMap = true;
+
+	//Check for map errors
+	for(size_t i = 0; i < E_MAX_MAP_ERRORS; ++i)
+	{
+		if(currentMap.validity.error[i])
+		{
+			loadMap = false;
+		}
+	}
+
+	if(loadMap)
+	{
+		//Level start screen here
+		startScreen(mapName);
+		Sleep(1500);
+		cls();
+
+		consoleSize.X = currentMap.processedMap[0].size() * TILE_WIDTH;
+		consoleSize.Y = currentMap.processedMap.size() * TILE_HEIGHT + HUD_OFFSET * TILE_HEIGHT;
+
+		newSetConsoleSize(consoleSize);
+
+		//Print static HUD
+		printHUDBackground();
+
+		currentMap.renderMap();
+
+		//Print HUD background
+		colour(BACKGROUND_GREEN);
+		printHUDBackground();
+		gotoXY(20,0);
+		printLevelName(mapName);
+
+		Pacman player(currentMap, loads.playerLives);
+		Bullet shoot(player, currentMap.bulletDamage,currentMap.bulletSpeed);
+
+		g_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
+		while (currentMap.levelState == E_PLAYING || currentMap.levelState == E_MIN_SCORE_HIT || currentMap.levelState == E_PAUSE)      // run this loop until user wants to quit 
+		{        
+			getInput();												// get keyboard input
+			update(g_timer.getElapsedTime(), currentMap, player);   // update the game
+			render(currentMap, player, loads, true);
+			g_timer.waitUntil(frameTime);						// Frame rate limiter. Limits each frame to a specified time in ms.
+			if(currentMap.levelState == E_PAUSE)
+			{
+				cls();
+				gotoXY(0,0);
+				colour(BACKGROUND_GREEN);
+				//TODO: Pause menu here
+				if(!pauseMenu(currentMap.levelState, loads, true))
+				{
+					colour(FOREGROUND_GREEN);
+					cls();
+					currentMap.renderMap();
+
+					//Print HUD background
+					colour(BACKGROUND_GREEN);
+					printHUDBackground();
+					gotoXY(20,0);
+					printLevelName(mapName);
+				}
+			}
+		}
+
+		colour(FOREGROUND_GREEN);
+		cls();
+
+
+		switch(currentMap.levelState)
+		{
+			case E_LOSS:
+				loseScreen();
+				break;
+			case E_WIN:
+				victoryScreen();
+				break;
 		}
 	}
 	else
