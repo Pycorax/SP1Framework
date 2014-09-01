@@ -4,6 +4,7 @@
 #include <string>
 #include "maps.h"
 #include "saves.h"
+#include "options.h"
 
 using std::string;
 
@@ -16,6 +17,7 @@ enum GAMESTATE
 	E_GAME_GUIDE,
 	E_DELETE_SAVES,
 	E_HIGH_SCORES,
+	E_OPTIONS_MENU,
 	E_ABOUT_SCREEN,
 	E_QUIT_MENU,
 	E_GAME_OVER,
@@ -25,10 +27,13 @@ enum GAMESTATE
 };
 
 extern struct Loadables;
+extern struct OptionSet;
 
 void mainMenu(GAMESTATE &game);
-void gameLoop(string maps[], const size_t NUM_OF_MAPS, GAMESTATE &game, Loadables &loads);
+void gameLoop(string maps[], const size_t NUM_OF_MAPS, GAMESTATE &game, Loadables &loads, OptionSet options);
 bool pauseMenu(E_LEVEL_STATE &levelState, Loadables loads, bool isCustom = false);
+void saveMenu(GAMESTATE &game);
+void optionsMenu(GAMESTATE &game, OptionSet &options);
 bool quit(GAMESTATE &game);
 
 //Save & Load
@@ -51,8 +56,8 @@ void loseScreen();
 void gameOver(GAMESTATE &game);
 
 //Custom Maps
-void loadCustomLevelMenu(GAMESTATE &game);
-void customGame(string mapName);
+void loadCustomLevelMenu(GAMESTATE &game, OptionSet options);
+void customGame(string mapName, OptionSet options);
 
 //Others
 void highScoreBoard(int scorePoints);

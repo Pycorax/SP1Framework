@@ -63,7 +63,7 @@ void Bullet::draw()
 
 void Bullet::undraw(Map currentMap)
 {
-	printTile(currentMap.processedMap[oldCoord.Y][oldCoord.X], oldCoord);
+	printTile(currentMap.processedMap[oldCoord.Y][oldCoord.X], oldCoord, currentMap.colors);
 }
 
 bool Bullet::move(Map currentMap)

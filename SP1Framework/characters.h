@@ -3,6 +3,7 @@
 
 #include "maps.h"
 #include "bullet.h"
+#include "options.h"
 
 extern enum DIRECTION;
 extern struct Map;
@@ -48,7 +49,10 @@ struct Pacman
 	COORD oldCoord;
 	DIRECTION direct;
 
-	Pacman(Map &currentMap, int playerLives);
+	//Aesthetics
+	COLOR color;
+
+	Pacman(Map &currentMap, int playerLives, COLOR playerColour);
 	void move(Map &currentMap);
 	void draw();
 	void undraw(Map &currentMap);

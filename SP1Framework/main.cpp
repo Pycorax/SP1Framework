@@ -6,6 +6,7 @@
 #include "Framework/console.h"
 #include "saves.h"
 #include "otherHelperFunctions.h"
+#include "options.h"
 
 using std::string;
 
@@ -18,6 +19,9 @@ int main()
 	GAMESTATE game = E_MAIN_MENU;
 	
 	Loadables loads(0,3,0);
+	OptionSet options(E_WHITE_COLOR, E_WHITE_COLOR, E_WHITE_COLOR);
+
+	loadOptions(options);
 	
 	const size_t NUM_OF_MAPS = 8;
 	string maps[NUM_OF_MAPS] = {"testing", "testing2", "testing3","testing4","testing5","testing6","testing7","testing8"};
@@ -35,19 +39,23 @@ int main()
 				mainMenu(game);
 				break;
 			case E_GAME:
-				gameLoop(maps, NUM_OF_MAPS, game, loads);
+				gameLoop(maps, NUM_OF_MAPS, game, loads, options);
 				break;
 			case E_LOAD_SAVES:
 				loadMenu(game, loads);
 				break;
 			case E_LOAD_CUSTOM:
-				loadCustomLevelMenu(game);
+				loadCustomLevelMenu(game, options);
 				break;
 			case E_DELETE_SAVES:
 				deleteMenu(game);
 				break;
 			case E_HIGH_SCORES:
 				highScoreBoard(-1);
+				game = E_MAIN_MENU;
+				break;
+			case E_OPTIONS_MENU:
+				optionsMenu(game, options);
 				game = E_MAIN_MENU;
 				break;
 			case E_ABOUT_SCREEN:

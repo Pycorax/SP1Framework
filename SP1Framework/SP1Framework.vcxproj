@@ -85,6 +85,7 @@
     <ClCompile Include="highscore.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="maps.cpp" />
+    <ClCompile Include="options.cpp" />
     <ClCompile Include="otherHelperFunctions.cpp" />
     <ClCompile Include="saves.cpp" />
     <ClCompile Include="powerups.cpp" />
@@ -100,6 +101,7 @@
     <ClInclude Include="gameStage.h" />
     <ClInclude Include="highscore.h" />
     <ClInclude Include="maps.h" />
+    <ClInclude Include="options.h" />
     <ClInclude Include="otherHelperFunctions.h" />
     <ClInclude Include="saves.h" />
     <ClInclude Include="powerups.h" />

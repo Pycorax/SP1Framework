@@ -49,7 +49,7 @@ MapValidity::MapValidity()
 	errorMessages[E_SPAWN_NOT_SET] = "The spawn point is not set in the map file.";
 }
 
-Map::Map(string mapName)
+Map::Map(string mapName, OptionSet setColors)
 {
 	ghostDataStorage = new vector<GhostData>;
 
@@ -98,6 +98,8 @@ Map::Map(string mapName)
 		levelState = E_PLAYING;
 		bulletDamage = 1;
 		bulletSpeed = 1;
+		//--Aesthetics
+		colors = setColors;
 	}
 	
 	//Delete Ghost Data
@@ -304,12 +306,12 @@ void Map::renderMap()
 			COORD tileLocation;
 			tileLocation.X = coord_x;
 			tileLocation.Y = coord_y;
-			printTile(processedMap[coord_y][coord_x], tileLocation);
+			printTile(processedMap[coord_y][coord_x], tileLocation, colors);
 		}
 	}
 }
 
-void printTile(char tile, COORD tileLocation)
+void printTile(char tile, COORD tileLocation, OptionSet options)
 {
 	const char border = 176;
 	const char space = ' ';
@@ -319,7 +321,7 @@ void printTile(char tile, COORD tileLocation)
 	const char increaseDmg = 'D';
 	const char increasebulletSpeed = 's';
 
-	colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
+	colour(getColourWORD(E_WHITE_COLOR));
 
 	switch(tile)
 	{
@@ -328,6 +330,7 @@ void printTile(char tile, COORD tileLocation)
 			{
 				gotoXYTileDown(tileLocation, height);
 
+				colour(getColourWORD(options.wallColour));
 				for (size_t width = 0; width < TILE_WIDTH; ++ width)
 				{
 					cout << border;
@@ -349,6 +352,8 @@ void printTile(char tile, COORD tileLocation)
 			for (size_t height = 0; height < TILE_HEIGHT; ++height)
 			{
 				gotoXYTileDown(tileLocation, height);
+
+				colour(getColourWORD(options.pelletColour));
 
 				for (size_t width = 0; width < TILE_WIDTH; ++ width)
 				{

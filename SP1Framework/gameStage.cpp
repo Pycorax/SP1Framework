@@ -12,7 +12,6 @@
 #include "scorePoints.h"
 #include "customLevels.h"
 
-
 extern COORD consoleSize;
 extern COORD defaultConsoleSize;
 
@@ -58,7 +57,7 @@ void mainMenu(GAMESTATE &game)
 		cout << mainMenuTitle[i];
 	}
 
-	const size_t MAIN_MENU_OPTIONS = 13;
+	const size_t MAIN_MENU_OPTIONS = 14;
 	string mainMenuOptions[MAIN_MENU_OPTIONS] =
 	{
 		" _____________________",
@@ -70,6 +69,7 @@ void mainMenu(GAMESTATE &game)
 		"|      Game Guide     |",
 		"|      Del Saves      |",
 		"|      High Scores    |",
+		"|      Options        |",
 		"|      About          |",
 		"|      Exit Game      |",
 		"|                     |",
@@ -100,7 +100,7 @@ void mainMenu(GAMESTATE &game)
 			--selection;
 			selectionChanged = true;
 		}
-		else if(keyPressed[E_DOWN_KEY] && selection < 7)
+		else if(keyPressed[E_DOWN_KEY] && selection < 8)
 		{
 			oldSelection = selection;
 			++selection;
@@ -129,9 +129,12 @@ void mainMenu(GAMESTATE &game)
 					game = E_HIGH_SCORES;
 					break;
 				case 6:
-					game = E_ABOUT_SCREEN;
+					game = E_OPTIONS_MENU;
 					break;
 				case 7:
+					game = E_ABOUT_SCREEN;
+					break;
+				case 8:
 					game = E_QUIT_MENU;
 					break;
 				default:
@@ -294,13 +297,13 @@ void gameOver(GAMESTATE &game)
 
 }
 
-void gameLoop(string maps[], const size_t NUM_OF_MAPS, GAMESTATE &game, Loadables &loads)
+void gameLoop(string maps[], const size_t NUM_OF_MAPS, GAMESTATE &game, Loadables &loads, OptionSet options)
 {
 	for(size_t currentLevel = loads.level; currentLevel < NUM_OF_MAPS; ++currentLevel)
 	{
 		if(game == E_GAME)
 		{
-			levelLoop(maps[currentLevel], game, currentLevel, loads);
+			levelLoop(maps[currentLevel], game, currentLevel, loads, options);
 		}
 		else
 		{
@@ -316,6 +319,11 @@ void gameLoop(string maps[], const size_t NUM_OF_MAPS, GAMESTATE &game, Loadable
 //Pause Menu stuff
 void saveMenu(Loadables loads)
 {
+	extern bool keyPressed[E_MAX_KEYS];
+	int selection = 0;
+	int oldSelection = 0;
+	bool selectionChanged = false;
+
 	int numOfSaves = findSaveFiles();
 
 	colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
@@ -397,14 +405,14 @@ void saveMenu(Loadables loads)
 		const size_t CANT_SAVE_OPTIONS = 8;
 		string cantSaveOptions[CANT_SAVE_OPTIONS] =
 		{
-			" __________________ ",
-			"|                  |", //Total Length 20
-			"|                  |",
-			"|     (1) Yes      |",
-			"|                  |",
-			"|     (2) No       |",
-			"|                  |",
-			"|__________________|"
+			" _____________ ",
+			"|             |", //Total Length 20
+			"|             |",
+			"|      Yes    |",
+			"|             |",
+			"|      No     |",
+			"|             |",
+			"|_____________|"
 		};
 
 		int cantSaveOptionsPrintSpot = consoleSize.X/2 - cantSaveOptions[0].length()/2;
@@ -415,7 +423,7 @@ void saveMenu(Loadables loads)
 			cout << cantSaveOptions[i];
 		}
 
-		bool exit = false;
+		/*bool exit = false;
 		while(!exit)
 		{
 			switch(getch())
@@ -431,6 +439,65 @@ void saveMenu(Loadables loads)
 					exit = true;
 					break;
 			}
+		}*/
+
+		//New Menu System
+		gotoXY(consoleSize.X/2 - cantSaveOptions[0].length()/2 - g_MENU_TICKER.length() + 7, 29 + selection);
+		cout << g_MENU_TICKER;
+
+		bool resume = true;
+		while(resume)
+		{
+			gotoXY(consoleSize.X/2, 27 + 4 + CANT_SAVE_OPTIONS);
+			selectionChanged = false;
+			getInput();
+
+			if(keyPressed[E_UP_KEY] && selection > 0)
+			{
+				oldSelection = selection;
+				--selection;
+				if(selection == 1)
+				{
+					--selection;
+				}
+				selectionChanged = true;
+			}
+			else if(keyPressed[E_DOWN_KEY] && selection < 2)
+			{
+				oldSelection = selection;
+				++selection;
+				if(selection == 1)
+				{
+					++selection;
+				}
+				selectionChanged = true;
+			}
+			else if(keyPressed[E_SPACE_KEY])
+			{
+				switch(selection)
+				{
+					case 0:
+						if(deleteMenu())
+						{
+							saveMenu(loads);
+						}
+						resume = false;
+						break;
+					case 2:
+						resume = false;
+						break;
+				}
+			}
+
+			if(selectionChanged)
+			{
+
+				gotoXY(consoleSize.X/2 - cantSaveOptions[0].length()/2 - g_MENU_TICKER.length() + 7, 29 + oldSelection);
+				cout << " ";
+				gotoXY(consoleSize.X/2 - cantSaveOptions[0].length()/2 - g_MENU_TICKER.length() + 7, 29 + selection);
+				cout << g_MENU_TICKER;
+			}
+			Sleep(100);
 		}
 	}
 }
@@ -1420,7 +1487,7 @@ void loseScreen()
 	pressToContinue(17 + LOSE_SCREEN_SIZE);
 }
 
-void loadCustomLevelMenu(GAMESTATE &game)
+void loadCustomLevelMenu(GAMESTATE &game, OptionSet options)
 {
 	newSetConsoleSize(defaultConsoleSize);
 	consoleSize = defaultConsoleSize;
@@ -1551,7 +1618,7 @@ void loadCustomLevelMenu(GAMESTATE &game)
 			else
 			{
 				game = E_LOAD_CUSTOM;
-				customGame(listOfCustomMaps[selection]);
+				customGame(listOfCustomMaps[selection], options);
 				break;
 			}
 		}
@@ -1633,10 +1700,288 @@ void aboutScreen()
 	pressToContinue(20 + ABOUT_MENU_DETAILS);
 }
 
-void customGame(string mapName)
+void customGame(string mapName, OptionSet options)
 {
 	mapName = "Custom Maps/" + mapName;
 	Loadables tempLoads(0,3,0);
 
-	customLevelLoop(mapName, tempLoads);
+	customLevelLoop(mapName, tempLoads, options);
+}
+
+void optionsMenu(GAMESTATE &game, OptionSet &options)
+{
+	extern bool keyPressed[E_MAX_KEYS];
+	int selection = 0;
+	int oldSelection = 0;
+	bool selectionChanged = false;
+	const short NUM_OF_OPTIONS = 3;
+	bool colourChanged[NUM_OF_OPTIONS] = {false, false, false};
+
+	string errorSaving = "Unable to save changes!";
+
+	OptionSet newOptions = options;
+
+	newSetConsoleSize(defaultConsoleSize);
+	consoleSize = defaultConsoleSize;
+	colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_BLUE);
+	cls();
+	printBorder();
+
+	colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
+
+	const size_t OPTIONS_MENU_TITLE = 8;
+	string optionsMenuTitle[OPTIONS_MENU_TITLE] = 
+	{
+		"'########:::::'###:::::'######:::'######:::'##::::'##:'##::: ##:", //Replace with OPTIONS
+		" ##.... ##:::'## ##:::'##... ##:'##... ##:: ##:::: ##: ###:: ##:", 
+		" ##:::: ##::'##:. ##:: ##:::..:: ##:::..::: ##:::: ##: ####: ##:", //Total Length = 64
+		" ########::'##:::. ##: ##::::::: ##::'####: ##:::: ##: ## ## ##:",
+		" ##.....::: #########: ##::::::: ##::: ##:: ##:::: ##: ##. ####:",
+		" ##:::::::: ##.... ##: ##::: ##: ##::: ##:: ##:::: ##: ##:. ###:",
+		" ##:::::::: ##:::: ##:. ######::. ######:::. #######:: ##::. ##:",
+		"..:::::::::..:::::..:::......::::......:::::.......:::..::::..::"
+	};
+
+	int optionsMenuTitlePrintSpot = defaultConsoleSize.X/2 - optionsMenuTitle[0].length()/2;
+
+	for(size_t i = 0; i < OPTIONS_MENU_TITLE; ++i)
+	{
+		gotoXY(optionsMenuTitlePrintSpot, 6 + i);
+		cout << optionsMenuTitle[i];
+	}
+
+	const size_t OPTIONS_MENU_OPTIONS = 11;
+	string optionsMenuOptions[OPTIONS_MENU_OPTIONS] =
+	{
+		" _______________________",
+		"|                       |", //Total Length 20
+		"|                       |",
+		"|      Player Colour    |",
+		"|      Wall Colour      |",
+		"|      Pellet Colour    |",
+		"|                       |",
+		"|      Save Changes     |",
+		"|      Cancel           |",
+		"|                       |",
+		"|_______________________|"
+	};
+
+	int mainMenuOptionsPrintSpot = defaultConsoleSize.X/2 - optionsMenuOptions[0].length()/2;
+
+	for(size_t i = 0; i < OPTIONS_MENU_OPTIONS; ++i)
+	{
+		colour(getColourWORD(E_WHITE_COLOR));
+		gotoXY(mainMenuOptionsPrintSpot, 17 + i);
+		cout << optionsMenuOptions[i];
+
+		switch(i)
+		{
+			case 3:
+				gotoXY(mainMenuOptionsPrintSpot + 7, 17 + i);
+				colour(getColourWORD(options.playerColour));
+				cout << "Player Colour";
+				break;
+			case 4:
+				gotoXY(mainMenuOptionsPrintSpot + 7, 17 + i);
+				colour(getColourWORD(options.wallColour));
+				cout << "Wall Colour";
+				break;
+			case 5:
+				gotoXY(mainMenuOptionsPrintSpot + 7, 17 + i);
+				colour(getColourWORD(options.pelletColour));
+				cout << "Pellet Colour";
+				break;
+		}
+	}
+
+	//New Menu System
+	gotoXY(consoleSize.X/2 - optionsMenuOptions[0].length()/2 - g_MENU_TICKER.length() + 7, 20 + selection);
+	cout << g_MENU_TICKER;
+
+	while(game == E_OPTIONS_MENU)
+	{
+		gotoXY(consoleSize.X/2, 17 + 4 + OPTIONS_MENU_OPTIONS);
+		selectionChanged = false;
+		
+		for (short i = 0; i < NUM_OF_OPTIONS; ++i)
+		{
+			colourChanged[i] = false;
+		}
+
+		flushInputBuffer();
+		getInput();
+
+		for (int i = 0; i < E_MAX_KEYS; ++i)
+		{
+			if (keyPressed[i])
+			{
+				gotoXY(consoleSize.X/2 - errorSaving.length()/2, 28);
+				
+				for (int j = 0; j < errorSaving.length(); ++j)
+				{
+					cout << " ";
+				}
+			}
+		}
+
+		if(keyPressed[E_UP_KEY] && selection > 0)
+		{
+			oldSelection = selection;
+			--selection;
+			if(selection == 3)
+			{
+				--selection;
+			}
+			selectionChanged = true;
+		}
+		else if(keyPressed[E_DOWN_KEY] && selection < 5)
+		{
+			oldSelection = selection;
+			++selection;
+			if(selection == 3)
+			{
+				++selection;
+			}
+			selectionChanged = true;
+		}
+		else if(keyPressed[E_LEFT_KEY])
+		{
+			switch(selection)
+			{
+				case 0:
+					if(newOptions.playerColour == 0)
+					{
+						newOptions.playerColour = static_cast<COLOR>(E_MAX_COLORS - 1);
+					}
+					else
+					{
+					newOptions.playerColour = static_cast<COLOR>(newOptions.playerColour - 1);
+					}
+					colourChanged[0] = true;
+					break;
+				case 1:
+					if(newOptions.wallColour == 0)
+					{
+						newOptions.wallColour = static_cast<COLOR>(E_MAX_COLORS - 1);
+					}
+					else
+					{
+						newOptions.wallColour = static_cast<COLOR>(newOptions.wallColour - 1);
+					}
+					colourChanged[1] = true;
+					break;
+				case 2:
+					if(newOptions.pelletColour == 0)
+					{
+						newOptions.pelletColour = static_cast<COLOR>(E_MAX_COLORS - 1);
+					}
+					else
+					{
+						newOptions.pelletColour = static_cast<COLOR>(newOptions.pelletColour - 1);
+					}
+					colourChanged[2] = true;
+					break;
+			}
+		}
+		else if(keyPressed[E_RIGHT_KEY])
+		{
+			switch(selection)
+			{
+			case 0:
+				if(newOptions.playerColour == E_MAX_COLORS - 1)
+				{
+					newOptions.playerColour = static_cast<COLOR>(0);
+				}
+				else
+				{
+					newOptions.playerColour = static_cast<COLOR>(newOptions.playerColour + 1);
+				}
+				colourChanged[0] = true;
+				break;
+			case 1:
+				if(newOptions.wallColour == E_MAX_COLORS - 1)
+				{
+					newOptions.wallColour = static_cast<COLOR>(0);
+				}
+				else
+				{
+					newOptions.wallColour = static_cast<COLOR>(newOptions.wallColour + 1);
+				}
+				colourChanged[1] = true;
+				break;
+			case 2:
+				if(newOptions.pelletColour == E_MAX_COLORS - 1)
+				{
+					newOptions.pelletColour = static_cast<COLOR>(0);
+				}
+				else
+				{
+					newOptions.pelletColour = static_cast<COLOR>(newOptions.pelletColour + 1);
+				}
+				colourChanged[2] = true;
+				break;
+			}
+		}
+		else if(keyPressed[E_SPACE_KEY])
+		{
+			switch(selection)
+			{
+				case 4:
+					if(saveOptions(options, newOptions))
+					{
+						game = E_MAIN_MENU;
+					}
+					else
+					{
+						gotoXY(consoleSize.X/2 - errorSaving.length()/2, 28);
+						cout << errorSaving;
+						game = E_OPTIONS_MENU;
+					}
+					break;
+				case 5:
+					game = E_MAIN_MENU;
+					break;
+				default:
+					game = E_OPTIONS_MENU;
+					break;
+			}
+		}
+
+		if(selectionChanged)
+		{
+			gotoXY(consoleSize.X/2 - optionsMenuOptions[0].length()/2 - g_MENU_TICKER.length() + 7, 20 + oldSelection);
+			cout << " ";
+			gotoXY(consoleSize.X/2 - optionsMenuOptions[0].length()/2 - g_MENU_TICKER.length() + 7, 20 + selection);
+			cout << g_MENU_TICKER;
+		}
+
+		for (short i = 0; i < NUM_OF_OPTIONS; ++i)
+		{
+			if(colourChanged[i])
+			{
+				switch(i)
+				{
+					case 0:
+						colour(getColourWORD(newOptions.playerColour));
+						gotoXY(mainMenuOptionsPrintSpot + 7, 20);
+						cout << "Player Colour";
+						break;
+					case 1:
+						colour(getColourWORD(newOptions.wallColour));
+						gotoXY(mainMenuOptionsPrintSpot + 7, 21);
+						cout << "Wall Colour";
+						break;
+					case 2:
+						colour(getColourWORD(newOptions.pelletColour));
+						gotoXY(mainMenuOptionsPrintSpot + 7, 22);
+						cout << "Pellet Colour";
+						break;
+				}
+
+				colour(getColourWORD(E_WHITE_COLOR));
+			}
+		}
+
+		Sleep(100);
+	}
 }

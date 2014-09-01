@@ -172,7 +172,7 @@ void update(double dt, Map &currentMap, Pacman &player)
 				currentMap.ghostStorage[i].health -= currentMap.shot->damage;
 				currentMap.ghostStorage[i].respawnTime = time(NULL) + currentMap.ghostStorage[i].timeToRespawn;
 				currentMap.scorePoints += g_SCORE_PER_HIT;
-				printTile(currentMap.processedMap[currentMap.ghostStorage[i].coord.Y][currentMap.ghostStorage[i].coord.X], currentMap.ghostStorage[i].coord);
+				printTile(currentMap.processedMap[currentMap.ghostStorage[i].coord.Y][currentMap.ghostStorage[i].coord.X], currentMap.ghostStorage[i].coord, currentMap.colors);
 
 				currentMap.shot->collided = true;
 				break;
@@ -228,7 +228,7 @@ void update(double dt, Map &currentMap, Pacman &player)
 					currentMap.ghostStorage[i].health -= currentMap.shot->damage;
 					currentMap.ghostStorage[i].respawnTime = time(NULL) + currentMap.ghostStorage[i].timeToRespawn;
 					currentMap.scorePoints += g_SCORE_PER_HIT;
-					printTile(currentMap.processedMap[currentMap.ghostStorage[i].oldCoord.Y][currentMap.ghostStorage[i].oldCoord.X], currentMap.ghostStorage[i].oldCoord);
+					printTile(currentMap.processedMap[currentMap.ghostStorage[i].oldCoord.Y][currentMap.ghostStorage[i].oldCoord.X], currentMap.ghostStorage[i].oldCoord, currentMap.colors);
 
 					currentMap.shot->collided = true;
 					break;
@@ -298,11 +298,10 @@ void render(Map &currentMap, Pacman &player, Loadables loads, bool isCustom)
 	}
 
 	//Wipe old Player
-	colour(FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED);
+	colour(getColourWORD(E_WHITE_COLOR));
 	player.undraw(currentMap);
 
 	//Render Player
-    colour(0x0C);
 	if(player.isAlive())
 	{
 		player.draw();
@@ -340,12 +339,12 @@ void render(Map &currentMap, Pacman &player, Loadables loads, bool isCustom)
 
 // This main loop calls functions to get input, update and render the game
 // at a specific frame rate
-void levelLoop(string mapName, GAMESTATE &game, unsigned int level, Loadables &loads)
+void levelLoop(string mapName, GAMESTATE &game, unsigned int level, Loadables &loads, OptionSet options)
 {
 	//Load & Print Map
 	loadingScreen(mapName);
 
-	Map currentMap(mapName);
+	Map currentMap(mapName, options);
 
 	bool loadMap = true;
 
@@ -360,7 +359,6 @@ void levelLoop(string mapName, GAMESTATE &game, unsigned int level, Loadables &l
 
 	if(loadMap)
 	{
-		//Level start screen here
 		startScreen(mapName);
 		Sleep(1500);
 		cls();
@@ -382,7 +380,7 @@ void levelLoop(string mapName, GAMESTATE &game, unsigned int level, Loadables &l
 		printLevelName(mapName);
 		printLevel(level);
 
-		Pacman player(currentMap, loads.playerLives);
+		Pacman player(currentMap, loads.playerLives, options.playerColour);
 		Bullet shoot(player, currentMap.bulletDamage,currentMap.bulletSpeed);
 
 		g_timer.startTimer();    // Start timer to calculate how long it takes to render this frame
@@ -458,12 +456,12 @@ void levelLoop(string mapName, GAMESTATE &game, unsigned int level, Loadables &l
 	}
 }
 
-void customLevelLoop(string mapName, Loadables loads)
+void customLevelLoop(string mapName, Loadables loads, OptionSet options)
 {
 	//Load & Print Map
 	loadingScreen(mapName);
 
-	Map currentMap(mapName);
+	Map currentMap(mapName, options);
 
 	bool loadMap = true;
 
@@ -499,7 +497,7 @@ void customLevelLoop(string mapName, Loadables loads)
 		gotoXY(20,0);
 		printLevelName(mapName);
 
-		Pacman player(currentMap, loads.playerLives);
+		Pacman player(currentMap, loads.playerLives, options.playerColour);
 		Bullet shoot(player, currentMap.bulletDamage,currentMap.bulletSpeed);
 
 		g_timer.startTimer();    // Start timer to calculate how long it takes to render this frame

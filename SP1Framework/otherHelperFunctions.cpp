@@ -1,13 +1,13 @@
 #include "otherHelperFunctions.h"
 #include <sstream>
-#include <string>
 #include <iostream>
 #include <conio.h>
+#include <fstream>
 #include "Framework/console.h"
 
 using std::ostringstream;
-using std::string;
 using std::cout;
+using std::ifstream;
 
 extern COORD consoleSize;
 
@@ -41,4 +41,31 @@ void pressToContinue(int y_coord)
 	gotoXY(consoleSize.X/2, y_coord + 1);
 	_getch();
 	flushInputBuffer();
+}
+
+bool fileExists(string saveName)
+{
+	ifstream file;
+
+	file.open(saveName.c_str());
+
+	if(file.is_open())
+	{
+		string firstLine;
+		getline(file, firstLine);
+		file.close();
+
+		if(firstLine == "")
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
+	else
+	{
+		return false;
+	}
 }

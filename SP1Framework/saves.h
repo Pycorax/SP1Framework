@@ -18,7 +18,6 @@ struct Loadables
 
 bool saveGame(Loadables loads, string saveName);
 int loadGame(Loadables &loadInfo, string saveName);
-bool fileExists(string saveName);
 int findSaveFiles(vector<string> &fileNames); //Stores list of save files in fileNames
 int findSaveFiles();
 bool deleteGame(string saveName);

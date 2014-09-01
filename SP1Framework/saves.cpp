@@ -5,6 +5,9 @@
 #include <cstdio>
 #include <string>
 #include "Framework/console.h"
+#include "game.h"
+#include "scorePoints.h"
+#include "otherHelperFunctions.h"
 
 using std::ofstream;
 using std::ifstream;
@@ -24,6 +27,12 @@ Loadables::Loadables(unsigned int levelToStartFrom, int playerLivesToStartWith, 
 bool saveGame(Loadables loads, string saveName)
 {
 	extern COORD consoleSize;
+	extern enum KEYS;
+
+	extern bool keyPressed[E_MAX_KEYS];
+	int selection = 0;
+	int oldSelection = 0;
+	bool selectionChanged = false;
 
 	ofstream saveFile;
 	bool needOverwrite = false;
@@ -35,61 +44,107 @@ bool saveGame(Loadables loads, string saveName)
 		needOverwrite = true;
 	}
 
-	saveFile.open(fullFileName.c_str());
-
-	if(saveFile.is_open())
+	if(needOverwrite)
 	{
-		if(needOverwrite)
+		string qnOverwrite = "A save file already exists. Do you want to overwrite it?";
+		gotoXY(consoleSize.X/2 - qnOverwrite.length()/2, 25);
+		cout << qnOverwrite;
+		gotoXY(1, 26);
+		for (int i = 1; i < consoleSize.X - 1; ++i)
 		{
-			string qnOverwrite = "A save file already exists. Do you want to overwrite it?";
-			gotoXY(consoleSize.X/2 - qnOverwrite.length()/2, 25);
-			cout << qnOverwrite;
+			cout << " ";
+		}
 
-			const size_t SAVE_MENU_OPTIONS = 8;
-			string saveMenuOptions[SAVE_MENU_OPTIONS] =
+		const size_t SAVE_MENU_OPTIONS = 8;
+		string saveMenuOptions[SAVE_MENU_OPTIONS] =
+		{
+			" _____________ ",
+			"|             |", //Total Length 15
+			"|             |",
+			"|      Yes    |",
+			"|             |",
+			"|      No     |",
+			"|             |",
+			"|_____________|"
+		};
+
+		int saveMenuOptionsPrintSpot = consoleSize.X/2 - saveMenuOptions[0].length()/2;
+
+		for(size_t i = 0; i < SAVE_MENU_OPTIONS; ++i)
+		{
+			gotoXY(saveMenuOptionsPrintSpot, 27 + i);
+			cout << saveMenuOptions[i];
+		}
+
+		//New Menu System
+		gotoXY(consoleSize.X/2 - saveMenuOptions[0].length()/2 - g_MENU_TICKER.length() + 7, 30 + selection);
+		cout << g_MENU_TICKER;
+
+		bool resume = true;
+		while(resume)
+		{
+			gotoXY(consoleSize.X/2, 27 + 4 + SAVE_MENU_OPTIONS);
+			selectionChanged = false;
+			getInput();
+
+			if(keyPressed[E_UP_KEY] && selection > 0)
 			{
-				" __________________ ",
-				"|                  |", //Total Length 20
-				"|                  |",
-				"|     (1) Yes      |",
-				"|                  |",
-				"|     (2) No       |",
-				"|                  |",
-				"|__________________|"
-			};
-
-			int saveMenuOptionsPrintSpot = consoleSize.X/2 - saveMenuOptions[0].length()/2;
-
-			for(size_t i = 0; i < SAVE_MENU_OPTIONS; ++i)
-			{
-				gotoXY(saveMenuOptionsPrintSpot, 27 + i);
-				cout << saveMenuOptions[i];
-			}
-
-			gotoXY(consoleSize.X/2, 29 + SAVE_MENU_OPTIONS);
-
-			bool resume = true;
-			while(resume)
-			{
-				switch(_getch())
+				oldSelection = selection;
+				--selection;
+				if(selection == 1)
 				{
-				case'1':
+					--selection;
+				}
+				selectionChanged = true;
+			}
+			else if(keyPressed[E_DOWN_KEY] && selection < 2)
+			{
+				oldSelection = selection;
+				++selection;
+				if(selection == 1)
+				{
+					++selection;
+				}
+				selectionChanged = true;
+			}
+			else if(keyPressed[E_SPACE_KEY])
+			{
+				switch(selection)
+				{
+				case 0:
 					resume = false;
 					break;
-				case'2':
-					cout << "Failed to save game!" << endl;
+				case 2:
+					//GOTOXY
+					string fail = "Failed to save game!";
+					gotoXY(consoleSize.X/2 - fail.length()/2, 36);
+					cout << fail;
+					pressToContinue(38);
 					return false;
 					break;
 				}
 			}
-		}
 
+			if(selectionChanged)
+			{
+
+				gotoXY(consoleSize.X/2 - saveMenuOptions[0].length()/2 - g_MENU_TICKER.length() + 7, 30 + oldSelection);
+				cout << " ";
+				gotoXY(consoleSize.X/2 - saveMenuOptions[0].length()/2 - g_MENU_TICKER.length() + 7, 30 + selection);
+				cout << g_MENU_TICKER;
+			}
+			Sleep(100);
+		}
+	}
+
+	saveFile.open(fullFileName.c_str());
+	if(saveFile.is_open())
+	{
 		saveFile << loads.level << endl;
 		saveFile << loads.playerLives << endl;
 		saveFile << loads.cumulativeScore << endl;
 		saveFile.close();
 		return true;
-
 	}
 	else
 	{
@@ -127,33 +182,6 @@ int loadGame(Loadables &loadInfo, string saveName)
 		return false;
 	}
 
-}
-
-bool fileExists(string saveName)
-{
-	ifstream file;
-
-	file.open(saveName.c_str());
-
-	if(file.is_open())
-	{
-		string firstLine;
-		getline(file, firstLine);
-		file.close();
-
-		if(firstLine == "")
-		{
-			return false;
-		}
-		else
-		{
-			return true;
-		}
-	}
-	else
-	{
-		return false;
-	}
 }
 
 int findSaveFiles(vector<string> &fileNames)

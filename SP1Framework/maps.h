@@ -6,6 +6,7 @@
 #include "characters.h"
 #include "bullet.h"
 #include <string>
+#include "options.h"
 
 using std::vector;
 using std::string;
@@ -92,7 +93,10 @@ struct Map
 	Bullet *shot;
 	E_LEVEL_STATE levelState;
 
-	Map(string mapName);
+	//Aesthetics
+	OptionSet colors;
+
+	Map(string mapName, OptionSet setColors);
 	//TODO: Create destructor for Map when level system is added
 	//~Map();
 
@@ -101,7 +105,7 @@ struct Map
 	void renderMap();
 };
 
-void printTile(char tile, COORD tileLocation);
+void printTile(char tile, COORD tileLocation, OptionSet options);
 
 void gotoXYTile(int x, int y);
 void gotoXYTile(COORD location);

@@ -39,13 +39,6 @@ void Ghost::draw()
 
 	if(even)
 	{
-		/*gotoXYTile(coord.X, coord.Y);
-		cout << "/ \\";
-		gotoXYTileDown(coord, 1);
-		cout << "o-o";
-		gotoXYTileDown(coord, 2);
-		cout << "vvv";*/
-
 		switch(health)
 		{
 			case 1:
@@ -81,13 +74,6 @@ void Ghost::draw()
 	}
 	else
 	{
-		/*gotoXYTile(coord.X, coord.Y);
-		cout << "/ \\";
-		gotoXYTileDown(coord, 1);
-		cout << "o-o";
-		gotoXYTileDown(coord, 2);
-		cout << "VVV";*/
-
 		switch(health)
 		{
 			case 1:
@@ -126,7 +112,7 @@ void Ghost::draw()
 
 void Ghost::undraw(Map &currentMap)
 {
-	printTile(currentMap.processedMap[oldCoord.Y][oldCoord.X], oldCoord);
+	printTile(currentMap.processedMap[oldCoord.Y][oldCoord.X], oldCoord, currentMap.colors);
 }
 
 void Ghost::move(Map &currentMap, bool clockwise)
@@ -324,11 +310,12 @@ void Ghost::respawn(Map &currentMap)
 	}
 }
 
-Pacman::Pacman(Map &currentMap, int playerLives)
+Pacman::Pacman(Map &currentMap, int playerLives, COLOR playerColour)
 {
 	health = 1;
 	speed = 1;
 	lives = playerLives;
+	color = playerColour;
 	coord.X = currentMap.startPos.X;
 	coord.Y = currentMap.startPos.Y;
 	oldCoord = coord;
@@ -368,6 +355,8 @@ void Pacman::move(Map &currentMap)
 
 void Pacman::draw()
 {
+	colour(getColourWORD(color));
+
 	static bool even = true;
 	switch(direct)
 	{
@@ -463,7 +452,7 @@ void Pacman::draw()
 
 void Pacman::undraw(Map &currentMap)
 {
-	printTile(currentMap.processedMap[oldCoord.Y][oldCoord.X], oldCoord);
+	printTile(currentMap.processedMap[oldCoord.Y][oldCoord.X], oldCoord, currentMap.colors);
 }
 
 bool Pacman::isAlive()

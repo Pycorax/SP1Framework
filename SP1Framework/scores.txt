@@ -1,3 +1,4 @@
+no 8800
 :< 1525
 konichiwa 1100
 jack 1000
@@ -7,4 +8,3 @@ BYEBYE 900
 tom 800
 jerry 700
 jasmine 600
-jonathan 500
