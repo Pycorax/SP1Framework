@@ -72,7 +72,7 @@ void printPellets(int pellets)
 {
 	const short MAX_PELLET_LENGTH = 3;
 	string output = " Pellets Left";
-	colour(getColourWORD(E_WHITE_COLOR));
+	colour(BACKGROUND_GREEN | FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_INTENSITY);;
 	gotoXY(consoleSize.X - output.length() - MAX_PELLET_LENGTH, 2);
 	cout << setw(MAX_PELLET_LENGTH) << setfill(' ');
 	cout << pellets;
