@@ -58,7 +58,7 @@ void mainMenu(GAMESTATE &game)
 		cout << mainMenuTitle[i];
 	}
 
-	const size_t MAIN_MENU_OPTIONS = 16;
+	const size_t MAIN_MENU_OPTIONS = 14;
 	string mainMenuOptions[MAIN_MENU_OPTIONS] =
 	{
 		" _____________________",
@@ -74,9 +74,7 @@ void mainMenu(GAMESTATE &game)
 		"|      About          |",
 		"|      Exit Game      |",
 		"|                     |",
-		"|_____________________|",
-		"  Use Arrow keys to move",
-		"  Use Space bar to select"
+		"|_____________________|"
 	};
 
 	int mainMenuOptionsPrintSpot = defaultConsoleSize.X/2 - mainMenuOptions[0].length()/2;
@@ -86,6 +84,8 @@ void mainMenu(GAMESTATE &game)
 		gotoXY(mainMenuOptionsPrintSpot, 17 + i);
 		cout << mainMenuOptions[i];
 	}
+
+	printControls();
 
 	//New Menu System
 	gotoXY(consoleSize.X/2 - mainMenuOptions[0].length()/2 - g_MENU_TICKER.length() + 7, 20 + selection);
@@ -332,7 +332,6 @@ void saveMenu(Loadables loads)
 
 	colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
 	cls();
-	printBorder();
 
 	colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
 
@@ -427,23 +426,7 @@ void saveMenu(Loadables loads)
 			cout << cantSaveOptions[i];
 		}
 
-		/*bool exit = false;
-		while(!exit)
-		{
-			switch(getch())
-			{
-				case'1':
-					if(deleteMenu())
-					{
-						saveMenu(loads);
-					}
-					exit = true;
-					break;
-				case'2':
-					exit = true;
-					break;
-			}
-		}*/
+		printControls();
 
 		//New Menu System
 		gotoXY(consoleSize.X/2 - cantSaveOptions[0].length()/2 - g_MENU_TICKER.length() + 7, 29 + selection);
@@ -606,6 +589,9 @@ void loadMenu(GAMESTATE &game, Loadables &loadInfo)
 		cout << "|";
 	}
 	
+	printControls();
+
+	//New Menu
 	gotoXY(consoleSize.X/2 - maxSaveNameLength/2 - g_MENU_TICKER.length(), 21);
 	cout << g_MENU_TICKER;
 
@@ -696,9 +682,6 @@ bool pauseMenu(E_LEVEL_STATE &levelState, Loadables loads, bool isCustom)
 	colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
 	cls();
 
-	printBorder();
-	colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
-
 	const size_t PAUSE_SCREEN_TITLE = 8;
 	string pausescreen[PAUSE_SCREEN_TITLE] =
 	{
@@ -744,6 +727,8 @@ bool pauseMenu(E_LEVEL_STATE &levelState, Loadables loads, bool isCustom)
 		gotoXY(pauseMenuOptionsPrintSpot, 17 + i);
 		cout << pauseMenuOptions[i];
 	}
+
+	printControls();
 
 	//New Menu System
 	gotoXY(consoleSize.X/2 - pauseMenuOptions[0].length()/2 - g_MENU_TICKER.length() + 7, 20 + selection);
@@ -1020,6 +1005,9 @@ bool quit(GAMESTATE &game)
 		cout << quitMenuOptions[i];
 	}
 
+	printControls();
+
+	//New Menu
 	gotoXY(consoleSize.X/2 - quitMenuOptions[0].length()/2 - g_MENU_TICKER.length() + 7, 20 + selection);
 	cout << g_MENU_TICKER;
 
@@ -1176,6 +1164,9 @@ void deleteMenu(GAMESTATE &game)
 			cout << "|";
 		}
 
+		printControls();
+
+		//New Menu
 		gotoXY(consoleSize.X/2 - maxSaveNameLength/2 - g_MENU_TICKER.length(), 21);
 		cout << g_MENU_TICKER;
 
@@ -1282,9 +1273,6 @@ bool deleteMenu()
 	colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
 	cls();
 
-	printBorder();
-	colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
-
 	const size_t DELETE_MENU_TITLE = 8;
 	string deleteMenuTitle[DELETE_MENU_TITLE] = 
 	{
@@ -1359,6 +1347,9 @@ bool deleteMenu()
 		cout << "|";
 	}
 
+	printControls();
+
+	//New Menu
 	gotoXY(consoleSize.X/2 - maxSaveNameLength/2 - g_MENU_TICKER.length(), 21);
 	cout << g_MENU_TICKER;
 
@@ -1593,6 +1584,9 @@ void loadCustomLevelMenu(GAMESTATE &game, OptionSet options)
 		cout << "|";
 	}
 
+	printControls();
+
+	//New Menu
 	gotoXY(consoleSize.X/2 - maxMapNameLength/2 - g_MENU_TICKER.length(), 21);
 	cout << g_MENU_TICKER;
 
@@ -1719,8 +1713,8 @@ void optionsMenu(GAMESTATE &game, OptionSet &options)
 	int selection = 0;
 	int oldSelection = 0;
 	bool selectionChanged = false;
-	const short NUM_OF_OPTIONS = 3;
-	bool colourChanged[NUM_OF_OPTIONS] = {false, false, false};
+	const short NUM_OF_OPTIONS = 5;
+	bool colourChanged[NUM_OF_OPTIONS] = {false, false, false, false, false};
 
 	string errorSaving = "Unable to save changes!";
 
@@ -1755,7 +1749,7 @@ void optionsMenu(GAMESTATE &game, OptionSet &options)
 		cout << optionsMenuTitle[i];
 	}
 
-	const size_t OPTIONS_MENU_OPTIONS = 11;
+	const size_t OPTIONS_MENU_OPTIONS = 14;
 	string optionsMenuOptions[OPTIONS_MENU_OPTIONS] =
 	{
 		" _______________________",
@@ -1764,6 +1758,9 @@ void optionsMenu(GAMESTATE &game, OptionSet &options)
 		"|      Player Colour    |",
 		"|      Wall Colour      |",
 		"|      Pellet Colour    |",
+		"|                       |",
+		"|      HUD Text Colour  |",
+		"|      HUD BG Colour    |",
 		"|                       |",
 		"|      Save Changes     |",
 		"|      Cancel           |",
@@ -1796,8 +1793,20 @@ void optionsMenu(GAMESTATE &game, OptionSet &options)
 				colour(getColourWORD(options.pelletColour));
 				cout << "Pellet Colour";
 				break;
+			case 7:
+				gotoXY(mainMenuOptionsPrintSpot + 7, 17 + i);
+				colour(getColourWORD(options.hudTextColour));
+				cout << "HUD Text Colour";
+				break;
+			case 8:
+				gotoXY(mainMenuOptionsPrintSpot + 7, 17 + i);
+				colour(getBGColourWORD(options.hudBGColour));
+				cout << "HUD BG Colour";
+				break;
 		}
 	}
+
+	printOptionsControls();
 
 	//New Menu System
 	gotoXY(consoleSize.X/2 - optionsMenuOptions[0].length()/2 - g_MENU_TICKER.length() + 7, 20 + selection);
@@ -1813,14 +1822,13 @@ void optionsMenu(GAMESTATE &game, OptionSet &options)
 			colourChanged[i] = false;
 		}
 
-		flushInputBuffer();
 		getInput();
 
 		for (int i = 0; i < E_MAX_KEYS; ++i)
 		{
 			if (keyPressed[i])
 			{
-				gotoXY(consoleSize.X/2 - errorSaving.length()/2, 28);
+				gotoXY(consoleSize.X/2 - errorSaving.length()/2, 32);
 				
 				for (int j = 0; j < errorSaving.length(); ++j)
 				{
@@ -1833,17 +1841,17 @@ void optionsMenu(GAMESTATE &game, OptionSet &options)
 		{
 			oldSelection = selection;
 			--selection;
-			if(selection == 3)
+			if(selection == 3 || selection == 6)
 			{
 				--selection;
 			}
 			selectionChanged = true;
 		}
-		else if(keyPressed[E_DOWN_KEY] && selection < 5)
+		else if(keyPressed[E_DOWN_KEY] && selection < 8)
 		{
 			oldSelection = selection;
 			++selection;
-			if(selection == 3)
+			if(selection == 3 || selection == 6)
 			{
 				++selection;
 			}
@@ -1860,7 +1868,7 @@ void optionsMenu(GAMESTATE &game, OptionSet &options)
 					}
 					else
 					{
-					newOptions.playerColour = static_cast<COLOR>(newOptions.playerColour - 1);
+						newOptions.playerColour = static_cast<COLOR>(newOptions.playerColour - 1);
 					}
 					colourChanged[0] = true;
 					break;
@@ -1885,6 +1893,28 @@ void optionsMenu(GAMESTATE &game, OptionSet &options)
 						newOptions.pelletColour = static_cast<COLOR>(newOptions.pelletColour - 1);
 					}
 					colourChanged[2] = true;
+					break;
+				case 4:
+					if(newOptions.hudTextColour == 0)
+					{
+						newOptions.hudTextColour = static_cast<COLOR>(E_MAX_COLORS - 1);
+					}
+					else
+					{
+						newOptions.hudTextColour = static_cast<COLOR>(newOptions.hudTextColour - 1);
+					}
+					colourChanged[3] = true;
+					break;
+				case 5:
+					if(newOptions.hudBGColour == 0)
+					{
+						newOptions.hudBGColour = static_cast<BG_COLOR>(E_MAX_BG_COLORS - 1);
+					}
+					else
+					{
+						newOptions.hudBGColour = static_cast<BG_COLOR>(newOptions.hudBGColour - 1);
+					}
+					colourChanged[4] = true;
 					break;
 			}
 		}
@@ -1925,25 +1955,47 @@ void optionsMenu(GAMESTATE &game, OptionSet &options)
 				}
 				colourChanged[2] = true;
 				break;
+			case 4:
+				if(newOptions.hudTextColour == E_MAX_COLORS - 1)
+				{
+					newOptions.hudTextColour = static_cast<COLOR>(0);
+				}
+				else
+				{
+					newOptions.hudTextColour = static_cast<COLOR>(newOptions.hudTextColour + 1);
+				}
+				colourChanged[3] = true;
+				break;
+			case 5:
+				if(newOptions.hudBGColour == E_MAX_BG_COLORS - 1)
+				{
+					newOptions.hudBGColour = static_cast<BG_COLOR>(0);
+				}
+				else
+				{
+					newOptions.hudBGColour = static_cast<BG_COLOR>(newOptions.hudBGColour + 1);
+				}
+				colourChanged[4] = true;
+				break;
 			}
 		}
 		else if(keyPressed[E_SPACE_KEY])
 		{
 			switch(selection)
 			{
-				case 4:
+				case 7:
 					if(saveOptions(options, newOptions))
 					{
 						game = E_MAIN_MENU;
 					}
 					else
 					{
-						gotoXY(consoleSize.X/2 - errorSaving.length()/2, 28);
+						gotoXY(consoleSize.X/2 - errorSaving.length()/2, 32);
 						cout << errorSaving;
 						game = E_OPTIONS_MENU;
 					}
 					break;
-				case 5:
+				case 8:
 					game = E_MAIN_MENU;
 					break;
 				default:
@@ -1980,6 +2032,22 @@ void optionsMenu(GAMESTATE &game, OptionSet &options)
 						colour(getColourWORD(newOptions.pelletColour));
 						gotoXY(mainMenuOptionsPrintSpot + 7, 22);
 						cout << "Pellet Colour";
+						break;
+					case 3:
+						colour(getColourWORD(newOptions.hudTextColour) | getBGColourWORD(newOptions.hudBGColour));
+						gotoXY(mainMenuOptionsPrintSpot + 7, 24);
+						cout << "HUD Text Colour";
+						colour(getBGColourWORD(newOptions.hudBGColour) | getColourWORD(newOptions.hudTextColour));
+						gotoXY(mainMenuOptionsPrintSpot + 7, 25);
+						cout << "HUD BG Colour";
+						break;
+					case 4:
+						colour(getColourWORD(newOptions.hudTextColour) | getBGColourWORD(newOptions.hudBGColour));
+						gotoXY(mainMenuOptionsPrintSpot + 7, 24);
+						cout << "HUD Text Colour";
+						colour(getBGColourWORD(newOptions.hudBGColour) | getColourWORD(newOptions.hudTextColour));
+						gotoXY(mainMenuOptionsPrintSpot + 7, 25);
+						cout << "HUD BG Colour";
 						break;
 				}
 

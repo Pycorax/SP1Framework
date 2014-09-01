@@ -18,6 +18,22 @@ void newSetConsoleSize(COORD size)
 
 void newSetConsoleSize(int x, int y)
 {
+	const int MIN_X = 30;
+	const int MIN_Y = 35;
+
+	if (x < MIN_X)
+	{
+		x = MIN_X;
+	}
+
+	if (y < MIN_Y)
+	{
+		y = MIN_Y;
+	}
+
+	consoleSize.X = x;
+	consoleSize.Y = y;
+
 	ostringstream oss;
 	oss << "mode " << x << "," << y;
 

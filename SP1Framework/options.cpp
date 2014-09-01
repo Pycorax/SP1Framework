@@ -9,16 +9,22 @@ using std::endl;
 
 OptionSet::OptionSet()
 {
-	playerColour = E_WHITE_COLOR;
-	wallColour = E_WHITE_COLOR;
+	playerColour = E_YELLOW_COLOR;
+	wallColour = E_BLUE_COLOR;
 	pelletColour = E_WHITE_COLOR;
+
+	hudTextColour = E_WHITE_COLOR;
+	hudBGColour = E_TEAL_BG_COLOR;
 }
 
-OptionSet::OptionSet(COLOR player, COLOR wall, COLOR pellet)
+OptionSet::OptionSet(COLOR player, COLOR wall, COLOR pellet, COLOR hudText, BG_COLOR hudBG)
 {
 	playerColour = player;
 	wallColour = wall;
 	pelletColour = pellet;
+	
+	hudTextColour = hudText;
+	hudBG = hudBGColour;
 }
 
 WORD getColourWORD(COLOR color) //Sets the colour according to the enum COLOR given
@@ -99,6 +105,84 @@ WORD getColourWORD(COLOR color) //Sets the colour according to the enum COLOR gi
 	return finalColour;
 }
 
+WORD getBGColourWORD(BG_COLOR color) //Sets the colour according to the enum COLOR given
+{
+	WORD finalColour;
+
+	//Base colours
+	if (color >= E_RED_BG_COLOR && color <= E_MAGENTA_BG_COLOR) //Red Base
+	{
+		finalColour = BACKGROUND_RED;
+
+		if (color == E_YELLOW_BG_COLOR)
+		{
+			finalColour |= BACKGROUND_GREEN;
+			finalColour |= BACKGROUND_INTENSITY;
+		}
+
+		if (color == E_PURPLE_BG_COLOR || color == E_MAGENTA_BG_COLOR)
+		{
+			finalColour |= BACKGROUND_BLUE;
+		}
+
+		//Intensity
+		if (color >= E_BRIGHT_RED_BG_COLOR && color <= E_MAGENTA_BG_COLOR)
+		{
+			finalColour |= BACKGROUND_INTENSITY;
+		}
+	}
+	else if (color >= E_BLUE_BG_COLOR && color <= E_LIGHT_BLUE_BG_COLOR) //Blue Base
+	{
+		finalColour = BACKGROUND_BLUE;
+
+		if (color >= E_TEAL_BG_COLOR && color <= E_CYAN_BG_COLOR)
+		{
+			finalColour |= BACKGROUND_GREEN;
+		}
+
+		//Intensity
+		if (color == E_CYAN_BG_COLOR || color == E_LIGHT_BLUE_BG_COLOR)
+		{
+			finalColour |= BACKGROUND_INTENSITY;
+		}
+
+	}
+	else if (color >= E_GREEN_BG_COLOR && color <= E_OLIVE_BG_COLOR) // Green Base
+	{
+		finalColour = BACKGROUND_GREEN;
+
+		if (color >= E_YELLOW_BG_COLOR && color <= E_OLIVE_BG_COLOR)
+		{
+			finalColour |= BACKGROUND_RED;
+		}
+
+		if (color == E_LIGHT_GREEN_BG_COLOR || color == E_YELLOW_BG_COLOR)
+		{
+			finalColour |= BACKGROUND_INTENSITY;
+		}
+	}
+	else if (color >= E_BLACK_BG_COLOR && color <= E_DARK_GREY_BG_COLOR)
+	{
+		finalColour = 0;
+
+		if (color == E_DARK_GREY_BG_COLOR)
+		{
+			finalColour |= BACKGROUND_INTENSITY;
+		}
+	}
+	else
+	{
+		finalColour = BACKGROUND_RED | BACKGROUND_BLUE | BACKGROUND_GREEN;
+
+		if (color == E_WHITE_BG_COLOR)
+		{
+			finalColour |= BACKGROUND_INTENSITY;
+		}
+	}
+
+	return finalColour;
+}
+
 bool saveOptions(OptionSet &options, OptionSet newOptions)
 {
 	ofstream saveFile;
@@ -113,6 +197,8 @@ bool saveOptions(OptionSet &options, OptionSet newOptions)
 		saveFile << options.playerColour << endl;
 		saveFile << options.wallColour << endl;
 		saveFile << options.pelletColour << endl;
+		saveFile << options.hudTextColour << endl;
+		saveFile << options.hudBGColour << endl;
 		saveFile.close();
 		return true;
 	}
@@ -138,6 +224,10 @@ bool loadOptions(OptionSet &options)
 		options.wallColour = static_cast<COLOR>(atoi(input.c_str()));
 		getline(optionFile, input);
 		options.pelletColour = static_cast<COLOR>(atoi(input.c_str()));
+		getline(optionFile, input);
+		options.hudTextColour = static_cast<COLOR>(atoi(input.c_str()));
+		getline(optionFile, input);
+		options.hudBGColour = static_cast<BG_COLOR>(atoi(input.c_str()));
 
 		optionFile.close();
 

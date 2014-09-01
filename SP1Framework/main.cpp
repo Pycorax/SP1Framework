@@ -20,7 +20,7 @@ int main()
 	GAMESTATE game = E_MAIN_MENU;
 	
 	Loadables loads(0,3,0);
-	OptionSet options(E_WHITE_COLOR, E_WHITE_COLOR, E_WHITE_COLOR);
+	OptionSet options; //Initialised to default values in "options.h"
 
 	loadOptions(options);
 	

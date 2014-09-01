@@ -285,16 +285,16 @@ void update(double dt, Map &currentMap, Pacman &player)
 	}
 }
 
-void render(Map &currentMap, Pacman &player, Loadables loads, bool isCustom)
+void render(Map &currentMap, Pacman &player, Loadables loads, OptionSet options, bool isCustom)
 {
 	//Print HUD
 	colour(BACKGROUND_GREEN);
-	printScore(currentMap.scorePoints, currentMap.minScore);
-	printPellets(currentMap.pellets);
-	printLives(player.lives);
+	printScore(currentMap.scorePoints, currentMap.minScore, options);
+	printPellets(currentMap.pellets, options);
+	printLives(player.lives, options);
 	if(!isCustom)
 	{
-		printCumulativeScore(currentMap.scorePoints, loads.cumulativeScore);
+		printCumulativeScore(currentMap.scorePoints, loads.cumulativeScore, options);
 	}
 
 	//Wipe old Player
@@ -363,21 +363,17 @@ void levelLoop(string mapName, GAMESTATE &game, unsigned int level, Loadables &l
 		cls();
 
 		consoleSize.X = currentMap.processedMap[0].size() * TILE_WIDTH;
-		consoleSize.Y = currentMap.processedMap.size() * TILE_HEIGHT + HUD_OFFSET * TILE_HEIGHT;
+		consoleSize.Y = currentMap.processedMap.size() * TILE_HEIGHT + HUD_OFFSET + 1;
 
 		newSetConsoleSize(consoleSize);
 
 		//Print static HUD
-		printHUDBackground();
+		printHUDBackground(options.hudBGColour);
+		gotoXY(20,0);
+		printLevelName(mapName, options);
+		printLevel(level, options);
 
 		currentMap.renderMap();
-
-		//Print HUD background
-		colour(BACKGROUND_GREEN);
-		printHUDBackground();
-		gotoXY(20,0);
-		printLevelName(mapName);
-		printLevel(level);
 
 		Pacman player(currentMap, loads.playerLives, options.playerColour);
 		Bullet shoot(player, currentMap.bulletDamage,currentMap.bulletSpeed);
@@ -387,7 +383,7 @@ void levelLoop(string mapName, GAMESTATE &game, unsigned int level, Loadables &l
 		{        
 			getInput();												// get keyboard input
 			update(g_timer.getElapsedTime(), currentMap, player);   // update the game
-			render(currentMap, player, loads);
+			render(currentMap, player, loads,options);
 			g_timer.waitUntil(frameTime);						// Frame rate limiter. Limits each frame to a specified time in ms.
 			if(currentMap.levelState == E_PAUSE)
 			{
@@ -403,9 +399,9 @@ void levelLoop(string mapName, GAMESTATE &game, unsigned int level, Loadables &l
 
 					//Print HUD background
 					colour(BACKGROUND_GREEN);
-					printHUDBackground();
+					printHUDBackground(options.hudBGColour);
 					gotoXY(20,0);
-					printLevelName(mapName);
+					printLevelName(mapName, options);
 				}
 			}
 		}
@@ -415,7 +411,7 @@ void levelLoop(string mapName, GAMESTATE &game, unsigned int level, Loadables &l
 		loads.cumulativeScore += currentMap.scorePoints;
 		loads.level = level + 1; //Sets level after this to be the one to load
 
-		colour(FOREGROUND_GREEN);
+		colour(getBGColourWORD(E_BLACK_BG_COLOR));
 		cls();
 
 		
@@ -486,15 +482,11 @@ void customLevelLoop(string mapName, Loadables loads, OptionSet options)
 		newSetConsoleSize(consoleSize);
 
 		//Print static HUD
-		printHUDBackground();
+		printHUDBackground(options.hudBGColour);
+		gotoXY(20,0);
+		printLevelName(mapName, options);
 
 		currentMap.renderMap();
-
-		//Print HUD background
-		colour(BACKGROUND_GREEN);
-		printHUDBackground();
-		gotoXY(20,0);
-		printLevelName(mapName);
 
 		Pacman player(currentMap, loads.playerLives, options.playerColour);
 		Bullet shoot(player, currentMap.bulletDamage,currentMap.bulletSpeed);
@@ -504,7 +496,7 @@ void customLevelLoop(string mapName, Loadables loads, OptionSet options)
 		{        
 			getInput();												// get keyboard input
 			update(g_timer.getElapsedTime(), currentMap, player);   // update the game
-			render(currentMap, player, loads, true);
+			render(currentMap, player, loads, options, true);
 			g_timer.waitUntil(frameTime);						// Frame rate limiter. Limits each frame to a specified time in ms.
 			if(currentMap.levelState == E_PAUSE)
 			{
@@ -520,9 +512,9 @@ void customLevelLoop(string mapName, Loadables loads, OptionSet options)
 
 					//Print HUD background
 					colour(BACKGROUND_GREEN);
-					printHUDBackground();
+					printHUDBackground(options.hudBGColour);
 					gotoXY(20,0);
-					printLevelName(mapName);
+					printLevelName(mapName, options);
 				}
 			}
 		}
