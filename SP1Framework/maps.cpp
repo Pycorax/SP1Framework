@@ -367,6 +367,7 @@ void printTile(char tile, COORD tileLocation)
 			}
 			break;
 		case 'H':
+			colour(FOREGROUND_RED | FOREGROUND_INTENSITY );
 			gotoXYTileDown(tileLocation, 0);
 			cout << "   ";
 			gotoXYTileDown(tileLocation, 1);

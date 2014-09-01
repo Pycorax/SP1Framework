@@ -18,8 +18,8 @@ int main()
 	
 	Loadables loads(0,3,0);
 	
-	const size_t NUM_OF_MAPS = 8;
-	string maps[NUM_OF_MAPS] = {"testing", "testing2", "testing3","testing4","testing5","testing6","testing7","testing8"};
+	const size_t NUM_OF_MAPS = 10;
+	string maps[NUM_OF_MAPS] = {"testingB", "testing1", "testing", "testing2", "testing3","testing4","testing5","testing6","testing7","testing8"};
 
 	while(game != E_EXIT)
 	{

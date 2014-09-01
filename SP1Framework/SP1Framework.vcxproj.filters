@@ -169,5 +169,18 @@
     <None Include="speedyGhostHitTest.aimap">
       <Filter>Source Files\Maps</Filter>
     </None>
+    <None Include="scores.txt" />
+    <None Include="testing1.aimap">
+      <Filter>Source Files\Maps</Filter>
+    </None>
+    <None Include="testing1.map">
+      <Filter>Source Files\Maps</Filter>
+    </None>
+    <None Include="testingB.aimap">
+      <Filter>Source Files\Maps</Filter>
+    </None>
+    <None Include="testingB.map">
+      <Filter>Source Files\Maps</Filter>
+    </None>
   </ItemGroup>
 </Project>

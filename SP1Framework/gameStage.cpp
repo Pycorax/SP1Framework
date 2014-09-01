@@ -109,6 +109,7 @@ void mainMenu(GAMESTATE &game)
 void drawPacman(int x, int y)
 {
 	static bool even = true;
+
 	if(even)
 		{
 			gotoXY(17, 41);
@@ -132,6 +133,9 @@ void gameGuide(GAMESTATE &game)
 		//consoleSize = consoleSize;
 		//setConsoleSize;
 		colour(FOREGROUND_GREEN | FOREGROUND_RED);
+		extern bool keyPressed[E_MAX_KEYS];
+		
+
 		const size_t GAME_GUIDE_MENU = 8;
 		string gameguideMenu[GAME_GUIDE_MENU] =
 		{
@@ -290,20 +294,27 @@ void gameGuide(GAMESTATE &game)
 				gotoXY(17, 42);
 				cout << "    Health: 2";
 
+				gotoXY( consoleSize.X/2 - 9, 40);
+				cout << "Press Space to Continue...";
+
 				while( b == 6 )
 				{
-					if( b == 6 )
-					{
-						drawPacman( 10, 41 );
-					}
+					drawPacman(0, 0);
 					Sleep(100);
+					getInput();
+	
+					if ( keyPressed[E_SPACE_KEY] )
+					{
+						game = E_MAIN_MENU;
+						break;
+					}
 				}
 			}
 		}
 
-		pressToContinue(GAME_GUIDE_MENU + GAME_INSTRUCTIONS + 5);
+	/*	pressToContinue(GAME_GUIDE_MENU + GAME_INSTRUCTIONS + 5);
 
-		game = E_MAIN_MENU;
+		game = E_MAIN_MENU;*/
 	}
 
 void gameOver(GAMESTATE &game)

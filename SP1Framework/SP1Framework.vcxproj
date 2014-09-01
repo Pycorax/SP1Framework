@@ -112,6 +112,8 @@
     <None Include="scores.txt" />
     <None Include="testing.aimap" />
     <None Include="testing.map" />
+    <None Include="testing1.aimap" />
+    <None Include="testing1.map" />
     <None Include="testing2.aimap" />
     <None Include="testing2.map" />
     <None Include="testing3.aimap" />
@@ -126,6 +128,8 @@
     <None Include="testing7.map" />
     <None Include="testing8.aimap" />
     <None Include="testing8.map" />
+    <None Include="testingB.aimap" />
+    <None Include="testingB.map" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
