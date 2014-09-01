@@ -7,6 +7,7 @@
 #include "saves.h"
 #include "otherHelperFunctions.h"
 #include "options.h"
+#include "highscore.h"
 
 using std::string;
 
@@ -51,7 +52,7 @@ int main()
 				deleteMenu(game);
 				break;
 			case E_HIGH_SCORES:
-				highScoreBoard(-1);
+				highScoreBoard(-1, "level_1");
 				game = E_MAIN_MENU;
 				break;
 			case E_OPTIONS_MENU:

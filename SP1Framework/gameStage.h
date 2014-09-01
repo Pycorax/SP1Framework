@@ -60,7 +60,6 @@ void loadCustomLevelMenu(GAMESTATE &game, OptionSet options);
 void customGame(string mapName, OptionSet options);
 
 //Others
-void highScoreBoard(int scorePoints);
 void gameGuide(GAMESTATE &game);
 void aboutScreen();
 

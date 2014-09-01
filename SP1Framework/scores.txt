@@ -1,10 +1,10 @@
-no 8800
-:< 1525
-konichiwa 1100
-jack 1000
-jane 900
-hello 900
-BYEBYE 900
-tom 800
-jerry 700
-jasmine 600
+no 8800 level0
+:< 1525 level0
+konichiwa 1100 level0
+jack 1000 level0
+jane 900 level0
+hello 900 level0
+BYEBYE 900 level0
+tom 800 level0
+jerry 700 level0
+jasmine 600 level0

@@ -10,10 +10,11 @@ struct playerScore
 {
 	string names;
 	int score;
+	string mapName;
 };
 
-void sortScore(playerScore * playerScore,int scorePoint,string playerName);
-void highScoreBoard(int scorePoint);
+void sortScore(playerScore * playerScore,int scorePoint,string playerName, string mapName);
+void highScoreBoard(int scorePoint, string mapName);
 void displayScores(playerScore * playerScore);
 void storeScore(int scorePoint);
 void read(string fileName, playerScore * playerScore);
