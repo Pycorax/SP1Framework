@@ -423,7 +423,7 @@ void levelLoop(string mapName, GAMESTATE &game, unsigned int level, Loadables &l
 		{
 			case E_LOSS:
 				loseScreen();
-				highScoreBoard(currentMap.scorePoints, mapName);
+				highScoreBoard(loads.cumulativeScore,mapName);
 				game = E_MAIN_MENU;
 				break;
 			case E_WIN:

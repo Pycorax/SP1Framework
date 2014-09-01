@@ -22,18 +22,21 @@ using std::stoi;
 //retrieve data from save file
 void read(string fileName, playerScore *playerScore)
 {
-	ifstream openfile(fileName);
-	if(openfile.is_open())
+	if(fileExists(fileName)==true)
 	{
-		for(int i = 0 ; !openfile.eof();i++)
+		ifstream openfile(fileName);
+		if(openfile.is_open())
 		{
-			openfile >> playerScore[i].names;
-			openfile >> playerScore[i].score;
-			openfile >> playerScore[i].mapName;
+			for(int i = 0 ; !openfile.eof();i++)
+			{
+				openfile >> playerScore[i].names;
+				openfile >> playerScore[i].score;
+				openfile >> playerScore[i].mapName;
+			}
 		}
 	}
 }
-void displayScores(playerScore * playerScore)
+void displayScores(playerScore * playerScore, string fileName)
 {
 	const int PLAYERS = 10;
 	//display records
@@ -45,18 +48,23 @@ void displayScores(playerScore * playerScore)
 	gotoXY(highscorePrintSpot + 13 , 17);
 	cout << "LEVEL";
 
-	for(int counter = 0 ; counter < PLAYERS ; counter++)
+	if( fileExists(fileName) == true)
 	{
-		gotoXY(highscorePrintSpot - 17, 19 + counter);
-		cout << playerScore[counter].names ;
+		for(int counter = 0 ; counter < PLAYERS ; counter++)
+		{
+			gotoXY(highscorePrintSpot - 17, 19 + counter);
+			cout << playerScore[counter].names ;
 
-		gotoXY(highscorePrintSpot, 19 + counter);
-		cout<< playerScore[counter].score ;
+			if(playerScore[counter].score > 0)
+			{
+			gotoXY(highscorePrintSpot, 19 + counter);
+			cout<< playerScore[counter].score ;
+			}
 
-		gotoXY(highscorePrintSpot + 13, 19 + counter);
-		cout << playerScore[counter].mapName ;
+			gotoXY(highscorePrintSpot + 13, 19 + counter);
+			cout << playerScore[counter].mapName ;
+		}
 	}
-
 }
 void highScoreTitle()
 {
@@ -84,32 +92,41 @@ void highScoreTitle()
 		cout << highscorescreen[i];
 	}
 }
-void sortScore(playerScore * playerScore,int scorePoint,string playerName, string mapName)
+void sortScore(playerScore * playerScore,int scorePoint,string playerName, string mapName, string fileName)
 {
-	for(int i = 0 ; i < 10 ; i++)
+	if(fileExists(fileName) == true)
 	{
-		if(playerScore[i].score < scorePoint)
+		for(int i = 0 ; i < 10 ; i++)
 		{
-			for(int j = 9 ; j >= i ; j--)
+			if(playerScore[i].score < scorePoint)
 			{
-				if(j == 9)
+				for(int j = 9 ; j >= i ; j--)
 				{
-					playerScore[9].score = playerScore[8].score;
-					playerScore[9].names = playerScore[8].names;
-					playerScore[9].mapName = playerScore[8].mapName;
+					if(j == 9)
+					{
+						playerScore[9].score = playerScore[8].score;
+						playerScore[9].names = playerScore[8].names;
+						playerScore[9].mapName = playerScore[8].mapName;
+					}
+					else
+					{
+						playerScore[j+1].score = playerScore[j].score;
+						playerScore[j+1].names = playerScore[j].names;
+						playerScore[j+1].mapName = playerScore[j].mapName;
+					}
 				}
-				else
-				{
-					playerScore[j+1].score = playerScore[j].score;
-					playerScore[j+1].names = playerScore[j].names;
-					playerScore[j+1].mapName = playerScore[j].mapName;
-				}
+				playerScore[i].score = scorePoint;
+				playerScore[i].names = playerName;
+				playerScore[i].mapName = mapName;
+				break;
 			}
-			playerScore[i].score = scorePoint;
-			playerScore[i].names = playerName;
-			playerScore[i].mapName = mapName;
-			break;
 		}
+	}
+	else
+	{
+		playerScore[0].score = scorePoint;
+		playerScore[0].names = playerName;
+		playerScore[0].mapName = mapName;
 	}
 }
 void write(string fileName, playerScore * playerScore)	
@@ -123,7 +140,14 @@ void write(string fileName, playerScore * playerScore)
 	{
 		for(int i = 0; i < PLAYERS ; i++)
 		{
-			openfile << playerScore[i].names <<" "<< playerScore[i].score << " " << playerScore[i].mapName << endl;
+			if(playerScore[i].names != "")
+			openfile << playerScore[i].names <<" ";
+
+			if(playerScore[i].score >= 0)
+			openfile<< playerScore[i].score << " ";
+
+			if(playerScore[i].mapName != "")
+			openfile << playerScore[i].mapName << endl;
 		}
 	}
 	openfile.close();
@@ -141,15 +165,23 @@ void highScoreBoard(int scorePoint, string mapName)
 	if(scorePoint >= 0)
 	{
 		gotoXY(40,20);
-		cout << "Enter your name : ";
+		cout << "Enter your name(Max. 10 char , No spaces) : ";
 		cin >> playername;
+		while(playername.length() > 20)
+		{
+			gotoXY(40,25);
+			cout<<"Your Name has exceeded 10 characters!";
+			gotoXY(40,26);
+			cout<<"Please enter your name again";
+			cin >> playername;
+		}
 
-		sortScore(playerScore, scorePoint,playername, mapName);
+		sortScore(playerScore, scorePoint,playername, mapName,"scores.txt");
 	}
 	
 	cls();
 	highScoreTitle();
-	displayScores(playerScore);
+	displayScores(playerScore, "scores.txt");
 	
 	pressToContinue(30);
 

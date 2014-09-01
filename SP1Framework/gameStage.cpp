@@ -12,6 +12,7 @@
 #include "scorePoints.h"
 #include "customLevels.h"
 
+
 extern COORD consoleSize;
 extern COORD defaultConsoleSize;
 
@@ -57,7 +58,7 @@ void mainMenu(GAMESTATE &game)
 		cout << mainMenuTitle[i];
 	}
 
-	const size_t MAIN_MENU_OPTIONS = 14;
+	const size_t MAIN_MENU_OPTIONS = 16;
 	string mainMenuOptions[MAIN_MENU_OPTIONS] =
 	{
 		" _____________________",
@@ -73,7 +74,9 @@ void mainMenu(GAMESTATE &game)
 		"|      About          |",
 		"|      Exit Game      |",
 		"|                     |",
-		"|_____________________|"
+		"|_____________________|",
+		"  Use Arrow keys to move",
+		"  Use Space bar to select"
 	};
 
 	int mainMenuOptionsPrintSpot = defaultConsoleSize.X/2 - mainMenuOptions[0].length()/2;
@@ -172,14 +175,15 @@ void gameGuide(GAMESTATE &game)
 			":......::::..:::::..::..:::::..::........::::::......:::::.......:::....::........:::........::"
 		};
 
-		const size_t GAME_INSTRUCTIONS = 30;
+		const size_t GAME_INSTRUCTIONS = 31;
 		string gameInstructions[GAME_INSTRUCTIONS] =
 		{
 			"HOW TO PLAY?",
 			"	1: Use Arrow Keys to move the pacman around",
-			"	2: Collect all pellets or reach minimum points to go to the next level",
-			"	3: Kill Ghosts or collect pellets to gain points",
-			"	4: Try not to let ghosts touch you",
+			"   2: Press Spacebar to shoot",
+			"	3: Collect all pellets or reach minimum points to go to the next level",
+			"	4: Kill Ghosts or collect pellets to gain points",
+			"	5: Try not to let ghosts touch you",
 			"	                                  ",
 			"Introductions    ",
 			"                    ",
@@ -909,6 +913,7 @@ void endScreen()
 	
 	pressToContinue(7 + END_SCREEN_TITLE);
 }
+
 void winScreen()
 {
 	newSetConsoleSize(defaultConsoleSize);

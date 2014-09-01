@@ -13,9 +13,9 @@ struct playerScore
 	string mapName;
 };
 
-void sortScore(playerScore * playerScore,int scorePoint,string playerName, string mapName);
+void sortScore(playerScore * playerScore,int scorePoint,string playerName, string mapName, string fileName);
 void highScoreBoard(int scorePoint, string mapName);
-void displayScores(playerScore * playerScore);
+void displayScores(playerScore * playerScore, string fileName);
 void storeScore(int scorePoint);
 void read(string fileName, playerScore * playerScore);
 void write(string fileName, playerScore * playerScore);
