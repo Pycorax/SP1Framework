@@ -112,10 +112,10 @@
   <ItemGroup>
     <None Include="ghostCollisionTest.aimap" />
     <None Include="ghostCollisionTest.map" />
-    <None Include="LEVEL1.aimap" />
-    <None Include="LEVEL1.map" />
-    <None Include="LEVEL3.aimap" />
-    <None Include="LEVEL3.map" />
+    <None Include="Maps\LEVEL1.aimap" />
+    <None Include="Maps\LEVEL1.map" />
+    <None Include="Maps\LEVEL3.aimap" />
+    <None Include="Maps\LEVEL3.map" />
     <None Include="Maps\testing.aimap" />
     <None Include="Maps\testing.map" />
     <None Include="Maps\testing2.aimap" />

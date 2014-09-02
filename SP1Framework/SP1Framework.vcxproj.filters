@@ -179,16 +179,16 @@
     <None Include="Maps\testingA.map">
       <Filter>Resource Files\Maps</Filter>
     </None>
-    <None Include="LEVEL1.aimap">
+    <None Include="Maps\LEVEL3.aimap">
       <Filter>Resource Files\Maps</Filter>
     </None>
-    <None Include="LEVEL1.map">
+    <None Include="Maps\LEVEL3.map">
       <Filter>Resource Files\Maps</Filter>
     </None>
-    <None Include="LEVEL3.aimap">
+    <None Include="Maps\LEVEL1.aimap">
       <Filter>Resource Files\Maps</Filter>
     </None>
-    <None Include="LEVEL3.map">
+    <None Include="Maps\LEVEL1.map">
       <Filter>Resource Files\Maps</Filter>
     </None>
   </ItemGroup>

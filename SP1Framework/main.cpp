@@ -22,9 +22,11 @@ int main()
 	loadOptions(options);
 	
 	//Controls maps & map order in normal mode
-	const size_t NUM_OF_MAPS = 8;
+	const size_t NUM_OF_MAPS = 11;
 	string maps[NUM_OF_MAPS] = 
 	{
+		"LEVEL1",
+		"LEVEL3",
 		"testing",
 		"testing2",
 		"testing3",
@@ -32,7 +34,8 @@ int main()
 		"testing5",
 		"testing6",
 		"testing7",
-		"testing8"
+		"testing8",
+		"testingA"
 	};
 
 	while(game != E_EXIT)
