@@ -295,7 +295,7 @@ void Map::renderMap()
 	const char obstacle = 176;
 	const char pellet = 'o';
 	char powerupsLife = 3;
-	const char increaseDmg = 'd';
+	const char increaseDmg = 30;
 	const char increasebulletSpeed = 's';
 	const char scoreMultiplier = 'M';
 
@@ -320,8 +320,8 @@ void printTile(char tile, COORD tileLocation, OptionSet options)
 	const char obstacle = 176;
 	const char pellet = 'o';
 	char powerupsLife = 3;
-	const char increaseDmg = 'D';
-	const char increasebulletSpeed = 's';
+	const char increaseDmg = 30;
+	const char increasebulletSpeed = 15;
 	const char scoreMultiplier = 'M';
 
 	colour(getColourWORD(E_WHITE_COLOR));
@@ -386,7 +386,7 @@ void printTile(char tile, COORD tileLocation, OptionSet options)
 			gotoXYTileDown(tileLocation, 0);
 			cout << "   ";
 			gotoXYTileDown(tileLocation, 1);
-			cout << " " << "S" << " ";
+			cout << " " << increasebulletSpeed << " ";
 			gotoXYTileDown(tileLocation, 2);
 			cout << "   ";
 			break;
