@@ -5,9 +5,12 @@
 #include "characters.h"
 #include "options.h"
 
-extern enum DIRECTION;
-extern struct Map;
-extern struct Pacman;
+extern "C"
+{
+	enum DIRECTION;
+	struct Map;
+	struct Pacman;
+};
 
 struct Bullet
 {

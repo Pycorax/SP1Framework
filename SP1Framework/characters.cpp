@@ -22,7 +22,7 @@ Ghost::Ghost(short healthPoints, short speedPoints, unsigned short givenZoneID, 
 	
 	do 
 	{
-		srand(time(NULL));
+		srand(static_cast<unsigned int>(time(NULL)));
 		coord.X = rand() % (currentMap.zoneCoords[numericZoneID].maxX - currentMap.zoneCoords[numericZoneID].minX + 1) + currentMap.zoneCoords[numericZoneID].minX;
 		coord.Y = rand() % (currentMap.zoneCoords[numericZoneID].maxY - currentMap.zoneCoords[numericZoneID].minY + 1) + currentMap.zoneCoords[numericZoneID].minY;
 	}
@@ -294,7 +294,7 @@ void Ghost::respawn(Map &currentMap)
 {
 	if(!isAlive())
 	{
-			srand(time(NULL));
+			srand(static_cast<unsigned int>(time(NULL)));
 			coord.X = rand() % (currentMap.zoneCoords[numericZoneID].maxX - currentMap.zoneCoords[numericZoneID].minX + 1) + currentMap.zoneCoords[numericZoneID].minX;
 			coord.Y = rand() % (currentMap.zoneCoords[numericZoneID].maxY - currentMap.zoneCoords[numericZoneID].minY + 1) + currentMap.zoneCoords[numericZoneID].minY;
 		if (currentMap.processedAIMap[coord.Y][coord.X] == zoneID)
@@ -469,7 +469,7 @@ bool Pacman::isAlive()
 
 bool Pacman::isHitByGhost(Ghost enemy)
 {
-	for(size_t position = 0; position < enemy.speed; ++position)
+	for(int position = 0; position < enemy.speed; ++position)
 	{
 		if(coord.X == enemy.coord.X - (enemy.change.X * position) && coord.Y == enemy.coord.Y - (enemy.change.Y * position))
 		{

@@ -11,7 +11,10 @@
 using std::vector;
 using std::string;
 
-extern struct Ghost;
+extern "C"
+{
+	struct Ghost;
+};
 
 enum DIRECTION
 {

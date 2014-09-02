@@ -97,7 +97,7 @@ bool Bullet::move(Map currentMap)
 
 	for(int position = 1; position <= speed && canMove; ++position)
 	{
-		if(coord.X + (change.X) >= 0 && coord.X + (change.X) < currentMap.processedMap[coord.Y].size() && coord.Y + (change.Y) >= 0 && coord.Y + (change.Y) < currentMap.processedMap.size() && currentMap.processedMap[coord.Y + (change.Y)][coord.X + (change.X)] != '#')
+		if(coord.X + (change.X) >= 0 && coord.X + (change.X) < static_cast<short>(currentMap.processedMap[coord.Y].size()) && coord.Y + (change.Y) >= 0 && coord.Y + (change.Y) < static_cast<short>(currentMap.processedMap.size()) && currentMap.processedMap[coord.Y + (change.Y)][coord.X + (change.X)] != '#')
 		{
 			coord.X += change.X;
 			coord.Y += change.Y;

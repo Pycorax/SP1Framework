@@ -48,12 +48,12 @@ void printBorder()
 {
 	colour(FOREGROUND_GREEN | FOREGROUND_RED);
 	gotoXY(0,2);
-	for(size_t i = 0; i < consoleSize.X; ++i)
+	for(short i = 0; i < consoleSize.X; ++i)
 	{
 		cout << "*";
 	}
 
-	for(size_t i = 0; i < consoleSize.Y; ++i)
+	for(short i = 0; i < consoleSize.Y; ++i)
 	{
 		gotoXY(0,i);
 		cout << "*";
@@ -62,7 +62,7 @@ void printBorder()
 	}
 	
 	gotoXY(0,consoleSize.Y);
-	for(size_t i = 0; i < consoleSize.X; ++i)
+	for(short i = 0; i < consoleSize.X; ++i)
 	{
 		cout << "*";
 	}

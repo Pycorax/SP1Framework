@@ -6,11 +6,14 @@
 #include "gameStage.h"
 #include "saves.h"
 
-extern struct Ghost;
-extern struct Pacman;
-extern struct Map;
-extern struct Bullet;
-extern struct Loadables;
+extern "C"
+{
+	struct Ghost;
+	struct Pacman;
+	struct Map;
+	struct Bullet;
+	struct Loadables;
+};
 
 enum KEYS
 {

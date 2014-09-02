@@ -290,15 +290,6 @@ bool Map::processAIMap(const char mapName[])
 
 void Map::renderMap()
 {
-	const char border = 176;
-	const char space = ' ';
-	const char obstacle = 176;
-	const char pellet = 'o';
-	char powerupsLife = 3;
-	const char increaseDmg = 30;
-	const char increasebulletSpeed = 's';
-	const char scoreMultiplier = 'M';
-
 	//Controls Rows
 	for (size_t coord_y = 0; coord_y < processedMap.size(); ++coord_y)
 	{
@@ -315,9 +306,8 @@ void Map::renderMap()
 
 void printTile(char tile, COORD tileLocation, OptionSet options)
 {
-	const char border = 176;
+	const unsigned char border = 176;
 	const char space = ' ';
-	const char obstacle = 176;
 	const char pellet = 'o';
 	char powerupsLife = 3;
 	const char increaseDmg = 30;
@@ -337,17 +327,6 @@ void printTile(char tile, COORD tileLocation, OptionSet options)
 				for (size_t width = 0; width < TILE_WIDTH; ++ width)
 				{
 					cout << border;
-				}
-			}
-			break;
-		case'O':
-			for (size_t height = 0; height < TILE_HEIGHT; ++height)
-			{
-				gotoXYTileDown(tileLocation, height);
-
-				for (size_t width = 0; width < TILE_WIDTH; ++ width)
-				{
-					cout << obstacle;
 				}
 			}
 			break;

@@ -8,6 +8,12 @@
 
 using std::string;
 
+extern "C"
+{
+	struct Loadables;
+	struct OptionSet;
+};
+
 enum GAMESTATE
 {
 	E_MAIN_MENU,
@@ -25,9 +31,6 @@ enum GAMESTATE
 	E_EXIT,
 	E_MAX_GAME_STATES
 };
-
-extern struct Loadables;
-extern struct OptionSet;
 
 void mainMenu(GAMESTATE &game);
 void gameLoop(string maps[], const size_t NUM_OF_MAPS, GAMESTATE &game, Loadables &loads, OptionSet options);

@@ -5,10 +5,13 @@
 #include "bullet.h"
 #include "options.h"
 
-extern enum DIRECTION;
-extern struct Map;
-extern struct Bullet;
-extern struct ZoneBounds;
+extern "C"
+{
+	enum DIRECTION;
+	struct Map;
+	struct Bullet;
+	struct ZoneBounds;
+};
 
 struct Ghost
 {

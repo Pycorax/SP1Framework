@@ -544,12 +544,13 @@ void loadMenu(GAMESTATE &game, Loadables &loadInfo)
 	gotoXY(loadMenuOptionsPrintSpot, 21);
 	cout << loadMenuOptionsHead;
 
-	size_t numOfSaves = 0;
+	int numOfSaves = 0;
 	bool saveFilesPresent = false;
-	for(; numOfSaves < listOfLevels.size(); ++numOfSaves)
+	for(size_t i = 0; i < listOfLevels.size(); ++i)
 	{
 		gotoXY(loadMenuOptionsPrintSpot, 23 + numOfSaves);
 		cout << listOfLevels[numOfSaves];
+		++numOfSaves;
 
 		saveFilesPresent = true;
 	}
@@ -607,7 +608,7 @@ void loadMenu(GAMESTATE &game, Loadables &loadInfo)
 			--selection;
 			selectionChanged = true;
 		}
-		else if(keyPressed[E_DOWN_KEY] && selection + 1< numOfSaves)
+		else if(keyPressed[E_DOWN_KEY] && selection + 1 < numOfSaves)
 		{
 			oldSelection = selection;
 			++selection;
@@ -1121,12 +1122,13 @@ void deleteMenu(GAMESTATE &game)
 		gotoXY(loadMenuOptionsPrintSpot, 21);
 		cout << loadMenuOptionsHead;
 
-		size_t numOfSaves = 0;
+		int numOfSaves = 0;
 		bool saveFilesPresent = false;
-		for(; numOfSaves < listOfLevels.size(); ++numOfSaves)
+		for(size_t i = 0; i < listOfLevels.size(); ++i)
 		{
 			gotoXY(loadMenuOptionsPrintSpot, 23 + numOfSaves);
 			cout << listOfLevels[numOfSaves];
+			++numOfSaves;
 
 			saveFilesPresent = true;
 		}
@@ -1304,12 +1306,13 @@ bool deleteMenu()
 	gotoXY(loadMenuOptionsPrintSpot, 21);
 	cout << loadMenuOptionsHead;
 
-	size_t numOfSaves = 0;
+	int numOfSaves = 0;
 	bool saveFilesPresent = false;
-	for(; numOfSaves < listOfLevels.size(); ++numOfSaves)
+	for(size_t i = 0; i < listOfLevels.size(); ++i)
 	{
 		gotoXY(loadMenuOptionsPrintSpot, 23 + numOfSaves);
 		cout << listOfLevels[numOfSaves];
+		++numOfSaves;
 
 		saveFilesPresent = true;
 	}
@@ -1541,12 +1544,14 @@ void loadCustomLevelMenu(GAMESTATE &game, OptionSet options)
 	gotoXY(customMapsMenuOptionsPrintSpot, 21);
 	cout << customMapsMenuOptionsHead;
 
-	size_t numOfMaps = 0;
+	int numOfMaps = 0;
 	bool mapFilesPresent = false;
-	for(; numOfMaps < listOfCustomMaps.size(); ++numOfMaps)
+	for(size_t i = 0; i < listOfCustomMaps.size(); ++i)
 	{
 		gotoXY(customMapsMenuOptionsPrintSpot, 23 + numOfMaps);
 		cout << listOfCustomMaps[numOfMaps];
+
+		++numOfMaps;
 
 		mapFilesPresent = true;
 	}
