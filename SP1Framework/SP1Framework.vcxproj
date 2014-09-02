@@ -110,6 +110,8 @@
     <None Include="speedyGhostHitTest.aimap" />
     <None Include="speedyGhostHitTest.map" />
     <None Include="scores.txt" />
+    <None Include="superOP.aimap" />
+    <None Include="superOP.map" />
     <None Include="testing.aimap" />
     <None Include="testing.map" />
     <None Include="testing1.aimap" />

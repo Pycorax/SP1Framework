@@ -289,9 +289,9 @@ void render(Map &currentMap, Pacman &player, Loadables loads)
 	player.undraw(currentMap);
 
 	//Render Player
-    colour(0x0C);
 	if(player.isAlive())
 	{
+		colour(0x0C);
 		player.draw();
 	}
 

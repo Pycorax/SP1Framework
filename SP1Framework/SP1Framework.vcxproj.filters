@@ -182,5 +182,11 @@
     <None Include="testingB.map">
       <Filter>Source Files\Maps</Filter>
     </None>
+    <None Include="superOP.aimap">
+      <Filter>Source Files\Maps</Filter>
+    </None>
+    <None Include="superOP.map">
+      <Filter>Source Files\Maps</Filter>
+    </None>
   </ItemGroup>
 </Project>
