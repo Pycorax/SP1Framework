@@ -52,7 +52,7 @@ int main()
 				deleteMenu(game);
 				break;
 			case E_HIGH_SCORES:
-				highScoreBoard(-1, "level_1");
+				highScoreBoard();
 				game = E_MAIN_MENU;
 				break;
 			case E_OPTIONS_MENU:
