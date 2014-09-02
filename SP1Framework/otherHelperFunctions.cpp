@@ -95,3 +95,27 @@ bool fileExists(string saveName)
 		return false;
 	}
 }
+
+bool isNumber(char test)
+{
+	if (test >= '0' && test <= '9')
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+short charToNumber(char number)
+{
+	if (isNumber(number))
+	{
+		return number - 48;
+	}
+	else
+	{
+		return -1;
+	}
+}

@@ -5,6 +5,7 @@
 #include "userInterface.h"
 #include "scorePoints.h"
 #include <clocale>
+#include "otherHelperFunctions.h"
 
 using std::ifstream;
 using std::cout;
@@ -37,16 +38,32 @@ ZoneBounds::ZoneBounds(vector<vector<char>> processedAIMap, unsigned short zone)
 MapValidity::MapValidity()
 {
 	error[E_MAP_FILE_DOES_NOT_EXIST] = false;
+	error[E_AIMAP_FILE_DOES_NOT_EXIST] = false;
+	error[E_MAP_AIMAP_SIZE_NOT_EQUAL] = false;
+	error[E_AIMAP_ZONES_LESS_THAN] = false;
+	error[E_AIMAP_ZONES_GREATER_THAN] = false;
 	error[E_ZONES_NOT_SET] = true;
+	error[E_ZONES_LESS_THAN_USED] = false;
 	error[E_GHOST_STATS_NOT_EQUAL] = false;
 	error[E_SCORE_NOT_SET] = true;
 	error[E_SPAWN_NOT_SET] = true;
+	error[E_MORE_THAN_ONE_SCORE_SET] = false;
+	error[E_MORE_THAN_ONE_SPAWN_SET] = false;
+	error[E_NO_PELLETS] = false;
 
 	errorMessages[E_MAP_FILE_DOES_NOT_EXIST] = "The map file does not exist or cannot be opened.";
-	errorMessages[E_ZONES_NOT_SET] = "Number of ghost zones are not set in the map file.";
+	errorMessages[E_AIMAP_FILE_DOES_NOT_EXIST] = "The AI map file does not exist or cannot be opened.";
+	errorMessages[E_MAP_AIMAP_SIZE_NOT_EQUAL] = "The size of the map and the AI map are not equal.";
+	errorMessages[E_AIMAP_ZONES_LESS_THAN] = "The number of zones drawn in the AI map file is lesser than the number of zones specified in the map file.";
+	errorMessages[E_AIMAP_ZONES_GREATER_THAN] = "The number of zones drawn in the AI map file is greater than the number of zones specified in the map file.";
+	errorMessages[E_ZONES_NOT_SET] = "The number of ghost zones are not set in the map file.";
+	errorMessages[E_ZONES_LESS_THAN_USED] = "The number of ghost zones specified is less than ghost zones assigned to ghosts.";
 	errorMessages[E_GHOST_STATS_NOT_EQUAL] = "The number of ghost stats for each stat in the map file are not the same.";
 	errorMessages[E_SCORE_NOT_SET] = "The minimum score to hit before passing the level is not set in the map file or is equal to 0.";
 	errorMessages[E_SPAWN_NOT_SET] = "The spawn point is not set in the map file.";
+	errorMessages[E_MORE_THAN_ONE_SCORE_SET] = "More than 1 minimum score has been set.";
+	errorMessages[E_MORE_THAN_ONE_SPAWN_SET] = "More than 1 spawn point has been set.";
+	errorMessages[E_NO_PELLETS] = "There are no pellets on the map.";
 }
 
 Map::Map(string mapName, OptionSet setColors)
@@ -61,6 +78,12 @@ Map::Map(string mapName, OptionSet setColors)
 	//Process the map files
 	if(processMap(actualMapName.c_str()) && processAIMap(aiMapName.c_str()))
 	{
+		//Check if map and AImap have same size
+		if ((processedMap[0].size() != processedAIMap[0].size()) || (processedMap.size() != processedAIMap.size()))
+		{
+			validity.error[E_MAP_AIMAP_SIZE_NOT_EQUAL] = true;
+		}
+
 		//Get the Zone Bounds
 		ZoneBounds *zoneptr = NULL;
 
@@ -93,6 +116,11 @@ Map::Map(string mapName, OptionSet setColors)
 			}
 		}
 
+		if (pellets < 1)
+		{
+			validity.error[E_NO_PELLETS] = true;
+		}
+
 		//Initialize other values
 		shot = NULL;
 		scorePoints = 0;
@@ -113,6 +141,8 @@ bool Map::processMap(const char mapName[])
 	string readLine;
 	char readChar;
 	bool skipLine = false;
+	bool spawnWasSet = false;
+	bool scoreWasSet = false;
 
 	ifstream mapFile;
 	mapFile.open(mapName);
@@ -191,6 +221,10 @@ bool Map::processMap(const char mapName[])
 						for(size_t numOfGhosts = 0; numOfGhosts < ghosts; ++numOfGhosts)
 						{
 							ghostDataStorage->at(numOfGhosts).numericZoneID = readLine[numOfGhosts] - 48;
+							if (ghostDataStorage->at(numOfGhosts).numericZoneID >= zones)
+							{
+								validity.error[E_ZONES_LESS_THAN_USED] = true;
+							}
 						}
 					}
 					else
@@ -204,6 +238,11 @@ bool Map::processMap(const char mapName[])
 				}
 				else if(readChar == 'S')
 				{
+					if(scoreWasSet)
+					{
+						validity.error[E_MORE_THAN_ONE_SCORE_SET] = true;
+					}
+
 					--coord_y;
 					getline(mapFile, readLine);
 					minScore = atoi(readLine.c_str());
@@ -211,6 +250,9 @@ bool Map::processMap(const char mapName[])
 					{
 						validity.error[E_SCORE_NOT_SET] = false;
 					}
+					
+					scoreWasSet = true;
+
 					skipLine = true;
 					break;
 				}
@@ -218,9 +260,16 @@ bool Map::processMap(const char mapName[])
 				{
 					if(readChar == 'P')
 					{
+						if(spawnWasSet)
+						{
+							validity.error[E_MORE_THAN_ONE_SPAWN_SET] = true;
+						}
+
 						startPos.Y = coord_y;
 						startPos.X = coord_x;
 						validity.error[E_SPAWN_NOT_SET] = false;
+
+						spawnWasSet = true;
 					}
 
 					ptr->push_back(readChar);
@@ -259,6 +308,13 @@ bool Map::processAIMap(const char mapName[])
 	string readLine;
 	char readChar;
 
+	//For testing E_AIMAP_ZONES_NOT_EQUAL
+	bool *zonePresent = new bool[zones];
+	for (int i = 0; i < zones; ++i)
+	{
+		zonePresent[i] = false;
+	}
+
 	ifstream mapFile;
 	mapFile.open(mapName);
 
@@ -274,10 +330,35 @@ bool Map::processAIMap(const char mapName[])
 			{
 				readChar = readLine[coord_x];
 				ptr->push_back(readChar);
+
+				if (isNumber(readChar))
+				{
+					short number = charToNumber(readChar);
+
+					if (number < zones)
+					{
+						zonePresent[number] = true;
+					}
+					else
+					{
+						validity.error[E_AIMAP_ZONES_GREATER_THAN] = true;
+					}
+				}
+
 			}
 
 			processedAIMap.push_back(*ptr);
 		}
+
+		for (int i = 0; i < zones; ++ i)
+		{
+			if (zonePresent[i] == false)
+			{
+				validity.error[E_AIMAP_ZONES_LESS_THAN] = true;
+			}
+		}
+
+		delete[] zonePresent;
 
 		mapFile.close();
 
@@ -285,6 +366,7 @@ bool Map::processAIMap(const char mapName[])
 	}
 	else
 	{
+		validity.error[E_AIMAP_FILE_DOES_NOT_EXIST] = true;
 		return false;
 	}
 }

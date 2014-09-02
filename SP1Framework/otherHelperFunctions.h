@@ -12,5 +12,7 @@ void flushInputBuffer();
 void pressToContinue(int y_coord);
 void clearInput();
 bool fileExists(string saveName);
+bool isNumber(char test);
+short charToNumber(char number); //Returns -1 if is not a number
 
 #endif

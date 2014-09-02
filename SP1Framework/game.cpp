@@ -443,7 +443,7 @@ void levelLoop(string mapName, GAMESTATE &game, unsigned int level, Loadables &l
 		{
 			if(currentMap.validity.error[i])
 			{
-				cout << currentMap.validity.errorMessages[i] << endl;
+				cout << "Error " << i  << ": " << currentMap.validity.errorMessages[i] << endl;
 			}
 			if(currentMap.validity.error[E_MAP_FILE_DOES_NOT_EXIST])
 			{
