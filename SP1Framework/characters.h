@@ -13,6 +13,15 @@ extern "C"
 	struct ZoneBounds;
 };
 
+enum POWER_UP
+{
+	E_LIFE_POWER_UP,
+	E_DAMAGE_POWER_UP,
+	E_SPEED_POWER_UP,
+	E_MULTIPLIER_POWER_UP,
+	E_MAX_POWER_UPS
+};
+
 struct Ghost
 {
 	int health;
@@ -51,6 +60,8 @@ struct Pacman
 	COORD coord;
 	COORD oldCoord;
 	DIRECTION direct;
+	bool powerUpsActive[E_MAX_POWER_UPS];
+	short currentPowerColourBlink;
 
 	//Aesthetics
 	COLOR color;

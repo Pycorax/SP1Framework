@@ -320,6 +320,12 @@ Pacman::Pacman(Map &currentMap, int playerLives, COLOR playerColour)
 	coord.Y = currentMap.startPos.Y;
 	oldCoord = coord;
 	direct = E_RIGHT_DIRECTION;
+	currentPowerColourBlink = 0;
+
+	for (size_t i = 0; i < E_MAX_POWER_UPS; ++i)
+	{
+		powerUpsActive[i] = false;
+	}
 }
 
 void Pacman::move(Map &currentMap)
@@ -355,7 +361,32 @@ void Pacman::move(Map &currentMap)
 
 void Pacman::draw()
 {
-	colour(getColourWORD(color));
+	COLOR currentColour = color;
+
+	if (currentPowerColourBlink == E_MAX_POWER_UPS)
+	{
+		currentPowerColourBlink = 0;
+	}
+
+	if (powerUpsActive[currentPowerColourBlink])
+	{
+		switch(currentPowerColourBlink)
+		{
+			case E_LIFE_POWER_UP:
+				currentColour = E_RED_COLOR;
+				break;
+			case E_SPEED_POWER_UP:
+				currentColour = E_CYAN_COLOR;
+				break;
+			case E_DAMAGE_POWER_UP:
+				currentColour = E_MAGENTA_COLOR;
+				break;
+		}
+	}
+
+	++currentPowerColourBlink;
+
+	colour(getColourWORD(currentColour));
 
 	static bool even = true;
 	switch(direct)
@@ -447,6 +478,11 @@ void Pacman::draw()
 			}
 				 
 			break;
+	}
+
+	if (powerUpsActive[E_LIFE_POWER_UP])
+	{
+		powerUpsActive[E_LIFE_POWER_UP] = false;
 	}
 }
 

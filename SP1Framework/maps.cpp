@@ -54,8 +54,9 @@ Map::Map(string mapName, OptionSet setColors)
 	ghostDataStorage = new vector<GhostData>;
 
 	//Get names of the map files
-	string actualMapName = mapName + ".map";
-	string aiMapName = mapName + ".aimap";
+	string directory = "Maps/";
+	string actualMapName = directory + mapName + ".map";
+	string aiMapName = directory + mapName + ".aimap";
 
 	//Process the map files
 	if(processMap(actualMapName.c_str()) && processAIMap(aiMapName.c_str()))

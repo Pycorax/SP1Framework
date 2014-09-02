@@ -23,6 +23,7 @@ enum KEYS
     E_RIGHT_KEY,
     E_ESCAPE_KEY,
 	E_SPACE_KEY,
+	E_ENTER_KEY,
     E_MAX_KEYS
 };
 

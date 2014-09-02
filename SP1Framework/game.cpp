@@ -70,6 +70,7 @@ void getInput()
     keyPressed[E_RIGHT_KEY] = isKeyPressed(VK_RIGHT);
     keyPressed[E_ESCAPE_KEY] = isKeyPressed(VK_ESCAPE);
 	keyPressed[E_SPACE_KEY] = isKeyPressed(VK_SPACE);
+	keyPressed[E_ENTER_KEY] = isKeyPressed(VK_RETURN);
 }
 
 void clearInput()
@@ -80,6 +81,7 @@ void clearInput()
 	keyPressed[E_RIGHT_KEY] = false;
 	keyPressed[E_ESCAPE_KEY] = false;
 	keyPressed[E_SPACE_KEY] = false;
+	keyPressed[E_ENTER_KEY] = false;
 }
 
 void update(double dt, Map &currentMap, Pacman &player)
@@ -126,24 +128,29 @@ void update(double dt, Map &currentMap, Pacman &player)
 	}
 
 	//Power-ups Eating
+	//--Health
 	if(currentMap.processedMap[player.coord.Y][player.coord.X] == 'H')
 	{
 		currentMap.processedMap[player.coord.Y][player.coord.X] = ' ';
 		player.lives += 1;
+		player.powerUpsActive[E_LIFE_POWER_UP] = true;
+		player.currentPowerColourBlink = E_LIFE_POWER_UP; //Makes it blink once
 		Beep(1000, 100);
 	}
-
+	//--Bullet Speed
 	if(currentMap.processedMap[player.coord.Y][player.coord.X] == 's')
 	{
 		currentMap.processedMap[player.coord.Y][player.coord.X] = ' ';
-
 		currentMap.bulletSpeed = 3;
+		player.powerUpsActive[E_SPEED_POWER_UP] = true;
+		Beep(1000, 100);
 	}
-
+	//--Bullet Damage
 	if(currentMap.processedMap[player.coord.Y][player.coord.X] == 'd')
 	{
 		currentMap.processedMap[player.coord.Y][player.coord.X] = ' ';
 		currentMap.bulletDamage = 2;
+		player.powerUpsActive[E_DAMAGE_POWER_UP] = true;
 		Beep(1000, 100);
 	}
 	
