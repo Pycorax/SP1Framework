@@ -182,5 +182,17 @@
       <Filter>Source Files\Maps</Filter>
     </None>
     <None Include="scores.txt" />
+    <None Include="LEVEL1.aimap">
+      <Filter>Source Files\Maps</Filter>
+    </None>
+    <None Include="LEVEL1.map">
+      <Filter>Source Files\Maps</Filter>
+    </None>
+    <None Include="LEVEL3.aimap">
+      <Filter>Source Files\Maps</Filter>
+    </None>
+    <None Include="LEVEL3.map">
+      <Filter>Source Files\Maps</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -112,6 +112,10 @@
   <ItemGroup>
     <None Include="ghostCollisionTest.aimap" />
     <None Include="ghostCollisionTest.map" />
+    <None Include="LEVEL1.aimap" />
+    <None Include="LEVEL1.map" />
+    <None Include="LEVEL3.aimap" />
+    <None Include="LEVEL3.map" />
     <None Include="speedyGhostHitTest.aimap" />
     <None Include="speedyGhostHitTest.map" />
     <None Include="scores.txt" />
