@@ -358,7 +358,7 @@ void levelLoop(string mapName, GAMESTATE &game, unsigned int level, Loadables &l
 
 	if(loadMap)
 	{
-		startScreen(mapName);
+		startScreen(mapName, level);
 		Sleep(1500);
 		cls();
 
@@ -471,7 +471,6 @@ void customLevelLoop(string mapName, Loadables loads, OptionSet options)
 	if(loadMap)
 	{
 		//Level start screen here
-		startScreen(mapName);
 		Sleep(1500);
 		cls();
 
