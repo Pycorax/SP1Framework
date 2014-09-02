@@ -285,7 +285,7 @@ void gameOver(GAMESTATE &game)
 	
 	while(game == E_GAME_OVER)
 	{
-		switch(getch())
+		switch(_getch())
 		{
 		case'1':
 			game = E_MAIN_MENU;
@@ -500,7 +500,7 @@ void loadMenu(GAMESTATE &game, Loadables &loadInfo)
 	vector<string> listOfLevels;
 	findSaveFiles(listOfLevels);
 	
-	int maxSaveNameLength = 6; //Length of "Return"
+	unsigned short maxSaveNameLength = 6; //Length of "Return"
 
 	//Get longest save name
 	for(size_t i = 0; i < listOfLevels.size(); ++i)
@@ -554,7 +554,7 @@ void loadMenu(GAMESTATE &game, Loadables &loadInfo)
 		saveFilesPresent = true;
 	}
 
-	int saveFilesToPrint = numOfSaves;
+	size_t saveFilesToPrint = numOfSaves;
 
 	if(!saveFilesPresent)
 	{
@@ -566,24 +566,24 @@ void loadMenu(GAMESTATE &game, Loadables &loadInfo)
 	//Draws Border
 	//--Top
 	gotoXY(consoleSize.X/2 - maxSaveNameLength/2 - 1 - g_MENU_TICKER.length(), 19);
-	for(int i = 1; i < maxSaveNameLength + (g_MENU_TICKER.length() + 1) * 2 + 1; ++i)
+	for(size_t i = 0; i < maxSaveNameLength + (g_MENU_TICKER.length() + 1) * 2 + 1; ++i)
 	{
 		cout << "_";
 	}
 	//--Bottom
 	gotoXY(consoleSize.X/2 - maxSaveNameLength/2 - 1 - g_MENU_TICKER.length(), 19 + 4 + saveFilesToPrint);
-	for(int i = 1; i < maxSaveNameLength + (g_MENU_TICKER.length() + 1) * 2 + 1; ++i)
+	for(size_t i = 0; i < maxSaveNameLength + (g_MENU_TICKER.length() + 1) * 2 + 1; ++i)
 	{
 		cout << "_";
 	}
 	//--Left
-	for(int i = 1; i < saveFilesToPrint + 5; ++i)
+	for(size_t i = 1; i < saveFilesToPrint + 5; ++i)
 	{
 		gotoXY(consoleSize.X/2 - maxSaveNameLength/2 - g_MENU_TICKER.length() - 2, 19 + i);
 		cout << "|";
 	}
 	//--Right
-	for(int i = 1; i < saveFilesToPrint + 5; ++i)
+	for(size_t i = 1; i < saveFilesToPrint + 5; ++i)
 	{
 		gotoXY(consoleSize.X/2 + maxSaveNameLength/2 + g_MENU_TICKER.length() + 2, 19 + i);
 		cout << "|";
@@ -805,6 +805,8 @@ bool pauseMenu(E_LEVEL_STATE &levelState, Loadables loads, bool isCustom)
 		}
 		Sleep(100);
 	}
+
+	return false;
 }
 
 void loadingScreen(string mapName)
@@ -1073,7 +1075,7 @@ void deleteMenu(GAMESTATE &game)
 		vector<string> listOfLevels;
 		findSaveFiles(listOfLevels);
 
-		int maxSaveNameLength = 6; //Length of "return"
+		size_t maxSaveNameLength = 6; //Length of "return"
 		
 		//Get longest map name
 		for(size_t i = 0; i < listOfLevels.size(); ++i)
@@ -1129,7 +1131,7 @@ void deleteMenu(GAMESTATE &game)
 			saveFilesPresent = true;
 		}
 
-		int saveFilesToPrint = numOfSaves;
+		size_t saveFilesToPrint = numOfSaves;
 
 		if(!saveFilesPresent)
 		{
@@ -1141,24 +1143,24 @@ void deleteMenu(GAMESTATE &game)
 		//Draws Border
 		//--Top
 		gotoXY(consoleSize.X/2 - maxSaveNameLength/2 - 1 - g_MENU_TICKER.length(), 19);
-		for(int i = 1; i < maxSaveNameLength + (g_MENU_TICKER.length() + 1) * 2 + 1; ++i)
+		for(size_t i = 0; i < maxSaveNameLength + (g_MENU_TICKER.length() + 1) * 2 + 1; ++i)
 		{
 			cout << "_";
 		}
 		//--Bottom
 		gotoXY(consoleSize.X/2 - maxSaveNameLength/2 - 1 - g_MENU_TICKER.length(), 19 + 4 + saveFilesToPrint);
-		for(int i = 1; i < maxSaveNameLength + (g_MENU_TICKER.length() + 1) * 2 + 1; ++i)
+		for(size_t i = 0; i < maxSaveNameLength + (g_MENU_TICKER.length() + 1) * 2 + 1; ++i)
 		{
 			cout << "_";
 		}
 		//--Left
-		for(int i = 1; i < saveFilesToPrint + 5; ++i)
+		for(size_t i = 1; i < saveFilesToPrint + 5; ++i)
 		{
 			gotoXY(consoleSize.X/2 - maxSaveNameLength/2 - g_MENU_TICKER.length() - 2, 19 + i);
 			cout << "|";
 		}
 		//--Right
-		for(int i = 1; i < saveFilesToPrint + 5; ++i)
+		for(size_t i = 1; i < saveFilesToPrint + 5; ++i)
 		{
 			gotoXY(consoleSize.X/2 + maxSaveNameLength/2 + g_MENU_TICKER.length() + 2, 19 + i);
 			cout << "|";
@@ -1259,7 +1261,7 @@ bool deleteMenu()
 	vector<string> listOfLevels;
 	findSaveFiles(listOfLevels);
 
-	int maxSaveNameLength = 6; //Length of "return"
+	size_t maxSaveNameLength = 6; //Length of "return"
 
 	//Get longest map name
 	for(size_t i = 0; i < listOfLevels.size(); ++i)
@@ -1324,13 +1326,13 @@ bool deleteMenu()
 	//Draws Border
 	//--Top
 	gotoXY(consoleSize.X/2 - maxSaveNameLength/2 - 1 - g_MENU_TICKER.length(), 19);
-	for(int i = 1; i < maxSaveNameLength + (g_MENU_TICKER.length() + 1) * 2 + 1; ++i)
+	for(size_t i = 0; i < maxSaveNameLength + (g_MENU_TICKER.length() + 1) * 2 + 1; ++i)
 	{
 		cout << "_";
 	}
 	//--Bottom
 	gotoXY(consoleSize.X/2 - maxSaveNameLength/2 - 1 - g_MENU_TICKER.length(), 19 + 4 + saveFilesToPrint);
-	for(int i = 1; i < maxSaveNameLength + (g_MENU_TICKER.length() + 1) * 2 + 1; ++i)
+	for(size_t i = 0; i < maxSaveNameLength + (g_MENU_TICKER.length() + 1) * 2 + 1; ++i)
 	{
 		cout << "_";
 	}
@@ -1496,7 +1498,7 @@ void loadCustomLevelMenu(GAMESTATE &game, OptionSet options)
 	vector<string> listOfCustomMaps;
 	findCustomMaps(listOfCustomMaps);
 
-	int maxMapNameLength = 6; //Length of "Return"
+	size_t maxMapNameLength = 6; //Length of "Return"
 
 	//Get longest map name
 	for(size_t i = 0; i < listOfCustomMaps.size(); ++i)
@@ -1561,13 +1563,13 @@ void loadCustomLevelMenu(GAMESTATE &game, OptionSet options)
 	//Draws Border
 	//--Top
 	gotoXY(consoleSize.X/2 - maxMapNameLength/2 - 1 - g_MENU_TICKER.length(), 19);
-	for(int i = 1; i < maxMapNameLength + (g_MENU_TICKER.length() + 1) * 2; ++i)
+	for(size_t i = 1; i < maxMapNameLength + (g_MENU_TICKER.length() + 1) * 2; ++i)
 	{
 		cout << "_";
 	}
 	//--Bottom
 	gotoXY(consoleSize.X/2 - maxMapNameLength/2 - 1 - g_MENU_TICKER.length(), 19 + 4 + mapFilesToPrint);
-	for(int i = 1; i < maxMapNameLength + (g_MENU_TICKER.length() + 1) * 2; ++i)
+	for(size_t i = 1; i < maxMapNameLength + (g_MENU_TICKER.length() + 1) * 2; ++i)
 	{
 		cout << "_";
 	}
@@ -1836,7 +1838,7 @@ void optionsMenu(GAMESTATE &game, OptionSet &options)
 			{
 				gotoXY(consoleSize.X/2 - errorSaving.length()/2, 32);
 				
-				for (int j = 0; j < errorSaving.length(); ++j)
+				for (size_t j = 0; j < errorSaving.length(); ++j)
 				{
 					cout << " ";
 				}
