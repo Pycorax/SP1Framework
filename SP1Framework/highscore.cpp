@@ -156,11 +156,14 @@ void write(string fileName, playerScore * playerScore)
 
 void highScoreBoard(int scorePoint, string mapName)
 {
+	string scoresDirectory = "Saves/";
+	string scoresFileName = scoresDirectory + "scores.cfg";
+
 	highScoreTitle();
 	const int PLAYERS = 10;
 	playerScore playerScore[PLAYERS];
 	string playername;
-	read("scores.txt",playerScore);
+	read(scoresFileName,playerScore);
 
 	if(scorePoint >= 0)
 	{
@@ -176,14 +179,14 @@ void highScoreBoard(int scorePoint, string mapName)
 			cin >> playername;
 		}
 
-		sortScore(playerScore, scorePoint,playername, mapName,"scores.txt");
+		sortScore(playerScore, scorePoint,playername, mapName,scoresFileName);
 	}
 	
 	cls();
 	highScoreTitle();
-	displayScores(playerScore,"scores.txt");
+	displayScores(playerScore,scoresFileName);
 	
-	pressToContinue(30);
+	pressToContinue(40);
 
-	write("scores.txt",playerScore);
+	write(scoresFileName,playerScore);
 }

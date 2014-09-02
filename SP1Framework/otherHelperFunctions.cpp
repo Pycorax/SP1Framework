@@ -4,6 +4,7 @@
 #include <conio.h>
 #include <fstream>
 #include "Framework/console.h"
+#include "game.h"
 
 using std::ostringstream;
 using std::cout;
@@ -48,15 +49,24 @@ void flushInputBuffer()
 
 void pressToContinue(int y_coord)
 {
+	extern bool keyPressed[E_MAX_KEYS];
+
 	Sleep(300);
-	string text = "Press any key to continue...";
+	string text = "Press Enter to continue...";
 	gotoXY(consoleSize.X/2 - text.length()/2, y_coord);
 	cout << text;
 
-	flushInputBuffer();
 	gotoXY(consoleSize.X/2, y_coord + 1);
-	_getch();
-	flushInputBuffer();
+	
+	while(true)
+	{
+		getInput();
+
+		if(keyPressed[E_ENTER_KEY])
+		{
+			break;
+		}
+	}
 }
 
 bool fileExists(string saveName)

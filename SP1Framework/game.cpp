@@ -70,6 +70,7 @@ void getInput()
     keyPressed[E_RIGHT_KEY] = isKeyPressed(VK_RIGHT);
     keyPressed[E_ESCAPE_KEY] = isKeyPressed(VK_ESCAPE);
 	keyPressed[E_SPACE_KEY] = isKeyPressed(VK_SPACE);
+	keyPressed[E_ENTER_KEY] = isKeyPressed(VK_RETURN);
 }
 
 void clearInput()
@@ -80,6 +81,7 @@ void clearInput()
 	keyPressed[E_RIGHT_KEY] = false;
 	keyPressed[E_ESCAPE_KEY] = false;
 	keyPressed[E_SPACE_KEY] = false;
+	keyPressed[E_ENTER_KEY] = false;
 }
 
 void update(double dt, Map &currentMap, Pacman &player)
