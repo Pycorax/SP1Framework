@@ -45,7 +45,7 @@ void loadMenu(GAMESTATE &game, Loadables &loadInfo);
 
 //Between Level Screens
 void loadingScreen(string mapName);
-void startScreen(string mapName);
+void startScreen(string mapName, int level);
 
 //Delete Menus
 void deleteMenu(GAMESTATE &game);
