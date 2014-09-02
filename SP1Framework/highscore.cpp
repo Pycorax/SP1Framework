@@ -20,20 +20,21 @@ using std::getline;
 using std::stoi;
 
 //retrieve data from save file
-void read(string fileName, playerScore *playerScore)
+void read(string fileName, playerScore * playerScore)
 {
+	ifstream openfile(fileName);
 	if(fileExists(fileName)==true)
 	{
-		ifstream openfile(fileName);
 		if(openfile.is_open())
 		{
 			for(int i = 0 ; !openfile.eof();i++)
 			{
-				openfile >> playerScore[i].names;
-				openfile >> playerScore[i].score;
+				openfile >> playerScore[i].names ;
+				openfile >> playerScore[i].score ;
 				openfile >> playerScore[i].mapName;
 			}
 		}
+		openfile.close();
 	}
 }
 void displayScores(playerScore * playerScore, string fileName)
@@ -48,8 +49,6 @@ void displayScores(playerScore * playerScore, string fileName)
 	gotoXY(highscorePrintSpot + 13 , 17);
 	cout << "LEVEL";
 
-	if( fileExists(fileName) == true)
-	{
 		for(int counter = 0 ; counter < PLAYERS ; counter++)
 		{
 			gotoXY(highscorePrintSpot - 17, 19 + counter);
@@ -64,7 +63,6 @@ void displayScores(playerScore * playerScore, string fileName)
 			gotoXY(highscorePrintSpot + 13, 19 + counter);
 			cout << playerScore[counter].mapName ;
 		}
-	}
 }
 void highScoreTitle()
 {
@@ -94,39 +92,30 @@ void highScoreTitle()
 }
 void sortScore(playerScore * playerScore,int scorePoint,string playerName, string mapName, string fileName)
 {
-	if(fileExists(fileName) == true)
+	for(int i = 0 ; i < 10 ; i++)
 	{
-		for(int i = 0 ; i < 10 ; i++)
+		if(playerScore[i].score < scorePoint)
 		{
-			if(playerScore[i].score < scorePoint)
+			for(int j = 8 ; j > i ; j--)
 			{
-				for(int j = 9 ; j >= i ; j--)
+				if(j == 8)
 				{
-					if(j == 9)
-					{
-						playerScore[9].score = playerScore[8].score;
-						playerScore[9].names = playerScore[8].names;
-						playerScore[9].mapName = playerScore[8].mapName;
-					}
-					else
-					{
-						playerScore[j+1].score = playerScore[j].score;
-						playerScore[j+1].names = playerScore[j].names;
-						playerScore[j+1].mapName = playerScore[j].mapName;
-					}
+					playerScore[9].score = playerScore[8].score;
+					playerScore[9].names = playerScore[8].names;
+					playerScore[9].mapName = playerScore[8].mapName;
 				}
-				playerScore[i].score = scorePoint;
-				playerScore[i].names = playerName;
-				playerScore[i].mapName = mapName;
-				break;
+				else
+				{
+					playerScore[j+1].score = playerScore[j].score;
+					playerScore[j+1].names = playerScore[j].names;
+					playerScore[j+1].mapName = playerScore[j].mapName;
+				}
 			}
+			playerScore[i].score = scorePoint;
+			playerScore[i].names = playerName;
+			playerScore[i].mapName = mapName;
+			break;
 		}
-	}
-	else
-	{
-		playerScore[0].score = scorePoint;
-		playerScore[0].names = playerName;
-		playerScore[0].mapName = mapName;
 	}
 }
 void write(string fileName, playerScore * playerScore)	
@@ -135,35 +124,38 @@ void write(string fileName, playerScore * playerScore)
 
 	//storing scores into text file
 	ofstream openfile (fileName);
-	int i = 0;
 	if(openfile.is_open())
 	{
 		for(int i = 0; i < PLAYERS ; i++)
 		{
-			if(playerScore[i].names != "")
 			openfile << playerScore[i].names <<" ";
-
 			if(playerScore[i].score >= 0)
 			openfile<< playerScore[i].score << " ";
-
-			if(playerScore[i].mapName != "")
+			else
+				openfile<<" ";
 			openfile << playerScore[i].mapName << endl;
 		}
 	}
 	openfile.close();
-
 }
-
 void highScoreBoard(int scorePoint, string mapName)
 {
 	highScoreTitle();
+
 	const int PLAYERS = 10;
 	playerScore playerScore[PLAYERS];
-	string playername;
+	for(int i = 0; i < 10 ; i++)
+	{
+		playerScore[i].names="";
+		playerScore[i].score=-1;
+		playerScore[i].mapName="";
+	}
+
 	read("scores.txt",playerScore);
 
 	if(scorePoint >= 0)
 	{
+		string playername;
 		gotoXY(40,20);
 		cout << "Enter your name(Max. 10 char) : ";
 		cin >> playername;
@@ -178,7 +170,6 @@ void highScoreBoard(int scorePoint, string mapName)
 
 		sortScore(playerScore, scorePoint,playername, mapName,"scores.txt");
 	}
-	
 	cls();
 	highScoreTitle();
 	displayScores(playerScore,"scores.txt");
@@ -186,4 +177,26 @@ void highScoreBoard(int scorePoint, string mapName)
 	pressToContinue(30);
 
 	write("scores.txt",playerScore);
+}
+
+void highScoreBoard()
+{
+	const int PLAYERS = 10;
+	playerScore playerScore[PLAYERS];
+
+	for(int i = 0; i < 10 ; i++)
+	{
+		playerScore[i].names="";
+		playerScore[i].score=-1;
+		playerScore[i].mapName="";
+	}
+
+
+	read("scores.txt",playerScore);
+
+	highScoreTitle();
+	displayScores(playerScore,"scores.txt");
+	
+	pressToContinue(30);
+
 }

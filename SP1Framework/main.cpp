@@ -24,8 +24,8 @@ int main()
 
 	loadOptions(options);
 	
-	const size_t NUM_OF_MAPS = 8;
-	string maps[NUM_OF_MAPS] = {"LEVEL1", "testing2", "LEVEL3","testing4","testing5","testing6","testing7","testing8"};
+	const size_t NUM_OF_MAPS = 10;
+	string maps[NUM_OF_MAPS] = {"LEVEL1","testing6", "testing2", "testing3","testing4","testing5","testing","testing7","testing8"};
 
 	while(game != E_EXIT)
 	{
@@ -52,7 +52,7 @@ int main()
 				deleteMenu(game);
 				break;
 			case E_HIGH_SCORES:
-				highScoreBoard(-1, "level_1");
+				highScoreBoard();
 				game = E_MAIN_MENU;
 				break;
 			case E_OPTIONS_MENU:

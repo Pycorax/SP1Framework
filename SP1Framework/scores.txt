@@ -1,4 +1,10 @@
-no 8800 level0
-:< 1525 level0
-konichiwa 1100 level0
-52 36 0 7993520 0 16056380 7993740 
+test5 2200 LEVEL1
+test4 900 LEVEL1
+test4 900 LEVEL1
+test5 900 LEVEL1
+  
+  
+  
+  
+  
+  
