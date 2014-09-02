@@ -179,5 +179,17 @@
     <None Include="Maps\testingA.map">
       <Filter>Resource Files\Maps</Filter>
     </None>
+    <None Include="LEVEL1.aimap">
+      <Filter>Resource Files\Maps</Filter>
+    </None>
+    <None Include="LEVEL1.map">
+      <Filter>Resource Files\Maps</Filter>
+    </None>
+    <None Include="LEVEL3.aimap">
+      <Filter>Resource Files\Maps</Filter>
+    </None>
+    <None Include="LEVEL3.map">
+      <Filter>Resource Files\Maps</Filter>
+    </None>
   </ItemGroup>
 </Project>
