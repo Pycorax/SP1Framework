@@ -165,7 +165,7 @@ void highScoreBoard(int scorePoint, string mapName)
 	if(scorePoint >= 0)
 	{
 		gotoXY(40,20);
-		cout << "Enter your name(Max. 10 char , No spaces) : ";
+		cout << "Enter your name(Max. 10 char) : ";
 		cin >> playername;
 		while(playername.length() > 20)
 		{
@@ -181,7 +181,7 @@ void highScoreBoard(int scorePoint, string mapName)
 	
 	cls();
 	highScoreTitle();
-	displayScores(playerScore, "scores.txt");
+	displayScores(playerScore,"scores.txt");
 	
 	pressToContinue(30);
 

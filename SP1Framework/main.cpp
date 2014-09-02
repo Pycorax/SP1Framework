@@ -25,7 +25,7 @@ int main()
 	loadOptions(options);
 	
 	const size_t NUM_OF_MAPS = 8;
-	string maps[NUM_OF_MAPS] = {"testing", "testing2", "testing3","testing4","testing5","testing6","testing7","testing8"};
+	string maps[NUM_OF_MAPS] = {"LEVEL1", "testing2", "LEVEL3","testing4","testing5","testing6","testing7","testing8"};
 
 	while(game != E_EXIT)
 	{
