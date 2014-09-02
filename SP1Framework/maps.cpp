@@ -98,6 +98,7 @@ Map::Map(string mapName, OptionSet setColors)
 		levelState = E_PLAYING;
 		bulletDamage = 1;
 		bulletSpeed = 1;
+		scoreMultiplier = 1;
 		//--Aesthetics
 		colors = setColors;
 	}
@@ -106,7 +107,7 @@ Map::Map(string mapName, OptionSet setColors)
 	delete ghostDataStorage;
 }
 
-bool Map::processMap(const char mapName[]) //TODO: Add more validation code
+bool Map::processMap(const char mapName[])
 {
 	string readLine;
 	char readChar;
@@ -252,7 +253,7 @@ bool Map::processMap(const char mapName[]) //TODO: Add more validation code
 	}
 }
 
-bool Map::processAIMap(const char mapName[]) //TODO: Add code for AI Map validation
+bool Map::processAIMap(const char mapName[])
 {
 	string readLine;
 	char readChar;
@@ -296,6 +297,7 @@ void Map::renderMap()
 	char powerupsLife = 3;
 	const char increaseDmg = 'd';
 	const char increasebulletSpeed = 's';
+	const char scoreMultiplier = 'M';
 
 	//Controls Rows
 	for (size_t coord_y = 0; coord_y < processedMap.size(); ++coord_y)
@@ -320,6 +322,7 @@ void printTile(char tile, COORD tileLocation, OptionSet options)
 	char powerupsLife = 3;
 	const char increaseDmg = 'D';
 	const char increasebulletSpeed = 's';
+	const char scoreMultiplier = 'M';
 
 	colour(getColourWORD(E_WHITE_COLOR));
 
@@ -369,6 +372,7 @@ void printTile(char tile, COORD tileLocation, OptionSet options)
 			}
 			break;
 		case 'H':
+			colour(FOREGROUND_RED | FOREGROUND_INTENSITY );
 			gotoXYTileDown(tileLocation, 0);
 			cout << "   ";
 			gotoXYTileDown(tileLocation, 1);
@@ -378,19 +382,30 @@ void printTile(char tile, COORD tileLocation, OptionSet options)
 			break;
 
 		case 's':
+			colour(FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_INTENSITY);
 			gotoXYTileDown(tileLocation, 0);
 			cout << "   ";
 			gotoXYTileDown(tileLocation, 1);
-			cout << " " << increasebulletSpeed << " ";
+			cout << " " << "S" << " ";
 			gotoXYTileDown(tileLocation, 2);
 			cout << "   ";
 			break;
 
 		case 'd':
+			colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
 			gotoXYTileDown(tileLocation, 0);
 			cout << "   ";
 			gotoXYTileDown(tileLocation, 1);
 			cout << " " << increaseDmg << " ";
+			gotoXYTileDown(tileLocation, 2);
+			cout << "   ";
+			break;
+
+		case 'M':
+			gotoXYTileDown(tileLocation, 0);
+			cout << "   ";
+			gotoXYTileDown(tileLocation, 1);
+			cout << " " << scoreMultiplier << " ";
 			gotoXYTileDown(tileLocation, 2);
 			cout << "   ";
 			break;
