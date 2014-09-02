@@ -11,9 +11,6 @@
 
 using std::string;
 
-// TODO:
-// Bug in waitUnitil. it waits for the time from getElapsedTime to waitUntil, but should be insignificant.
-
 int main()
 {
 	init();      // initialize your variables
@@ -24,8 +21,19 @@ int main()
 
 	loadOptions(options);
 	
+	//Controls maps & map order in normal mode
 	const size_t NUM_OF_MAPS = 8;
-	string maps[NUM_OF_MAPS] = {"LEVEL1", "testing2", "LEVEL3","testing4","testing5","testing6","testing7","testing8"};
+	string maps[NUM_OF_MAPS] = 
+	{
+		"testing",
+		"testing2",
+		"testing3",
+		"testing4",
+		"testing5",
+		"testing6",
+		"testing7",
+		"testing8"
+	};
 
 	while(game != E_EXIT)
 	{
