@@ -35,7 +35,7 @@ void mainMenu(GAMESTATE &game)
 	cls();
 	printBorder();
 
-	colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
+	colour(getColourWORD(E_WHITE_COLOR));
 
 	const size_t MAIN_MENU_TITLE = 8;
 	string mainMenuTitle[MAIN_MENU_TITLE] = 
@@ -167,17 +167,17 @@ void drawPacman(int x, int y)
 
 	if(even)
 		{
-			gotoXY(17, 41);
+			gotoXY(x, y);
 			cout << "___";
-			gotoXY(17, 41);
+			gotoXY(x, y + 1);
 			cout << "(*<";
 			even = false;
 		}
 		else
 		{
-			gotoXY(17, 41);
+			gotoXY(x, y);
 			cout << "___";
-			gotoXY(17, 41);
+			gotoXY(x, y + 1);
 			cout << "(*=";
 			even = true;
 		}
@@ -209,10 +209,10 @@ void gameGuide(GAMESTATE &game)
 	{
 		"	                                  ",
 		"HOW TO PLAY?",
-		"	1: Use Arrow Keys to move the pacman around",
-		"	2: Collect all pellets or reach minimum points to go to the next level",
-		"	3: Kill Ghosts or collect pellets to gain points",
-		"	4: Try not to let ghosts touch you",
+		"	1: Use Arrow Keys to move the Pacman around & Space Bar to shoot",
+		"	2: Collect all pellets or reach the minimum score to go to the next level",
+		"	3: Kill Ghosts or collect pellets to gain score",
+		"	4: Touching ghosts = death",
 		"	                                  "
 	};
 
@@ -224,8 +224,6 @@ void gameGuide(GAMESTATE &game)
 		cout << gameguideMenu[a];
 	}
 
-	//int gameinstructionsprintSpots = consoleSize.X/2 - gameInstructions[0].length()/2;
-
 	for(size_t b = 0; b < GAME_INSTRUCTIONS; ++b)
 	{
 		gotoXY(13, 2 + GAME_GUIDE_MENU + b);
@@ -233,51 +231,57 @@ void gameGuide(GAMESTATE &game)
 
 		if( b == 6 )
 		{
+			colour(getColourWORD(E_WHITE_COLOR));
+			cout << "             GHOSTS" << endl;
 			colour(FOREGROUND_GREEN);
-			cout << "             INSTUCTIONS" << endl;
 			cout << endl;
-			cout << "                 /1\\   Level: 1" << endl;
-			cout << "                 o-o   Damage: 1" << endl;
-			cout << "                 vvv   Health: 1" << endl;
+			cout << "                 /1\\" << endl;
+			cout << "                 o-o " << endl;
+			cout << "                 vvv " << endl;
 		}
 
 		if( b == 6 )
 		{
 			colour(FOREGROUND_RED | FOREGROUND_BLUE);
 			cout << endl;
-			cout << "                 /2\\   Level: 2" << endl;
-			cout << "                 o-o   Damage: 1" << endl;
-			cout << "                 vvv   Health: 2" << endl;
+			cout << "                 /2\\" << endl;
+			cout << "                 o-o" << endl;
+			cout << "                 vvv" << endl;
 		}
 
 		if( b == 6 )
 		{
 			colour(FOREGROUND_RED);
 			cout << endl;
-			cout << "                 [3]   Level: 3" << endl;
-			cout << "                 O-O   Damage: 1" << endl;
-			cout << "                 vvv   Health: 3" << endl;
+			cout << "                 [3]" << endl;
+			cout << "                 O-O" << endl;
+			cout << "                 vvv" << endl;
 		}
 
 		if( b == 6 )
 		{
+			cout << endl;
+			colour(getColourWORD(E_WHITE_COLOR));
+			cout << "             PowerUps" << endl;
+
+			char bullSpeed = 15;
 			colour(FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_INTENSITY);
 			cout << endl;
-			cout << "             PowerUps" << endl;
-			cout << endl;
-			cout << "                 s = Increases Bullet Movement Speed" << endl;
+			cout << "                 " << bullSpeed << endl;
 		}
 
 		if( b == 6 )
 		{
+			unsigned char scoreMult = 228;
 			colour(FOREGROUND_BLUE | FOREGROUND_RED | FOREGROUND_INTENSITY);
-			cout << "                 M = Score Multiplier 2X" << endl;
+			cout << "                 " << scoreMult << endl;
 		}
 
 		if( b == 6 )
 		{
+			char bullDmg = 30;
 			colour(FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_INTENSITY);
-			cout << "                 D = Increase Bullet Damage" << endl;
+			cout << "                 " << bullDmg << endl;
 		}
 
 		if( b == 6 )
@@ -289,7 +293,7 @@ void gameGuide(GAMESTATE &game)
 
 		if ( b == 6 )
 		{
-			colour(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+			colour(getColourWORD(E_WHITE_COLOR));
 			//Ghost 1
 			gotoXY(23, 19);
 			cout << "Level: 1";
@@ -332,19 +336,25 @@ void gameGuide(GAMESTATE &game)
 
 			gotoXY(19, 36);
 			cout << "= Gives Pacman Additional Life";
+
+			gotoXY(17,38);
+			cout << "Your character will blink the colour of the power up you picked up!";
 		}
 			
 		if( b == 6 )
 		{
-			colour(FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_INTENSITY);
+			colour(getColourWORD(E_WHITE_COLOR));
+			cout << endl;
+			cout << endl;
 			cout << endl;
 			cout << endl;
 			cout << endl;
 
 			cout << "             PACMAN" << endl;
 			//Pacman
-			gotoXY(17, 41);
-			cout << "    Damage: 1";
+			gotoXY(17, 45);
+			colour(getColourWORD(E_WHITE_COLOR));
+			cout << "      Damage: 1";
 
 			colour(getColourWORD(E_WHITE_COLOR));
 
@@ -357,7 +367,7 @@ void gameGuide(GAMESTATE &game)
 			while( b == 6 )
 			{
 				colour(FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_INTENSITY);
-				drawPacman(0, 0);
+				drawPacman(17, 44);
 				Sleep(100);
 				getInput();
 
@@ -378,7 +388,7 @@ void gameOver(GAMESTATE &game)
 	
 	printBorder();
 
-	colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
+	colour(getColourWORD(E_WHITE_COLOR));
 
 	const size_t GAME_OVER_TITLE = 7;
 	string gameOverTitle[GAME_OVER_TITLE] = 
@@ -470,10 +480,10 @@ void saveMenu(Loadables loads)
 
 	int numOfSaves = findSaveFiles();
 
-	colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
+	colour(getColourWORD(E_WHITE_COLOR));
 	cls();
 
-	colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
+	colour(getColourWORD(E_WHITE_COLOR));
 
 	const size_t SAVE_MENU_TITLE = 8;
 	string saveMenuTitle[SAVE_MENU_TITLE] = 
@@ -514,7 +524,7 @@ void saveMenu(Loadables loads)
 			cls();
 			printBorder();
 
-			colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
+			colour(getColourWORD(E_WHITE_COLOR));
 			for(size_t i = 0; i < SAVE_MENU_TITLE; ++i)
 			{
 				gotoXY(saveMenuTitlePrintSpot, 6 + i);
@@ -653,7 +663,7 @@ void loadMenu(GAMESTATE &game, Loadables &loadInfo)
 
 	printBorder();
 
-	colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
+	colour(getColourWORD(E_WHITE_COLOR));
 
 	const size_t LOAD_MENU_TITLE = 8;
 	string loadMenuTitle[LOAD_MENU_TITLE] = 
@@ -820,7 +830,7 @@ bool pauseMenu(E_LEVEL_STATE &levelState, Loadables loads, bool isCustom)
 		maxSelection = 1;
 	}
 
-	colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
+	colour(getColourWORD(E_WHITE_COLOR));
 	cls();
 
 	const size_t PAUSE_SCREEN_TITLE = 8;
@@ -952,7 +962,7 @@ bool pauseMenu(E_LEVEL_STATE &levelState, Loadables loads, bool isCustom)
 
 void loadingScreen(string mapName)
 {
-	colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
+	colour(getColourWORD(E_WHITE_COLOR));
 	newSetConsoleSize(defaultConsoleSize);
 	consoleSize = defaultConsoleSize;
 	cls();
@@ -986,7 +996,7 @@ void loadingScreen(string mapName)
 void startScreen(string mapName, int level)
 {
 	cls();
-	colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
+	colour(getColourWORD(E_WHITE_COLOR));
 	const size_t START_SCREEN_TITLE = 8;
 	string startscreen[START_SCREEN_TITLE] =
 	{
@@ -1156,7 +1166,7 @@ void endScreen()
 {
 	newSetConsoleSize(defaultConsoleSize);
 	cls();
-	colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
+	colour(getColourWORD(E_WHITE_COLOR));
 	const size_t END_SCREEN_TITLE = 8;
 	string endscreen[END_SCREEN_TITLE] =
 	{
@@ -1236,7 +1246,7 @@ bool quit(GAMESTATE &game)
 	int oldSelection = 0;
 	bool selectionChanged = false;
 
-	colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
+	colour(getColourWORD(E_WHITE_COLOR));
 	cls();
 
 	newSetConsoleSize(defaultConsoleSize);
@@ -1244,7 +1254,7 @@ bool quit(GAMESTATE &game)
 
 	printBorder();
 
-	colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
+	colour(getColourWORD(E_WHITE_COLOR));
 	
 	const size_t QUIT_SCREEN_TITLE = 8;
 	string quitScreen[QUIT_SCREEN_TITLE] =
@@ -1366,11 +1376,11 @@ void deleteMenu(GAMESTATE &game)
 			}
 		}
 
-		colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
+		colour(getColourWORD(E_WHITE_COLOR));
 		cls();
 
 		printBorder();
-		colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
+		colour(getColourWORD(E_WHITE_COLOR));
 
 		const size_t DELETE_MENU_TITLE = 8;
 		string deleteMenuTitle[DELETE_MENU_TITLE] = 
@@ -1553,7 +1563,7 @@ bool deleteMenu()
 		}
 	}
 
-	colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
+	colour(getColourWORD(E_WHITE_COLOR));
 	cls();
 
 	const size_t DELETE_MENU_TITLE = 8;
@@ -1731,7 +1741,7 @@ void victoryScreen()
 		"               CONGRATULATIONS ON COMPLETING THIS LEVEL                 "
 	};
 
-	colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
+	colour(getColourWORD(E_WHITE_COLOR));
 	cls();
 	for(int a = 0; a < VICTORY_SCREEN_SIZE; ++a)
 	{
@@ -1762,7 +1772,7 @@ void loseScreen()
 		"             YOU FAILED TO COMPLETE THE GAME              "
 	};
 
-	colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
+	colour(getColourWORD(E_WHITE_COLOR));
 	cls();
 	for(int a = 0; a < LOSE_SCREEN_SIZE; ++a)
 	{
@@ -1798,7 +1808,7 @@ void loadCustomLevelMenu(GAMESTATE &game, OptionSet options)
 	}
 
 	printBorder();
-	colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
+	colour(getColourWORD(E_WHITE_COLOR));
 
 	const size_t CUSTOM_MAPS_MENU_TITLE = 8;
 	string customMapsMenuTitle[CUSTOM_MAPS_MENU_TITLE] = 
@@ -1946,7 +1956,7 @@ void aboutScreen()
 {
 	newSetConsoleSize(defaultConsoleSize);
 
-	colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
+	colour(getColourWORD(E_WHITE_COLOR));
 	cls();
 	
 	const size_t ABOUT_SCREEN_TITLE = 8;
@@ -2018,7 +2028,7 @@ void optionsMenu(GAMESTATE &game, OptionSet &options)
 	cls();
 	printBorder();
 
-	colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
+	colour(getColourWORD(E_WHITE_COLOR));
 
 	const size_t OPTIONS_MENU_TITLE = 8;
 	string optionsMenuTitle[OPTIONS_MENU_TITLE] = 
@@ -2388,7 +2398,7 @@ void customGameGuide(GAMESTATE &game)
 {
 	newSetConsoleSize(defaultConsoleSize);
 
-	colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
+	colour(getColourWORD(E_WHITE_COLOR));
 	cls();
 
 	const size_t ABOUT_SCREEN_TITLE = 8;
@@ -2410,7 +2420,7 @@ void customGameGuide(GAMESTATE &game)
 		gotoXY(aboutScreenPrintSpot, 6 + i);
 		cout << title[i];
 	}
-	const size_t ABOUT_MENU_DETAILS = 24;
+	const size_t ABOUT_MENU_DETAILS = 36;
 	string aboutMenuDetails[ABOUT_MENU_DETAILS] =
 	{
 		"A Map is comprised of two files: - .map                                                    ",
@@ -2436,8 +2446,19 @@ void customGameGuide(GAMESTATE &game)
 		"=============",
 		"'#' - Symbol for a wall.",
 		"' ' - Symbol for empty space.",
-		"'1' to '9' - Symbol for zone where the ghost roams."
+		"'1' to '9' - Symbol for zone where the ghost roams. Corresponds to a Ghost's Zone ID",
 		"",
+		"Mapping Rules",
+		"=============",
+		"- Map and AIMap size must be equal.",
+		"- Zones specified in Map and AIMap files must be equal.",
+		"- Zones specified and Zones used by Ghosts in Map file must be equal.",
+		"- Number of Zones must be set.",
+		"- A spawn point must be set and only 1 can be set.",
+		"- A minimum score must be set and only 1 can be set.",
+		"- There must be at least 1 pellet on the map.",
+		"",
+		"A template for creating maps is waiting for you in the Custom Maps folder!"
 	};
 
 	int aboutMenuDetailsPrintSpot = consoleSize.X/2 - aboutMenuDetails[0].length()/2;

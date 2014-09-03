@@ -51,7 +51,7 @@ void init()
     consoleSize.X = csbi.srWindow.Right + 1;
     consoleSize.Y = csbi.srWindow.Bottom + 1;
 
-	colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
+	colour(getColourWORD(E_WHITE_COLOR));
 
     elapsedTime = 0.0;
 }

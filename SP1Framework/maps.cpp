@@ -401,7 +401,7 @@ void printTile(char tile, COORD tileLocation, OptionSet options)
 	char powerupsLife = 3;
 	const char increaseDmg = 30;
 	const char increasebulletSpeed = 15;
-	const char scoreMultiplier = 'M';
+	const unsigned char scoreMultiplier = 228;
 
 	colour(getColourWORD(E_WHITE_COLOR));
 
