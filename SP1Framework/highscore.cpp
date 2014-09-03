@@ -37,7 +37,7 @@ void read(string fileName, playerScore * playerScore)
 		openfile.close();
 	}
 }
-void displayScores(playerScore * playerScore, string fileName)
+void displayScores(playerScore * playerScore)
 {
 	const int PLAYERS = 10;
 	//display records
@@ -90,7 +90,7 @@ void highScoreTitle()
 		cout << highscorescreen[i];
 	}
 }
-void sortScore(playerScore * playerScore,int scorePoint,string playerName, string mapName, string fileName)
+void sortScore(playerScore * playerScore,int scorePoint,string playerName, string mapName)
 {
 	for(int i = 0 ; i < 10 ; i++)
 	{
@@ -154,7 +154,7 @@ void highScoreBoard(int scorePoint, string mapName)
 		playerScore[i].mapName="";
 	}
 
-	read("scores.txt",playerScore);
+	read(scoresFileName,playerScore);
 
 	if(scorePoint >= 0)
 	{
@@ -171,19 +171,22 @@ void highScoreBoard(int scorePoint, string mapName)
 			cin >> playername;
 		}
 
-		sortScore(playerScore, scorePoint,playername, mapName,scoresFileName);
+		sortScore(playerScore, scorePoint,playername, mapName);
 	}
 	cls();
 	highScoreTitle();
-	displayScores(playerScore,scoresFileName);
+	displayScores(playerScore);
 	
 	pressToContinue(40);
 
-	write("scores.txt",playerScore);
+	write(scoresFileName,playerScore);
 }
 
 void highScoreBoard()
 {
+	string scoresDirectory = "Saves/";
+	string scoresFileName = scoresDirectory + "scores.cfg";
+
 	const int PLAYERS = 10;
 	playerScore playerScore[PLAYERS];
 
@@ -194,12 +197,10 @@ void highScoreBoard()
 		playerScore[i].mapName="";
 	}
 
-
-	read("scores.txt",playerScore);
+	read(scoresFileName,playerScore);
 
 	highScoreTitle();
-	displayScores(playerScore,"scores.txt");
+	displayScores(playerScore);
 	
 	pressToContinue(30);
-
 }
