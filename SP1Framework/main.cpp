@@ -22,20 +22,23 @@ int main()
 	loadOptions(options);
 	
 	//Controls maps & map order in normal mode
-	const size_t NUM_OF_MAPS = 11;
+	const size_t NUM_OF_MAPS = 14;
 	string maps[NUM_OF_MAPS] = 
 	{
-		"LEVEL1",
-		"LEVEL3",
-		"testing",
-		"testing2",
-		"testing3",
-		"testing4",
-		"testing5",
-		"testing6",
-		"testing7",
-		"testing8",
-		"testingA"
+		"First One's Free",
+		"Walk in the Park",
+		"All Around You",
+		"Ghosts in the Machine",
+		"Same Yet Different",
+		"Taste the Damage",
+		"The Figure",
+		"Pagoda",
+		"Between Two Realms",
+		"Cubes",
+		"Crossroads",
+		"Complexity",
+		"Ordered Chaos",
+		"All Paths Lead to Rome"
 	};
 
 	while(game != E_EXIT)

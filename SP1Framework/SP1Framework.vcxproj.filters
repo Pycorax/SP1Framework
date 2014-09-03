@@ -25,6 +25,9 @@
     <Filter Include="Resource Files\Maps\Custom Maps">
       <UniqueIdentifier>{0805df4e-9c81-4895-96b6-19654b5065bc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Maps\Tests">
+      <UniqueIdentifier>{9cf7ab3e-43cb-43d0-9e41-a552ffb44365}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -122,96 +125,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="scores.txt" />
-    <None Include="Maps\testing.aimap">
-      <Filter>Resource Files\Maps</Filter>
-    </None>
-    <None Include="Maps\testing.map">
-      <Filter>Resource Files\Maps</Filter>
-    </None>
-    <None Include="Maps\testing2.aimap">
-      <Filter>Resource Files\Maps</Filter>
-    </None>
-    <None Include="Maps\testing2.map">
-      <Filter>Resource Files\Maps</Filter>
-    </None>
-    <None Include="Maps\testing3.aimap">
-      <Filter>Resource Files\Maps</Filter>
-    </None>
-    <None Include="Maps\testing3.map">
-      <Filter>Resource Files\Maps</Filter>
-    </None>
-    <None Include="Maps\testing4.aimap">
-      <Filter>Resource Files\Maps</Filter>
-    </None>
-    <None Include="Maps\testing4.map">
-      <Filter>Resource Files\Maps</Filter>
-    </None>
-    <None Include="Maps\testing5.aimap">
-      <Filter>Resource Files\Maps</Filter>
-    </None>
-    <None Include="Maps\testing5.map">
-      <Filter>Resource Files\Maps</Filter>
-    </None>
-    <None Include="Maps\testing6.aimap">
-      <Filter>Resource Files\Maps</Filter>
-    </None>
-    <None Include="Maps\testing6.map">
-      <Filter>Resource Files\Maps</Filter>
-    </None>
-    <None Include="Maps\testing7.aimap">
-      <Filter>Resource Files\Maps</Filter>
-    </None>
-    <None Include="Maps\testing7.map">
-      <Filter>Resource Files\Maps</Filter>
-    </None>
-    <None Include="Maps\testing8.aimap">
-      <Filter>Resource Files\Maps</Filter>
-    </None>
-    <None Include="Maps\testing8.map">
-      <Filter>Resource Files\Maps</Filter>
-    </None>
-    <None Include="Maps\testingA.aimap">
-      <Filter>Resource Files\Maps</Filter>
-    </None>
-    <None Include="Maps\testingA.map">
-      <Filter>Resource Files\Maps</Filter>
-    </None>
-    <None Include="Maps\LEVEL3.aimap">
-      <Filter>Resource Files\Maps</Filter>
-    </None>
-    <None Include="Maps\LEVEL3.map">
-      <Filter>Resource Files\Maps</Filter>
-    </None>
-    <None Include="Maps\LEVEL1.aimap">
-      <Filter>Resource Files\Maps</Filter>
-    </None>
-    <None Include="Maps\LEVEL1.map">
-      <Filter>Resource Files\Maps</Filter>
-    </None>
     <None Include="scores.txt" />
-    <None Include="Custom Maps\ghostCollisionTest.aimap">
-      <Filter>Resource Files\Maps</Filter>
-    </None>
-    <None Include="Custom Maps\ghostCollisionTest.map">
-      <Filter>Resource Files\Maps</Filter>
-    </None>
-    <None Include="Custom Maps\speedyGhostHitTest.aimap">
-      <Filter>Resource Files\Maps</Filter>
-    </None>
-    <None Include="Custom Maps\speedyGhostHitTest.map">
-      <Filter>Resource Files\Maps</Filter>
-    </None>
     <None Include="Custom Maps\template.aimap">
       <Filter>Resource Files\Maps\Custom Maps</Filter>
     </None>
     <None Include="Custom Maps\template.map">
       <Filter>Resource Files\Maps\Custom Maps</Filter>
-    </None>
-    <None Include="Maps\testingB.aimap">
-      <Filter>Resource Files\Maps</Filter>
-    </None>
-    <None Include="Maps\testingB.map">
-      <Filter>Resource Files\Maps</Filter>
     </None>
     <None Include="Maps\All Paths Lead to Rome.aimap">
       <Filter>Resource Files\Maps</Filter>
@@ -223,6 +142,90 @@
       <Filter>Resource Files\Maps</Filter>
     </None>
     <None Include="Maps\First One%27s Free.map">
+      <Filter>Resource Files\Maps</Filter>
+    </None>
+    <None Include="Custom Maps\ghostCollisionTest.aimap">
+      <Filter>Resource Files\Maps\Tests</Filter>
+    </None>
+    <None Include="Custom Maps\ghostCollisionTest.map">
+      <Filter>Resource Files\Maps\Tests</Filter>
+    </None>
+    <None Include="Custom Maps\speedyGhostHitTest.aimap">
+      <Filter>Resource Files\Maps\Tests</Filter>
+    </None>
+    <None Include="Custom Maps\speedyGhostHitTest.map">
+      <Filter>Resource Files\Maps\Tests</Filter>
+    </None>
+    <None Include="Maps\All Around You.aimap">
+      <Filter>Resource Files\Maps</Filter>
+    </None>
+    <None Include="Maps\All Around You.map">
+      <Filter>Resource Files\Maps</Filter>
+    </None>
+    <None Include="Maps\Ghosts in the Machine.map">
+      <Filter>Resource Files\Maps</Filter>
+    </None>
+    <None Include="Maps\Ghosts in the Machine.aimap">
+      <Filter>Resource Files\Maps</Filter>
+    </None>
+    <None Include="Maps\Same Yet Different.map">
+      <Filter>Resource Files\Maps</Filter>
+    </None>
+    <None Include="Maps\Same Yet Different.aimap">
+      <Filter>Resource Files\Maps</Filter>
+    </None>
+    <None Include="Maps\Taste the Damage.map">
+      <Filter>Resource Files\Maps</Filter>
+    </None>
+    <None Include="Maps\Taste the Damage.aimap">
+      <Filter>Resource Files\Maps</Filter>
+    </None>
+    <None Include="Maps\The Figure.aimap">
+      <Filter>Resource Files\Maps</Filter>
+    </None>
+    <None Include="Maps\The Figure.map">
+      <Filter>Resource Files\Maps</Filter>
+    </None>
+    <None Include="Maps\Pagoda.map">
+      <Filter>Resource Files\Maps</Filter>
+    </None>
+    <None Include="Maps\Pagoda.aimap">
+      <Filter>Resource Files\Maps</Filter>
+    </None>
+    <None Include="Maps\Between Two Realms.aimap">
+      <Filter>Resource Files\Maps</Filter>
+    </None>
+    <None Include="Maps\Between Two Realms.map">
+      <Filter>Resource Files\Maps</Filter>
+    </None>
+    <None Include="Maps\Cubes.map">
+      <Filter>Resource Files\Maps</Filter>
+    </None>
+    <None Include="Maps\Cubes.aimap">
+      <Filter>Resource Files\Maps</Filter>
+    </None>
+    <None Include="Maps\Crossroads.map">
+      <Filter>Resource Files\Maps</Filter>
+    </None>
+    <None Include="Maps\Crossroads.aimap">
+      <Filter>Resource Files\Maps</Filter>
+    </None>
+    <None Include="Maps\Complexity.aimap">
+      <Filter>Resource Files\Maps</Filter>
+    </None>
+    <None Include="Maps\Complexitymap">
+      <Filter>Resource Files\Maps</Filter>
+    </None>
+    <None Include="Maps\Ordered Chaos.map">
+      <Filter>Resource Files\Maps</Filter>
+    </None>
+    <None Include="Maps\Ordered Chaos.aimap">
+      <Filter>Resource Files\Maps</Filter>
+    </None>
+    <None Include="Maps\Walk in the Park.aimap">
+      <Filter>Resource Files\Maps</Filter>
+    </None>
+    <None Include="Maps\Walk in the Park.map">
       <Filter>Resource Files\Maps</Filter>
     </None>
   </ItemGroup>
