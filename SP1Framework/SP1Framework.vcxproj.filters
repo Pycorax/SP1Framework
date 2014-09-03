@@ -213,9 +213,6 @@
     <None Include="Maps\Complexity.aimap">
       <Filter>Resource Files\Maps</Filter>
     </None>
-    <None Include="Maps\Complexitymap">
-      <Filter>Resource Files\Maps</Filter>
-    </None>
     <None Include="Maps\Ordered Chaos.map">
       <Filter>Resource Files\Maps</Filter>
     </None>
@@ -226,6 +223,9 @@
       <Filter>Resource Files\Maps</Filter>
     </None>
     <None Include="Maps\Walk in the Park.map">
+      <Filter>Resource Files\Maps</Filter>
+    </None>
+    <None Include="Maps\Complexity.map">
       <Filter>Resource Files\Maps</Filter>
     </None>
   </ItemGroup>

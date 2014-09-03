@@ -470,6 +470,7 @@ void printTile(char tile, COORD tileLocation, OptionSet options)
 			break;
 
 		case 'M':
+			colour(getColourWORD(E_LIGHT_GREEN_COLOR));
 			gotoXYTileDown(tileLocation, 0);
 			cout << "   ";
 			gotoXYTileDown(tileLocation, 1);

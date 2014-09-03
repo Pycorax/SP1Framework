@@ -273,7 +273,7 @@ void gameGuide(GAMESTATE &game)
 		if( b == 6 )
 		{
 			unsigned char scoreMult = 228;
-			colour(FOREGROUND_BLUE | FOREGROUND_RED | FOREGROUND_INTENSITY);
+			colour(getColourWORD(E_LIGHT_GREEN_COLOR));
 			cout << "                 " << scoreMult << endl;
 		}
 
@@ -347,12 +347,10 @@ void gameGuide(GAMESTATE &game)
 			cout << endl;
 			cout << endl;
 			cout << endl;
-			cout << endl;
-			cout << endl;
 
 			cout << "             PACMAN" << endl;
 			//Pacman
-			gotoXY(17, 45);
+			gotoXY(17, 43);
 			colour(getColourWORD(E_WHITE_COLOR));
 			cout << "      Damage: 1";
 
@@ -367,7 +365,7 @@ void gameGuide(GAMESTATE &game)
 			while( b == 6 )
 			{
 				colour(FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_INTENSITY);
-				drawPacman(17, 44);
+				drawPacman(17, 42);
 				Sleep(100);
 				getInput();
 

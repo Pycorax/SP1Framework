@@ -381,6 +381,9 @@ void Pacman::draw()
 			case E_DAMAGE_POWER_UP:
 				currentColour = E_MAGENTA_COLOR;
 				break;
+			case E_MULTIPLIER_POWER_UP:
+				currentColour = E_LIGHT_GREEN_COLOR;
+				break;
 		}
 	}
 

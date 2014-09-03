@@ -139,7 +139,7 @@
     <None Include="Maps\Crossroads.aimap" />
     <None Include="Maps\Crossroads.map" />
     <None Include="Maps\Complexity.aimap" />
-    <None Include="Maps\Complexitymap" />
+    <None Include="Maps\Complexity.map" />
     <None Include="Maps\Ordered Chaos.aimap" />
     <None Include="Maps\Ordered Chaos.map" />
     <None Include="Maps\Walk in the Park.aimap" />
