@@ -191,5 +191,24 @@
     <None Include="Maps\LEVEL1.map">
       <Filter>Resource Files\Maps</Filter>
     </None>
+    <None Include="scores.txt" />
+    <None Include="testing1.aimap">
+      <Filter>Source Files\Maps</Filter>
+    </None>
+    <None Include="testing1.map">
+      <Filter>Source Files\Maps</Filter>
+    </None>
+    <None Include="testingB.aimap">
+      <Filter>Source Files\Maps</Filter>
+    </None>
+    <None Include="testingB.map">
+      <Filter>Source Files\Maps</Filter>
+    </None>
+    <None Include="superOP.aimap">
+      <Filter>Source Files\Maps</Filter>
+    </None>
+    <None Include="superOP.map">
+      <Filter>Source Files\Maps</Filter>
+    </None>
   </ItemGroup>
 </Project>

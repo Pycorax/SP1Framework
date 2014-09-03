@@ -157,11 +157,36 @@ void mainMenu(GAMESTATE &game)
 	}
 }
 
+void drawPacman(int x, int y)
+{
+	static bool even = true;
+
+	if(even)
+		{
+			gotoXY(17, 41);
+			cout << "___";
+			gotoXY(17, 41);
+			cout << "(*<";
+			even = false;
+		}
+		else
+		{
+			gotoXY(17, 41);
+			cout << "___";
+			gotoXY(17, 41);
+			cout << "(*=";
+			even = true;
+		}
+}
+
 void gameGuide(GAMESTATE &game)
 	{
 		//consoleSize = consoleSize;
 		//setConsoleSize;
 		colour(FOREGROUND_GREEN | FOREGROUND_RED);
+		extern bool keyPressed[E_MAX_KEYS];
+		
+
 		const size_t GAME_GUIDE_MENU = 8;
 		string gameguideMenu[GAME_GUIDE_MENU] =
 		{
@@ -175,39 +200,16 @@ void gameGuide(GAMESTATE &game)
 			":......::::..:::::..::..:::::..::........::::::......:::::.......:::....::........:::........::"
 		};
 
-		const size_t GAME_INSTRUCTIONS = 31;
+		const size_t GAME_INSTRUCTIONS = 7;
 		string gameInstructions[GAME_INSTRUCTIONS] =
 		{
+			"	                                  ",
 			"HOW TO PLAY?",
 			"	1: Use Arrow Keys to move the pacman around",
-			"   2: Press Spacebar to shoot",
-			"	3: Collect all pellets or reach minimum points to go to the next level",
-			"	4: Kill Ghosts or collect pellets to gain points",
-			"	5: Try not to let ghosts touch you",
-			"	                                  ",
-			"Introductions    ",
-			"                    ",
-			"	Ghosts:          ",
-			"	   /1\\  Health: 1",
-			"	   o-o  Damage: 1",
-			"	   VVV           ",
-			"                    ",
-			"	   /2\\  Health: 2",
-			"	   o-o  Damage: 1",
-			"	   VVV           ",
-			"                    ",
-			"	   [3]  Health: 3",
-			"	   o-o  Damage: 1",
-			"	   VVV           ",
-			"                    ",
-			"	Pacman:          ",
-			"	   ___ ",
-			"	   (*=  Health: 1",
-			"                    ",
-			"	Bullets:         ",
-			"	   =>>  Damage: 1",
-
-
+			"	2: Collect all pellets or reach minimum points to go to the next level",
+			"	3: Kill Ghosts or collect pellets to gain points",
+			"	4: Try not to let ghosts touch you",
+			"	                                  "
 		};
 
 		int gameguideprintSpots = consoleSize.X/2 - gameguideMenu[0].length()/2;
@@ -224,11 +226,146 @@ void gameGuide(GAMESTATE &game)
 		{
 			gotoXY(13, 2 + GAME_GUIDE_MENU + b);
 			cout << gameInstructions[b] << endl;
+
+			if( b == 6 )
+			{
+				colour(FOREGROUND_GREEN);
+				cout << "             INSTUCTIONS" << endl;
+				cout << endl;
+				cout << "                 /1\\   Level: 1" << endl;
+				cout << "                 o-o   Damage: 1" << endl;
+				cout << "                 vvv   Health: 1" << endl;
+			}
+
+			if( b == 6 )
+			{
+				colour(FOREGROUND_RED | FOREGROUND_BLUE);
+				cout << endl;
+				cout << "                 /2\\   Level: 2" << endl;
+				cout << "                 o-o   Damage: 1" << endl;
+				cout << "                 vvv   Health: 2" << endl;
+			}
+
+			if( b == 6 )
+			{
+				colour(FOREGROUND_RED);
+				cout << endl;
+				cout << "                 [3]   Level: 3" << endl;
+				cout << "                 O-O   Damage: 1" << endl;
+				cout << "                 vvv   Health: 3" << endl;
+			}
+
+			if( b == 6 )
+			{
+				colour(FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+				cout << endl;
+				cout << "             PowerUps" << endl;
+				cout << endl;
+				cout << "                 s = Increases Bullet Movement Speed" << endl;
+			}
+
+			if( b == 6 )
+			{
+				colour(FOREGROUND_BLUE | FOREGROUND_RED | FOREGROUND_INTENSITY);
+				cout << "                 M = Score Multiplier 2X" << endl;
+			}
+
+			if( b == 6 )
+			{
+				colour(FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_INTENSITY);
+				cout << "                 D = Increase Bullet Damage" << endl;
+			}
+
+			if( b == 6 )
+			{
+				char heartShape = 3;
+				colour(FOREGROUND_RED | FOREGROUND_INTENSITY);
+				cout << "                 " << heartShape << " = Gives Pacman Additional Life " << endl;
+			}
+
+			if ( b == 6 )
+			{
+				colour(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+				//Ghost 1
+				gotoXY(23, 19);
+				cout << "Level: 1";
+
+				gotoXY(23, 20);
+				cout << "Damage: 1";
+
+				gotoXY(23, 21);
+				cout << "Health: 1";
+
+				//Ghost 2
+				gotoXY(23, 23);
+				cout << "Level: 2";
+
+				gotoXY(23, 24);
+				cout << "Damage: 1";
+
+				gotoXY(23, 25);
+				cout << "Health: 2";
+
+				//Ghost 3
+				gotoXY(23, 27);
+				cout << "Level: 2";
+
+				gotoXY(23, 28);
+				cout << "Damage: 1";
+
+				gotoXY(23, 29);
+				cout << "Health: 2";
+
+				//Powerups
+				gotoXY(19, 33);
+				cout << "= Increases Bullet Movement Speed";
+
+				gotoXY(19, 34);
+				cout << "= Score Multiplier 2X";
+
+				gotoXY(19, 35);
+				cout << "= Increase Bullet Damage";
+
+				gotoXY(19, 36);
+				cout << "= Gives Pacman Additional Life";
+			}
+			
+			if( b == 6 )
+			{
+				colour(FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_INTENSITY);
+				cout << endl;
+				cout << endl;
+				cout << endl;
+
+				cout << "             PACMAN" << endl;
+				//Pacman
+				gotoXY(17, 41);
+				cout << "    Damage: 1";
+
+				gotoXY(17, 42);
+				cout << "    Health: 2";
+
+				gotoXY( consoleSize.X/2 - 9, 40);
+				cout << "Press Space to Continue...";
+
+				while( b == 6 )
+				{
+					drawPacman(0, 0);
+					Sleep(100);
+					getInput();
+	
+					if ( keyPressed[E_SPACE_KEY] )
+					{
+						game = E_MAIN_MENU;
+						break;
+					}
+				}
+			}
 		}
 
-		pressToContinue(GAME_GUIDE_MENU + GAME_INSTRUCTIONS + 5);
+	/*	pressToContinue(GAME_GUIDE_MENU + GAME_INSTRUCTIONS + 5);
 
-		game = E_MAIN_MENU;
+		game = E_MAIN_MENU;*/
 	}
 
 void gameOver(GAMESTATE &game)

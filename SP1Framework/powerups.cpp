@@ -10,6 +10,7 @@ Power::Power(Pacman player)
 	giveLife = 1;
 	increaseDmg = 1;
 	increasebulletSpeed = 3;
+	scoreMultiplier = 5;
 }
 
 void Power::draw()

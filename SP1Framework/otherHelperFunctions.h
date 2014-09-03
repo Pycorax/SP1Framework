@@ -3,6 +3,7 @@
 
 #include <Windows.h>
 #include <string>
+#include "characters.h"
 
 using std::string;
 
@@ -14,5 +15,6 @@ void clearInput();
 bool fileExists(string saveName);
 bool isNumber(char test);
 short charToNumber(char number); //Returns -1 if is not a number
+void drawPacman(int x, int y);
 
 #endif
