@@ -144,18 +144,6 @@
     <None Include="Maps\First One%27s Free.map">
       <Filter>Resource Files\Maps</Filter>
     </None>
-    <None Include="Custom Maps\ghostCollisionTest.aimap">
-      <Filter>Resource Files\Maps\Tests</Filter>
-    </None>
-    <None Include="Custom Maps\ghostCollisionTest.map">
-      <Filter>Resource Files\Maps\Tests</Filter>
-    </None>
-    <None Include="Custom Maps\speedyGhostHitTest.aimap">
-      <Filter>Resource Files\Maps\Tests</Filter>
-    </None>
-    <None Include="Custom Maps\speedyGhostHitTest.map">
-      <Filter>Resource Files\Maps\Tests</Filter>
-    </None>
     <None Include="Maps\All Around You.aimap">
       <Filter>Resource Files\Maps</Filter>
     </None>
@@ -227,6 +215,24 @@
     </None>
     <None Include="Maps\Complexity.map">
       <Filter>Resource Files\Maps</Filter>
+    </None>
+    <None Include="Maps\Domo.aimap">
+      <Filter>Resource Files\Maps</Filter>
+    </None>
+    <None Include="Maps\Domo.map">
+      <Filter>Resource Files\Maps</Filter>
+    </None>
+    <None Include="Maps\ghostCollisionTest.map">
+      <Filter>Resource Files\Maps\Tests</Filter>
+    </None>
+    <None Include="Maps\ghostCollisionTest.aimap">
+      <Filter>Resource Files\Maps\Tests</Filter>
+    </None>
+    <None Include="Maps\speedyGhostHitTest.aimap">
+      <Filter>Resource Files\Maps\Tests</Filter>
+    </None>
+    <None Include="Maps\speedyGhostHitTest.map">
+      <Filter>Resource Files\Maps\Tests</Filter>
     </None>
   </ItemGroup>
 </Project>

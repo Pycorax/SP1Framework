@@ -110,22 +110,24 @@
     <ClInclude Include="userInterface.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Custom Maps\ghostCollisionTest.aimap" />
-    <None Include="Custom Maps\ghostCollisionTest.map" />
-    <None Include="Custom Maps\speedyGhostHitTest.aimap" />
-    <None Include="Custom Maps\speedyGhostHitTest.map" />
     <None Include="Custom Maps\template.aimap" />
     <None Include="Custom Maps\template.map" />
     <None Include="Maps\All Paths Lead to Rome.aimap" />
     <None Include="Maps\All Paths Lead to Rome.map" />
+    <None Include="Maps\Domo.aimap" />
+    <None Include="Maps\Domo.map" />
     <None Include="Maps\First One%27s Free.aimap" />
     <None Include="Maps\First One%27s Free.map" />
     <None Include="Maps\All Around You.aimap" />
     <None Include="Maps\All Around You.map" />
+    <None Include="Maps\ghostCollisionTest.aimap" />
+    <None Include="Maps\ghostCollisionTest.map" />
     <None Include="Maps\Ghosts in the Machine.aimap" />
     <None Include="Maps\Ghosts in the Machine.map" />
     <None Include="Maps\Same Yet Different.aimap" />
     <None Include="Maps\Same Yet Different.map" />
+    <None Include="Maps\speedyGhostHitTest.aimap" />
+    <None Include="Maps\speedyGhostHitTest.map" />
     <None Include="Maps\Taste the Damage.aimap" />
     <None Include="Maps\Taste the Damage.map" />
     <None Include="Maps\The Figure.aimap" />

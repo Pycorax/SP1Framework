@@ -22,13 +22,14 @@ int main()
 	loadOptions(options);
 	
 	//Controls maps & map order in normal mode
-	const size_t NUM_OF_MAPS = 14;
+	const size_t NUM_OF_MAPS = 15;
 	string maps[NUM_OF_MAPS] = 
 	{
 		"First One's Free",
 		"Walk in the Park",
 		"All Around You",
 		"Ghosts in the Machine",
+		"Domo",
 		"Same Yet Different",
 		"Taste the Damage",
 		"The Figure",
