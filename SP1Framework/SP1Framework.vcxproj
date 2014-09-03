@@ -116,6 +116,10 @@
     <None Include="Custom Maps\speedyGhostHitTest.map" />
     <None Include="Custom Maps\template.aimap" />
     <None Include="Custom Maps\template.map" />
+    <None Include="Maps\All Paths Lead to Rome.aimap" />
+    <None Include="Maps\All Paths Lead to Rome.map" />
+    <None Include="Maps\First One%27s Free.aimap" />
+    <None Include="Maps\First One%27s Free.map" />
     <None Include="Maps\LEVEL1.aimap" />
     <None Include="Maps\LEVEL1.map" />
     <None Include="Maps\LEVEL3.aimap" />

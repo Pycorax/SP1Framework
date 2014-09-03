@@ -213,5 +213,17 @@
     <None Include="Maps\testingB.map">
       <Filter>Resource Files\Maps</Filter>
     </None>
+    <None Include="Maps\All Paths Lead to Rome.aimap">
+      <Filter>Resource Files\Maps</Filter>
+    </None>
+    <None Include="Maps\All Paths Lead to Rome.map">
+      <Filter>Resource Files\Maps</Filter>
+    </None>
+    <None Include="Maps\First One%27s Free.aimap">
+      <Filter>Resource Files\Maps</Filter>
+    </None>
+    <None Include="Maps\First One%27s Free.map">
+      <Filter>Resource Files\Maps</Filter>
+    </None>
   </ItemGroup>
 </Project>
