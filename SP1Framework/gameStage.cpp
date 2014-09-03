@@ -342,6 +342,8 @@ void gameGuide(GAMESTATE &game)
 				gotoXY(17, 41);
 				cout << "    Damage: 1";
 
+				colour(getColourWORD(E_WHITE_COLOR));
+
 				string continueText = "Press Up to Continue...";
 				gotoXY(consoleSize.X/2 - continueText.length()/2, 50);
 				cout << continueText;
@@ -350,6 +352,7 @@ void gameGuide(GAMESTATE &game)
 
 				while( b == 6 )
 				{
+					colour(FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_INTENSITY);
 					drawPacman(0, 0);
 					Sleep(100);
 					getInput();

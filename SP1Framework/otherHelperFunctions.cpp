@@ -74,7 +74,7 @@ void pressToContinue()
 	extern bool keyPressed[E_MAX_KEYS];
 
 	Sleep(300);
-	cout << text;
+	cout << "Press Up to continue...";
 
 	while(true)
 	{

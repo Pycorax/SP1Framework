@@ -109,7 +109,7 @@ struct Map
 	//Aesthetics
 	OptionSet colors;
 
-	Map(string mapName, OptionSet setColors);
+	Map(string mapName, OptionSet setColors, bool isCustom = false);
 	//TODO: Create destructor for Map when level system is added
 	//~Map();
 

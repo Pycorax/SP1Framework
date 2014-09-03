@@ -473,7 +473,7 @@ void customLevelLoop(string mapName, Loadables loads, OptionSet options)
 	//Load & Print Map
 	loadingScreen(mapName);
 
-	Map currentMap(mapName, options);
+	Map currentMap(mapName, options, true);
 
 	bool loadMap = true;
 

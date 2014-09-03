@@ -66,12 +66,18 @@ MapValidity::MapValidity()
 	errorMessages[E_NO_PELLETS] = "There are no pellets on the map.";
 }
 
-Map::Map(string mapName, OptionSet setColors)
+Map::Map(string mapName, OptionSet setColors, bool isCustom)
 {
 	ghostDataStorage = new vector<GhostData>;
 
 	//Get names of the map files
 	string directory = "Maps/";
+
+	if (isCustom)
+	{
+		directory = "";
+	}
+
 	string actualMapName = directory + mapName + ".map";
 	string aiMapName = directory + mapName + ".aimap";
 
