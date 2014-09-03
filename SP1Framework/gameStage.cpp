@@ -183,7 +183,7 @@ void gameGuide(GAMESTATE &game)
 	{
 		//consoleSize = consoleSize;
 		//setConsoleSize;
-		colour(FOREGROUND_GREEN | FOREGROUND_RED);
+		colour(getColourWORD(E_WHITE_COLOR));
 		extern bool keyPressed[E_MAX_KEYS];
 		
 
@@ -342,19 +342,19 @@ void gameGuide(GAMESTATE &game)
 				gotoXY(17, 41);
 				cout << "    Damage: 1";
 
-				gotoXY(17, 42);
-				cout << "    Health: 2";
+				string continueText = "Press Up to Continue...";
+				gotoXY(consoleSize.X/2 - continueText.length()/2, 50);
+				cout << continueText;
 
-				gotoXY( consoleSize.X/2 - 9, 40);
-				cout << "Press Space to Continue...";
+				gotoXY(consoleSize.X/2, 52);
 
 				while( b == 6 )
 				{
 					drawPacman(0, 0);
 					Sleep(100);
 					getInput();
-	
-					if ( keyPressed[E_SPACE_KEY] )
+
+					if ( keyPressed[E_UP_KEY] )
 					{
 						game = E_MAIN_MENU;
 						break;
@@ -362,10 +362,6 @@ void gameGuide(GAMESTATE &game)
 				}
 			}
 		}
-
-	/*	pressToContinue(GAME_GUIDE_MENU + GAME_INSTRUCTIONS + 5);
-
-		game = E_MAIN_MENU;*/
 	}
 
 void gameOver(GAMESTATE &game)
