@@ -1,4 +1,4 @@
-#include "gameStage.h"
+ #include "gameStage.h"
 #include <iostream>
 #include <fstream>
 #include "maps.h"
@@ -270,7 +270,7 @@ void gameOver(GAMESTATE &game)
 		"|                  |",
 		"|  (2) Exit Game   |",
 		"|                  |",
-		"|__________________|"
+		"|__________________|" 
 	};
 
 	int gameOverOptionsPrintSpot = defaultConsoleSize.X/2 - gameOverOptions[0].length()/2;
@@ -843,7 +843,7 @@ void loadingScreen(string mapName)
 	cout << mapLoading;
 }
 
-void startScreen(string mapName, int level)
+void startScreen(string mapName, int level)  
 {
 	cls();
 	colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
@@ -991,10 +991,32 @@ void startScreen(string mapName, int level)
 		   },
 	};
 
+	int firstNumber;
+	int secondNumber;
+
+	if (level < 10)
+	{
+		firstNumber = level % 10;
+	}
+	else
+	{
+		firstNumber = level % 100 / 10;
+		secondNumber = level % 10;
+	}
+	
+
 	for(int i = 0; i < START_SCREEN_TITLE; ++i)
 	{
 		startscreen[i] += space[i];
-		startscreen[i] += levelscreen[level][i];
+		startscreen[i] += levelscreen[firstNumber][i];
+	}
+
+	if ( level > 9 )
+	{
+		for(int i = 0; i < START_SCREEN_TITLE; ++i)
+		{
+			startscreen[i] += levelscreen[secondNumber][i];
+		}
 	}
 
 	int startscreenPrintSpot = defaultConsoleSize.X/2 - startscreen[0].length()/2;
