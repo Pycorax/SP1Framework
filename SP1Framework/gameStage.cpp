@@ -88,6 +88,10 @@ void mainMenu(GAMESTATE &game)
 
 	printControls();
 
+	string recommendedFont = "Best played at Raster 8x8 font size!";
+	gotoXY(defaultConsoleSize.X/2 - recommendedFont.length()/2, 30 + MAIN_MENU_OPTIONS);
+	cout << recommendedFont;
+
 	//New Menu System
 	gotoXY(consoleSize.X/2 - mainMenuOptions[0].length()/2 - g_MENU_TICKER.length() + 7, 20 + selection);
 	cout << g_MENU_TICKER;
