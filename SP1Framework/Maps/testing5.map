@@ -1,12 +1,12 @@
 Z //Number of Zones
 7
 D //Ghost Details, Row1: Health, Row2: Speed, Row3: Respawn Delay, Row4: ZoneID
-1111111
+3333333
 1111111
 5555555
 0123456
 S //Minimum Score
-2000
+10000
 #############################
 #.........#########.........#
 #.###.###H#########.###.###.#

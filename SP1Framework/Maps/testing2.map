@@ -1,12 +1,12 @@
 Z //Number of Zones
-1
+3
 D //Ghost Details, Row1: Health, Row2: Speed, Row3: Respawn Delay, Row4: ZoneID
-1
-1
-5
-0
+212
+121
+454
+012
 S //Minimum Score
-2000
+10000
 ###############################
 #H............................#
 #.#.#.###.#####.#####.###.#.#.#
