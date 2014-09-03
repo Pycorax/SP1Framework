@@ -138,6 +138,8 @@
     <None Include="Maps\testing8.map" />
     <None Include="Maps\testingA.aimap" />
     <None Include="Maps\testingA.map" />
+    <None Include="Maps\testingB.aimap" />
+    <None Include="Maps\testingB.map" />
     <None Include="scores.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

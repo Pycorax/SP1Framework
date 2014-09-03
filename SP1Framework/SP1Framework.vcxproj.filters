@@ -207,5 +207,11 @@
     <None Include="Custom Maps\template.map">
       <Filter>Resource Files\Maps\Custom Maps</Filter>
     </None>
+    <None Include="Maps\testingB.aimap">
+      <Filter>Resource Files\Maps</Filter>
+    </None>
+    <None Include="Maps\testingB.map">
+      <Filter>Resource Files\Maps</Filter>
+    </None>
   </ItemGroup>
 </Project>
