@@ -11,6 +11,7 @@ void newSetConsoleSize(COORD size);
 void newSetConsoleSize(int x, int y);
 void flushInputBuffer();
 void pressToContinue(int y_coord);
+void pressToContinue(); //Similar to system("pause")
 void clearInput();
 bool fileExists(string saveName);
 bool isNumber(char test);

@@ -445,6 +445,8 @@ void levelLoop(string mapName, GAMESTATE &game, unsigned int level, Loadables &l
 	else
 	{
 		//PRINT ERROR SCREEN
+		colour(getColourWORD(E_RED_COLOR) | getBGColourWORD(E_BLACK_BG_COLOR));
+		cls();
 		gotoXY(0,0);
 		cout << "Error(s) loading level" << endl;
 		cout << "=============================================" << endl;
@@ -461,7 +463,7 @@ void levelLoop(string mapName, GAMESTATE &game, unsigned int level, Loadables &l
 		}
 
 		cout << endl << endl;
-		system("pause");
+		pressToContinue();
 		cls();
 	}
 }
@@ -565,7 +567,7 @@ void customLevelLoop(string mapName, Loadables loads, OptionSet options)
 		}
 
 		cout << endl << endl;
-		system("pause");
+		pressToContinue();
 		cls();
 	}
 }

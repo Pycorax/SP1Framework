@@ -69,6 +69,24 @@ void pressToContinue(int y_coord)
 	}
 }
 
+void pressToContinue()
+{
+	extern bool keyPressed[E_MAX_KEYS];
+
+	Sleep(300);
+	cout << text;
+
+	while(true)
+	{
+		getInput();
+
+		if(keyPressed[E_UP_KEY])
+		{
+			break;
+		}
+	}
+}
+
 bool fileExists(string saveName)
 {
 	ifstream file;

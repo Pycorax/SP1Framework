@@ -1176,8 +1176,9 @@ void endScreen()
 void winScreen()
 {
 	newSetConsoleSize(defaultConsoleSize);
+	colour(getBGColourWORD(E_BLACK_BG_COLOR));
 	cls();
-	system("color 0F");
+	colour(getColourWORD(E_WHITE_COLOR));
 	const size_t END_SCREEN_TITLE = 8;
 	string endscreen[END_SCREEN_TITLE] =
 	{

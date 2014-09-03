@@ -69,7 +69,7 @@ void highScoreTitle()
 	newSetConsoleSize(defaultConsoleSize);
 	consoleSize = defaultConsoleSize;
 	cls();
-	system("color 0F");
+	colour(getColourWORD(E_WHITE_COLOR));
 	const size_t HIGH_SCORE_BOARD_TITLE = 8;
 	string highscorescreen[HIGH_SCORE_BOARD_TITLE] =
 	{
