@@ -22,6 +22,9 @@
     <Filter Include="Resource Files\Maps">
       <UniqueIdentifier>{79b5a00c-aa8b-47eb-86d7-4a199d0a453a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Maps\Custom Maps">
+      <UniqueIdentifier>{0805df4e-9c81-4895-96b6-19654b5065bc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -197,6 +200,12 @@
     </None>
     <None Include="Custom Maps\speedyGhostHitTest.map">
       <Filter>Resource Files\Maps</Filter>
+    </None>
+    <None Include="Custom Maps\template.aimap">
+      <Filter>Resource Files\Maps\Custom Maps</Filter>
+    </None>
+    <None Include="Custom Maps\template.map">
+      <Filter>Resource Files\Maps\Custom Maps</Filter>
     </None>
   </ItemGroup>
 </Project>

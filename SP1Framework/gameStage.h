@@ -21,6 +21,7 @@ enum GAMESTATE
 	E_LOAD_SAVES,
 	E_LOAD_CUSTOM,
 	E_GAME_GUIDE,
+	E_CUSTOM_GAME_GUIDE,
 	E_DELETE_SAVES,
 	E_HIGH_SCORES,
 	E_OPTIONS_MENU,
@@ -61,6 +62,7 @@ void gameOver(GAMESTATE &game);
 //Custom Maps
 void loadCustomLevelMenu(GAMESTATE &game, OptionSet options);
 void customGame(string mapName, OptionSet options);
+void customGameGuide(GAMESTATE &game);
 
 //Others
 void gameGuide(GAMESTATE &game);

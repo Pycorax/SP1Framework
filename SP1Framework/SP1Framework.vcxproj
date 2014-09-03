@@ -114,6 +114,8 @@
     <None Include="Custom Maps\ghostCollisionTest.map" />
     <None Include="Custom Maps\speedyGhostHitTest.aimap" />
     <None Include="Custom Maps\speedyGhostHitTest.map" />
+    <None Include="Custom Maps\template.aimap" />
+    <None Include="Custom Maps\template.map" />
     <None Include="Maps\LEVEL1.aimap" />
     <None Include="Maps\LEVEL1.map" />
     <None Include="Maps\LEVEL3.aimap" />

@@ -58,23 +58,24 @@ void mainMenu(GAMESTATE &game)
 		cout << mainMenuTitle[i];
 	}
 
-	const size_t MAIN_MENU_OPTIONS = 14;
+	const size_t MAIN_MENU_OPTIONS = 15;
 	string mainMenuOptions[MAIN_MENU_OPTIONS] =
 	{
-		" _____________________",
-		"|                     |", //Total Length 20
-		"|                     |",
-		"|      Start Game     |",
-		"|      Load Saves     |",
-		"|      Play Custom    |",
-		"|      Game Guide     |",
-		"|      Del Saves      |",
-		"|      High Scores    |",
-		"|      Options        |",
-		"|      About          |",
-		"|      Exit Game      |",
-		"|                     |",
-		"|_____________________|"
+		" __________________________",
+		"|                          |", //Total Length 20
+		"|                          |",
+		"|      Start Game          |",
+		"|      Load Saves          |",
+		"|      Play Custom         |",
+		"|      Game Guide          |",
+		"|      Custom Game Guide   |",
+		"|      Del Saves           |",
+		"|      High Scores         |",
+		"|      Options             |",
+		"|      About               |",
+		"|      Exit Game           |",
+		"|                          |",
+		"|__________________________|"
 	};
 
 	int mainMenuOptionsPrintSpot = defaultConsoleSize.X/2 - mainMenuOptions[0].length()/2;
@@ -103,7 +104,7 @@ void mainMenu(GAMESTATE &game)
 			--selection;
 			selectionChanged = true;
 		}
-		else if(keyPressed[E_DOWN_KEY] && selection < 8)
+		else if(keyPressed[E_DOWN_KEY] && selection < 9)
 		{
 			oldSelection = selection;
 			++selection;
@@ -126,18 +127,21 @@ void mainMenu(GAMESTATE &game)
 					game = E_GAME_GUIDE;
 					break;
 				case 4:
-					game = E_DELETE_SAVES;
+					game = E_CUSTOM_GAME_GUIDE;
 					break;
 				case 5:
-					game = E_HIGH_SCORES;
+					game = E_DELETE_SAVES;
 					break;
 				case 6:
-					game = E_OPTIONS_MENU;
+					game = E_HIGH_SCORES;
 					break;
 				case 7:
-					game = E_ABOUT_SCREEN;
+					game = E_OPTIONS_MENU;
 					break;
 				case 8:
+					game = E_ABOUT_SCREEN;
+					break;
+				case 9:
 					game = E_QUIT_MENU;
 					break;
 				default:
@@ -180,192 +184,192 @@ void drawPacman(int x, int y)
 }
 
 void gameGuide(GAMESTATE &game)
-	{
-		//consoleSize = consoleSize;
-		//setConsoleSize;
-		colour(getColourWORD(E_WHITE_COLOR));
-		extern bool keyPressed[E_MAX_KEYS];
+{
+	//consoleSize = consoleSize;
+	//setConsoleSize;
+	colour(getColourWORD(E_WHITE_COLOR));
+	extern bool keyPressed[E_MAX_KEYS];
 		
 
-		const size_t GAME_GUIDE_MENU = 8;
-		string gameguideMenu[GAME_GUIDE_MENU] =
-		{
-			":'######::::::'###::::'##::::'##:'########:::::'######:::'##::::'##:'####:'########::'########:",
-			"'##... ##::::'## ##::: ###::'###: ##.....:::::'##... ##:: ##:::: ##:. ##:: ##.... ##: ##.....::",
-			" ##:::..::::'##:. ##:: ####'####: ##:::::::::: ##:::..::: ##:::: ##:: ##:: ##:::: ##: ##:::::::",
-			" ##::'####:'##:::. ##: ## ### ##: ######:::::: ##::'####: ##:::: ##:: ##:: ##:::: ##: ######:::",
-			" ##::: ##:: #########: ##. #: ##: ##...::::::: ##::: ##:: ##:::: ##:: ##:: ##:::: ##: ##...::::",
-			" ##::: ##:: ##.... ##: ##:.:: ##: ##:::::::::: ##::: ##:: ##:::: ##:: ##:: ##:::: ##: ##:::::::",
-			". ######::: ##:::: ##: ##:::: ##: ########::::. ######:::. #######::'####: ########:: ########:",
-			":......::::..:::::..::..:::::..::........::::::......:::::.......:::....::........:::........::"
-		};
+	const size_t GAME_GUIDE_MENU = 8;
+	string gameguideMenu[GAME_GUIDE_MENU] =
+	{
+		":'######::::::'###::::'##::::'##:'########:::::'######:::'##::::'##:'####:'########::'########:",
+		"'##... ##::::'## ##::: ###::'###: ##.....:::::'##... ##:: ##:::: ##:. ##:: ##.... ##: ##.....::",
+		" ##:::..::::'##:. ##:: ####'####: ##:::::::::: ##:::..::: ##:::: ##:: ##:: ##:::: ##: ##:::::::",
+		" ##::'####:'##:::. ##: ## ### ##: ######:::::: ##::'####: ##:::: ##:: ##:: ##:::: ##: ######:::",
+		" ##::: ##:: #########: ##. #: ##: ##...::::::: ##::: ##:: ##:::: ##:: ##:: ##:::: ##: ##...::::",
+		" ##::: ##:: ##.... ##: ##:.:: ##: ##:::::::::: ##::: ##:: ##:::: ##:: ##:: ##:::: ##: ##:::::::",
+		". ######::: ##:::: ##: ##:::: ##: ########::::. ######:::. #######::'####: ########:: ########:",
+		":......::::..:::::..::..:::::..::........::::::......:::::.......:::....::........:::........::"
+	};
 
-		const size_t GAME_INSTRUCTIONS = 7;
-		string gameInstructions[GAME_INSTRUCTIONS] =
-		{
-			"	                                  ",
-			"HOW TO PLAY?",
-			"	1: Use Arrow Keys to move the pacman around",
-			"	2: Collect all pellets or reach minimum points to go to the next level",
-			"	3: Kill Ghosts or collect pellets to gain points",
-			"	4: Try not to let ghosts touch you",
-			"	                                  "
-		};
+	const size_t GAME_INSTRUCTIONS = 7;
+	string gameInstructions[GAME_INSTRUCTIONS] =
+	{
+		"	                                  ",
+		"HOW TO PLAY?",
+		"	1: Use Arrow Keys to move the pacman around",
+		"	2: Collect all pellets or reach minimum points to go to the next level",
+		"	3: Kill Ghosts or collect pellets to gain points",
+		"	4: Try not to let ghosts touch you",
+		"	                                  "
+	};
 
-		int gameguideprintSpots = consoleSize.X/2 - gameguideMenu[0].length()/2;
+	int gameguideprintSpots = consoleSize.X/2 - gameguideMenu[0].length()/2;
 
-		for(size_t a = 0; a < GAME_GUIDE_MENU; ++a)
+	for(size_t a = 0; a < GAME_GUIDE_MENU; ++a)
+	{
+		gotoXY(gameguideprintSpots, 2 + a);
+		cout << gameguideMenu[a];
+	}
+
+	//int gameinstructionsprintSpots = consoleSize.X/2 - gameInstructions[0].length()/2;
+
+	for(size_t b = 0; b < GAME_INSTRUCTIONS; ++b)
+	{
+		gotoXY(13, 2 + GAME_GUIDE_MENU + b);
+		cout << gameInstructions[b] << endl;
+
+		if( b == 6 )
 		{
-			gotoXY(gameguideprintSpots, 2 + a);
-			cout << gameguideMenu[a];
+			colour(FOREGROUND_GREEN);
+			cout << "             INSTUCTIONS" << endl;
+			cout << endl;
+			cout << "                 /1\\   Level: 1" << endl;
+			cout << "                 o-o   Damage: 1" << endl;
+			cout << "                 vvv   Health: 1" << endl;
 		}
 
-		//int gameinstructionsprintSpots = consoleSize.X/2 - gameInstructions[0].length()/2;
-
-		for(size_t b = 0; b < GAME_INSTRUCTIONS; ++b)
+		if( b == 6 )
 		{
-			gotoXY(13, 2 + GAME_GUIDE_MENU + b);
-			cout << gameInstructions[b] << endl;
+			colour(FOREGROUND_RED | FOREGROUND_BLUE);
+			cout << endl;
+			cout << "                 /2\\   Level: 2" << endl;
+			cout << "                 o-o   Damage: 1" << endl;
+			cout << "                 vvv   Health: 2" << endl;
+		}
 
-			if( b == 6 )
-			{
-				colour(FOREGROUND_GREEN);
-				cout << "             INSTUCTIONS" << endl;
-				cout << endl;
-				cout << "                 /1\\   Level: 1" << endl;
-				cout << "                 o-o   Damage: 1" << endl;
-				cout << "                 vvv   Health: 1" << endl;
-			}
+		if( b == 6 )
+		{
+			colour(FOREGROUND_RED);
+			cout << endl;
+			cout << "                 [3]   Level: 3" << endl;
+			cout << "                 O-O   Damage: 1" << endl;
+			cout << "                 vvv   Health: 3" << endl;
+		}
 
-			if( b == 6 )
-			{
-				colour(FOREGROUND_RED | FOREGROUND_BLUE);
-				cout << endl;
-				cout << "                 /2\\   Level: 2" << endl;
-				cout << "                 o-o   Damage: 1" << endl;
-				cout << "                 vvv   Health: 2" << endl;
-			}
+		if( b == 6 )
+		{
+			colour(FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+			cout << endl;
+			cout << "             PowerUps" << endl;
+			cout << endl;
+			cout << "                 s = Increases Bullet Movement Speed" << endl;
+		}
 
-			if( b == 6 )
-			{
-				colour(FOREGROUND_RED);
-				cout << endl;
-				cout << "                 [3]   Level: 3" << endl;
-				cout << "                 O-O   Damage: 1" << endl;
-				cout << "                 vvv   Health: 3" << endl;
-			}
+		if( b == 6 )
+		{
+			colour(FOREGROUND_BLUE | FOREGROUND_RED | FOREGROUND_INTENSITY);
+			cout << "                 M = Score Multiplier 2X" << endl;
+		}
 
-			if( b == 6 )
-			{
-				colour(FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_INTENSITY);
-				cout << endl;
-				cout << "             PowerUps" << endl;
-				cout << endl;
-				cout << "                 s = Increases Bullet Movement Speed" << endl;
-			}
+		if( b == 6 )
+		{
+			colour(FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_INTENSITY);
+			cout << "                 D = Increase Bullet Damage" << endl;
+		}
 
-			if( b == 6 )
-			{
-				colour(FOREGROUND_BLUE | FOREGROUND_RED | FOREGROUND_INTENSITY);
-				cout << "                 M = Score Multiplier 2X" << endl;
-			}
+		if( b == 6 )
+		{
+			char heartShape = 3;
+			colour(FOREGROUND_RED | FOREGROUND_INTENSITY);
+			cout << "                 " << heartShape << " = Gives Pacman Additional Life " << endl;
+		}
 
-			if( b == 6 )
-			{
-				colour(FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_INTENSITY);
-				cout << "                 D = Increase Bullet Damage" << endl;
-			}
+		if ( b == 6 )
+		{
+			colour(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+			//Ghost 1
+			gotoXY(23, 19);
+			cout << "Level: 1";
 
-			if( b == 6 )
-			{
-				char heartShape = 3;
-				colour(FOREGROUND_RED | FOREGROUND_INTENSITY);
-				cout << "                 " << heartShape << " = Gives Pacman Additional Life " << endl;
-			}
+			gotoXY(23, 20);
+			cout << "Damage: 1";
 
-			if ( b == 6 )
-			{
-				colour(FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
-				//Ghost 1
-				gotoXY(23, 19);
-				cout << "Level: 1";
+			gotoXY(23, 21);
+			cout << "Health: 1";
 
-				gotoXY(23, 20);
-				cout << "Damage: 1";
+			//Ghost 2
+			gotoXY(23, 23);
+			cout << "Level: 2";
 
-				gotoXY(23, 21);
-				cout << "Health: 1";
+			gotoXY(23, 24);
+			cout << "Damage: 1";
 
-				//Ghost 2
-				gotoXY(23, 23);
-				cout << "Level: 2";
+			gotoXY(23, 25);
+			cout << "Health: 2";
 
-				gotoXY(23, 24);
-				cout << "Damage: 1";
+			//Ghost 3
+			gotoXY(23, 27);
+			cout << "Level: 2";
 
-				gotoXY(23, 25);
-				cout << "Health: 2";
+			gotoXY(23, 28);
+			cout << "Damage: 1";
 
-				//Ghost 3
-				gotoXY(23, 27);
-				cout << "Level: 2";
+			gotoXY(23, 29);
+			cout << "Health: 2";
 
-				gotoXY(23, 28);
-				cout << "Damage: 1";
+			//Powerups
+			gotoXY(19, 33);
+			cout << "= Increases Bullet Movement Speed";
 
-				gotoXY(23, 29);
-				cout << "Health: 2";
+			gotoXY(19, 34);
+			cout << "= Score Multiplier 2X";
 
-				//Powerups
-				gotoXY(19, 33);
-				cout << "= Increases Bullet Movement Speed";
+			gotoXY(19, 35);
+			cout << "= Increase Bullet Damage";
 
-				gotoXY(19, 34);
-				cout << "= Score Multiplier 2X";
-
-				gotoXY(19, 35);
-				cout << "= Increase Bullet Damage";
-
-				gotoXY(19, 36);
-				cout << "= Gives Pacman Additional Life";
-			}
+			gotoXY(19, 36);
+			cout << "= Gives Pacman Additional Life";
+		}
 			
-			if( b == 6 )
+		if( b == 6 )
+		{
+			colour(FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_INTENSITY);
+			cout << endl;
+			cout << endl;
+			cout << endl;
+
+			cout << "             PACMAN" << endl;
+			//Pacman
+			gotoXY(17, 41);
+			cout << "    Damage: 1";
+
+			colour(getColourWORD(E_WHITE_COLOR));
+
+			string continueText = "Press Up to Continue...";
+			gotoXY(consoleSize.X/2 - continueText.length()/2, 50);
+			cout << continueText;
+
+			gotoXY(consoleSize.X/2, 52);
+
+			while( b == 6 )
 			{
 				colour(FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_INTENSITY);
-				cout << endl;
-				cout << endl;
-				cout << endl;
+				drawPacman(0, 0);
+				Sleep(100);
+				getInput();
 
-				cout << "             PACMAN" << endl;
-				//Pacman
-				gotoXY(17, 41);
-				cout << "    Damage: 1";
-
-				colour(getColourWORD(E_WHITE_COLOR));
-
-				string continueText = "Press Up to Continue...";
-				gotoXY(consoleSize.X/2 - continueText.length()/2, 50);
-				cout << continueText;
-
-				gotoXY(consoleSize.X/2, 52);
-
-				while( b == 6 )
+				if ( keyPressed[E_UP_KEY] )
 				{
-					colour(FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_INTENSITY);
-					drawPacman(0, 0);
-					Sleep(100);
-					getInput();
-
-					if ( keyPressed[E_UP_KEY] )
-					{
-						game = E_MAIN_MENU;
-						break;
-					}
+					game = E_MAIN_MENU;
+					break;
 				}
 			}
 		}
 	}
+}
 
 void gameOver(GAMESTATE &game)
 {
@@ -1709,6 +1713,9 @@ bool deleteMenu()
 
 void victoryScreen()
 {
+	newSetConsoleSize(defaultConsoleSize);
+	consoleSize = defaultConsoleSize;
+
 	const int VICTORY_SCREEN_SIZE = 13;
 	string victoryScreen[VICTORY_SCREEN_SIZE] =
 	{
@@ -1737,6 +1744,9 @@ void victoryScreen()
 
 void loseScreen()
 {
+	newSetConsoleSize(defaultConsoleSize);
+	consoleSize = defaultConsoleSize;
+
 	const int LOSE_SCREEN_SIZE = 13;
 	string loseScreen[LOSE_SCREEN_SIZE] =
 	{
@@ -2372,4 +2382,75 @@ void optionsMenu(GAMESTATE &game, OptionSet &options)
 
 		Sleep(100);
 	}
+}
+
+void customGameGuide(GAMESTATE &game)
+{
+	newSetConsoleSize(defaultConsoleSize);
+
+	colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
+	cls();
+
+	const size_t ABOUT_SCREEN_TITLE = 8;
+	string title[ABOUT_SCREEN_TITLE] =
+	{
+		":'######::'##::::'##::'######::'########::'#######::'##::::'##::::'##::::'##::::'###::::'########:::'######::",
+		"'##... ##: ##:::: ##:'##... ##:... ##..::'##.... ##: ###::'###:::: ###::'###:::'## ##::: ##.... ##:'##... ##:",
+		" ##:::..:: ##:::: ##: ##:::..::::: ##:::: ##:::: ##: ####'####:::: ####'####::'##:. ##:: ##:::: ##: ##:::..::",
+		" ##::::::: ##:::: ##:. ######::::: ##:::: ##:::: ##: ## ### ##:::: ## ### ##:'##:::. ##: ########::. ######::",
+		" ##::::::: ##:::: ##::..... ##:::: ##:::: ##:::: ##: ##. #: ##:::: ##. #: ##: #########: ##.....::::..... ##:",
+		" ##::: ##: ##:::: ##:'##::: ##:::: ##:::: ##:::: ##: ##:.:: ##:::: ##:.:: ##: ##.... ##: ##::::::::'##::: ##:",
+		". ######::. #######::. ######::::: ##::::. #######:: ##:::: ##:::: ##:::: ##: ##:::: ##: ##::::::::. ######::",
+		":......::::.......::::......::::::..::::::.......:::..:::::..:::::..:::::..::..:::::..::..::::::::::......:::"
+	};
+	int aboutScreenPrintSpot = defaultConsoleSize.X/2 - title[0].length()/2;
+
+	for(size_t i = 0; i < ABOUT_SCREEN_TITLE; ++i)
+	{
+		gotoXY(aboutScreenPrintSpot, 6 + i);
+		cout << title[i];
+	}
+	const size_t ABOUT_MENU_DETAILS = 24;
+	string aboutMenuDetails[ABOUT_MENU_DETAILS] =
+	{
+		"A Map is comprised of two files: - .map                                                    ",
+		"                                 - .aimap                                                  ",
+		"                                                                                           ",
+		"Creating a map is in a \"What you see is what you get\" fashion!",
+		"",
+		".map file",
+		"=============",
+		"Header Portion",
+		"- Excluded from the physical map.",
+		"- Contains other map details.",
+		"- Look at template.map in the Custom Games folder for map header information!",
+		"'#' - Symbol for a wall.",
+		"' ' - Symbol for empty space",
+		"'P' - Symbol for player spawn point. Only 1 may exist on the map.",
+		"'H' - Symbol for a extra life power up.",
+		"'s' - Symbol for a increased bullet speed power up.",
+		"'d' - Symbol for a increased bullet damage power up.",
+		"'M' - Symbol for a 2x score multiplier power up.",
+		"",
+		".aimap file",
+		"=============",
+		"'#' - Symbol for a wall.",
+		"' ' - Symbol for empty space.",
+		"'1' to '9' - Symbol for zone where the ghost roams."
+		"",
+	};
+
+	int aboutMenuDetailsPrintSpot = consoleSize.X/2 - aboutMenuDetails[0].length()/2;
+
+	for(size_t i = 0; i < ABOUT_MENU_DETAILS; ++i)
+	{
+		gotoXY(aboutMenuDetailsPrintSpot, 17 + i);
+		cout << aboutMenuDetails[i];
+	}
+
+	gotoXY(60, 17 + ABOUT_MENU_DETAILS);
+
+	pressToContinue(20 + ABOUT_MENU_DETAILS);
+
+	game = E_MAIN_MENU;
 }

@@ -1,0 +1,17 @@
+Z //Number of Ghost Zones. Ghost Zones are pathways where Ghosts can spawn and move within
+4
+D //Ghost Details: Columns: 1 Column = 1 Ghost, Row1: Ghost Health, Row2: Ghost Speed, Row3: Ghost Respawn Delay, Row4: ZoneID of the Zone that the Ghost uses
+1111
+1111
+5555
+0123
+S //Minimum Score to hit before you can proceed to the next level
+5000
+######################
+#....................#
+#........####........#
+#....P...####........#
+#........####........#
+#........####........#
+#....................#
+######################

@@ -83,6 +83,9 @@ int main()
 			case E_GAME_GUIDE:
 				 gameGuide(game);
 				 break;
+			case E_CUSTOM_GAME_GUIDE:
+				customGameGuide(game);
+				break;
 		}
 	}
 	
