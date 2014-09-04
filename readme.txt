@@ -14,6 +14,7 @@ Controls
 - In Game
 	- Arrow keys to Move
 	- Space to Shoot
+	- Esc button to pause
 
 Objective
 ================
