@@ -208,7 +208,7 @@ void gameGuide(GAMESTATE &game)
 		":......::::..:::::..::..:::::..::........::::::......:::::.......:::....::........:::........::"
 	};
 
-	const size_t GAME_INSTRUCTIONS = 7;
+	const size_t GAME_INSTRUCTIONS = 8;
 	string gameInstructions[GAME_INSTRUCTIONS] =
 	{
 		"	                                  ",
@@ -217,7 +217,7 @@ void gameGuide(GAMESTATE &game)
 		"	2: Collect all pellets or reach the minimum score to go to the next level",
 		"	3: Kill Ghosts or collect pellets to gain score",
 		"	4: Touching ghosts = death",
-		"	                                  "
+		"	5: Press the Esc key anytime during the game to pause the game where you can save or exit the game"
 	};
 
 	int gameguideprintSpots = consoleSize.X/2 - gameguideMenu[0].length()/2;
@@ -232,153 +232,126 @@ void gameGuide(GAMESTATE &game)
 	{
 		gotoXY(13, 2 + GAME_GUIDE_MENU + b);
 		cout << gameInstructions[b] << endl;
+	}
 
-		if( b == 6 )
+	colour(getColourWORD(E_WHITE_COLOR));
+	cout << "             GHOSTS" << endl;
+	colour(FOREGROUND_GREEN);
+	cout << endl;
+	cout << "                 /1\\" << endl;
+	cout << "                 o-o " << endl;
+	cout << "                 vvv " << endl;
+
+	colour(FOREGROUND_RED | FOREGROUND_BLUE);
+	cout << endl;
+	cout << "                 /2\\" << endl;
+	cout << "                 o-o" << endl;
+	cout << "                 vvv" << endl;
+
+	colour(FOREGROUND_RED);
+	cout << endl;
+	cout << "                 [3]" << endl;
+	cout << "                 O-O" << endl;
+	cout << "                 vvv" << endl;
+
+	cout << endl;
+	colour(getColourWORD(E_WHITE_COLOR));
+	cout << "             PowerUps" << endl;
+
+	char bullSpeed = 15;
+	colour(FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+	cout << endl;
+	cout << "                 " << bullSpeed << endl;
+
+	unsigned char scoreMult = 228;
+	colour(getColourWORD(E_LIGHT_GREEN_COLOR));
+	cout << "                 " << scoreMult << endl;
+
+	char bullDmg = 30;
+	colour(FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_INTENSITY);
+	cout << "                 " << bullDmg << endl;
+
+	char heartShape = 3;
+	colour(FOREGROUND_RED | FOREGROUND_INTENSITY);
+	cout << "                 " << heartShape << " = Gives Pacman Additional Life " << endl;
+
+	colour(getColourWORD(E_WHITE_COLOR));
+	//Ghost 1
+	gotoXY(23, 20);
+	cout << "Level: 1";
+
+	gotoXY(23, 21);
+	cout << "Damage: 1";
+
+	gotoXY(23, 22);
+	cout << "Health: 1";
+
+	//Ghost 2
+	gotoXY(23, 24);
+	cout << "Level: 2";
+
+	gotoXY(23, 25);
+	cout << "Damage: 1";
+
+	gotoXY(23, 26);
+	cout << "Health: 2";
+
+	//Ghost 3
+	gotoXY(23, 28);
+	cout << "Level: 2";
+
+	gotoXY(23, 29);
+	cout << "Damage: 1";
+
+	gotoXY(23, 30);
+	cout << "Health: 2";
+
+	//Powerups
+	gotoXY(19, 34);
+	cout << "= Increases Bullet Movement Speed";
+
+	gotoXY(19, 35);
+	cout << "= Score Multiplier 2X";
+
+	gotoXY(19, 36);
+	cout << "= Increase Bullet Damage";
+
+	gotoXY(19, 37);
+	cout << "= Gives Pacman Additional Life";
+
+	gotoXY(17,39);
+	cout << "Your character will blink the colour of the power up you picked up!";
+
+	colour(getColourWORD(E_WHITE_COLOR));
+	cout << endl;
+	cout << endl;
+	cout << endl;
+
+	cout << "             PACMAN" << endl;
+	//Pacman
+	gotoXY(17, 44);
+	colour(getColourWORD(E_WHITE_COLOR));
+	cout << "      Damage: 1";
+
+	colour(getColourWORD(E_WHITE_COLOR));
+
+	string continueText = "Press Up to Continue...";
+	gotoXY(consoleSize.X/2 - continueText.length()/2, 50);
+	cout << continueText;
+
+	gotoXY(consoleSize.X/2, 52);
+
+	while(true)
+	{
+		colour(FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_INTENSITY);
+		drawPacman(17, 43);
+		Sleep(100);
+		getInput();
+
+		if ( keyPressed[E_UP_KEY] )
 		{
-			colour(getColourWORD(E_WHITE_COLOR));
-			cout << "             GHOSTS" << endl;
-			colour(FOREGROUND_GREEN);
-			cout << endl;
-			cout << "                 /1\\" << endl;
-			cout << "                 o-o " << endl;
-			cout << "                 vvv " << endl;
-		}
-
-		if( b == 6 )
-		{
-			colour(FOREGROUND_RED | FOREGROUND_BLUE);
-			cout << endl;
-			cout << "                 /2\\" << endl;
-			cout << "                 o-o" << endl;
-			cout << "                 vvv" << endl;
-		}
-
-		if( b == 6 )
-		{
-			colour(FOREGROUND_RED);
-			cout << endl;
-			cout << "                 [3]" << endl;
-			cout << "                 O-O" << endl;
-			cout << "                 vvv" << endl;
-		}
-
-		if( b == 6 )
-		{
-			cout << endl;
-			colour(getColourWORD(E_WHITE_COLOR));
-			cout << "             PowerUps" << endl;
-
-			char bullSpeed = 15;
-			colour(FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_INTENSITY);
-			cout << endl;
-			cout << "                 " << bullSpeed << endl;
-		}
-
-		if( b == 6 )
-		{
-			unsigned char scoreMult = 228;
-			colour(getColourWORD(E_LIGHT_GREEN_COLOR));
-			cout << "                 " << scoreMult << endl;
-		}
-
-		if( b == 6 )
-		{
-			char bullDmg = 30;
-			colour(FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_INTENSITY);
-			cout << "                 " << bullDmg << endl;
-		}
-
-		if( b == 6 )
-		{
-			char heartShape = 3;
-			colour(FOREGROUND_RED | FOREGROUND_INTENSITY);
-			cout << "                 " << heartShape << " = Gives Pacman Additional Life " << endl;
-		}
-
-		if ( b == 6 )
-		{
-			colour(getColourWORD(E_WHITE_COLOR));
-			//Ghost 1
-			gotoXY(23, 19);
-			cout << "Level: 1";
-
-			gotoXY(23, 20);
-			cout << "Damage: 1";
-
-			gotoXY(23, 21);
-			cout << "Health: 1";
-
-			//Ghost 2
-			gotoXY(23, 23);
-			cout << "Level: 2";
-
-			gotoXY(23, 24);
-			cout << "Damage: 1";
-
-			gotoXY(23, 25);
-			cout << "Health: 2";
-
-			//Ghost 3
-			gotoXY(23, 27);
-			cout << "Level: 2";
-
-			gotoXY(23, 28);
-			cout << "Damage: 1";
-
-			gotoXY(23, 29);
-			cout << "Health: 2";
-
-			//Powerups
-			gotoXY(19, 33);
-			cout << "= Increases Bullet Movement Speed";
-
-			gotoXY(19, 34);
-			cout << "= Score Multiplier 2X";
-
-			gotoXY(19, 35);
-			cout << "= Increase Bullet Damage";
-
-			gotoXY(19, 36);
-			cout << "= Gives Pacman Additional Life";
-
-			gotoXY(17,38);
-			cout << "Your character will blink the colour of the power up you picked up!";
-		}
-			
-		if( b == 6 )
-		{
-			colour(getColourWORD(E_WHITE_COLOR));
-			cout << endl;
-			cout << endl;
-			cout << endl;
-
-			cout << "             PACMAN" << endl;
-			//Pacman
-			gotoXY(17, 43);
-			colour(getColourWORD(E_WHITE_COLOR));
-			cout << "      Damage: 1";
-
-			colour(getColourWORD(E_WHITE_COLOR));
-
-			string continueText = "Press Up to Continue...";
-			gotoXY(consoleSize.X/2 - continueText.length()/2, 50);
-			cout << continueText;
-
-			gotoXY(consoleSize.X/2, 52);
-
-			while( b == 6 )
-			{
-				colour(FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_INTENSITY);
-				drawPacman(17, 42);
-				Sleep(100);
-				getInput();
-
-				if ( keyPressed[E_UP_KEY] )
-				{
-					game = E_MAIN_MENU;
-					break;
-				}
-			}
+			game = E_MAIN_MENU;
+			break;
 		}
 	}
 }
@@ -1728,7 +1701,7 @@ void victoryScreen()
 	newSetConsoleSize(defaultConsoleSize);
 	consoleSize = defaultConsoleSize;
 
-	const int VICTORY_SCREEN_SIZE = 13;
+	const int VICTORY_SCREEN_SIZE = 12;
 	string victoryScreen[VICTORY_SCREEN_SIZE] =
 	{
 		"'##::::'##:'####::'######::'########::'#######::'########::'##:::'##:",
@@ -1740,7 +1713,9 @@ void victoryScreen()
 		"::. ###::::'####:. ######::::: ##::::. #######:: ##:::. ##:::: ##::::",
 		"                                                                     ",
 		"                                                                     ",
-		"               CONGRATULATIONS ON COMPLETING THIS LEVEL                 "
+		"               CONGRATULATIONS ON COMPLETING THIS LEVEL              ",
+		"",
+		"                     You have gained another life!                  "
 	};
 
 	colour(getColourWORD(E_WHITE_COLOR));

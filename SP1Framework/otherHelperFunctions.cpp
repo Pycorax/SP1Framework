@@ -20,7 +20,7 @@ void newSetConsoleSize(COORD size)
 void newSetConsoleSize(int x, int y)
 {
 	const int MIN_X = 66;
-	const int MIN_Y = 37;
+	const int MIN_Y = 50;
 
 	if (x < MIN_X)
 	{

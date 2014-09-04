@@ -22,16 +22,22 @@ using std::stoi;
 //retrieve data from save file
 void read(string fileName, playerScore * playerScore)
 {
+	const int PLAYERS = 10;
+
 	ifstream openfile(fileName);
 	if(fileExists(fileName)==true)
 	{
 		if(openfile.is_open())
 		{
-			for(int i = 0 ; !openfile.eof();i++)
+			for(int i = 0 ; i < PLAYERS; i++)
 			{
-				openfile >> playerScore[i].names ;
-				openfile >> playerScore[i].score ;
-				openfile >> playerScore[i].mapName;
+				string readLine;
+				getline(openfile, readLine);
+				playerScore[i].names = readLine;
+				getline(openfile, readLine);
+				playerScore[i].score = atoi(readLine.c_str());
+				getline(openfile, readLine);
+				playerScore[i].mapName = readLine;
 			}
 		}
 		openfile.close();
@@ -128,12 +134,15 @@ void write(string fileName, playerScore * playerScore)
 	{
 		for(int i = 0; i < PLAYERS ; i++)
 		{
-			openfile << playerScore[i].names <<" ";
-			if(playerScore[i].score >= 0)
-			openfile<< playerScore[i].score << " ";
-			else
-				openfile<<" ";
-			openfile << playerScore[i].mapName << endl;
+			if(playerScore[i].names != "")
+			{
+				flushInputBuffer();
+				openfile << playerScore[i].names << endl;
+				flushInputBuffer();
+				openfile<< playerScore[i].score << endl;
+				flushInputBuffer();
+				openfile << playerScore[i].mapName << endl;
+			}
 		}
 	}
 	openfile.close();
