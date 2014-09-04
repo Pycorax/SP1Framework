@@ -32,14 +32,14 @@ int main()
 		"Domo",
 		"Same Yet Different",
 		"Taste the Damage",
+		"All Paths Lead to Rome",
 		"The Figure",
 		"Pagoda",
 		"Between Two Realms",
 		"Cubes",
 		"Crossroads",
 		"Complexity",
-		"Ordered Chaos",
-		"All Paths Lead to Rome"
+		"Ordered Chaos"
 	};
 
 	while(game != E_EXIT)

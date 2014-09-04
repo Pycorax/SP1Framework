@@ -217,6 +217,11 @@ void update(double dt, Map &currentMap, Pacman &player)
 				player.lives -= currentMap.ghostStorage[i].damage;
 				player.coord = currentMap.startPos;
 				currentMap.scorePoints += g_SCORE_PER_DEATH;
+
+				if(currentMap.scorePoints >= currentMap.minScore)
+				{
+					gotoNextLevel = true;
+				}
 			}
 
 			//Moves Ghosts
@@ -229,7 +234,7 @@ void update(double dt, Map &currentMap, Pacman &player)
 				player.coord = currentMap.startPos;
 				currentMap.scorePoints += g_SCORE_PER_DEATH;
 
-				if(currentMap.scorePoints >= currentMap.minScore && player.isAlive())
+				if(currentMap.scorePoints >= currentMap.minScore)
 				{
 					gotoNextLevel = true;
 				}
@@ -264,7 +269,7 @@ void update(double dt, Map &currentMap, Pacman &player)
 	//Check level states E.g. Win/Lose conditions
 	if (player.isAlive())
 	{
-		if (currentMap.pellets < 1)
+		if (currentMap.pellets < 1 || gotoNextLevel)
 		{
 			currentMap.levelState = E_WIN;
 		}
