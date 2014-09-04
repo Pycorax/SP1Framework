@@ -22,6 +22,7 @@ using std::stoi;
 //retrieve data from save file
 void read(string fileName, playerScore * playerScore)
 {
+	const int AN_IMPOSSIBLY_LOW_SCORE = -10000;
 	const int PLAYERS = 10;
 
 	ifstream openfile(fileName);
@@ -35,7 +36,15 @@ void read(string fileName, playerScore * playerScore)
 				getline(openfile, readLine);
 				playerScore[i].names = readLine;
 				getline(openfile, readLine);
-				playerScore[i].score = atoi(readLine.c_str());
+				if (readLine.length() > 0)
+				{
+					playerScore[i].score = atoi(readLine.c_str());
+				}
+				else
+				{
+					playerScore[i].score = AN_IMPOSSIBLY_LOW_SCORE;
+				}
+				
 				getline(openfile, readLine);
 				playerScore[i].mapName = readLine;
 			}
@@ -46,29 +55,39 @@ void read(string fileName, playerScore * playerScore)
 void displayScores(playerScore * playerScore)
 {
 	const int PLAYERS = 10;
+	const int AN_IMPOSSIBLY_LOW_SCORE = -10000;
+	const short SPACE_BETWEEN_HEADERS = 17;
+
 	//display records
-	int highscorePrintSpot = defaultConsoleSize.X/2;
-	gotoXY(highscorePrintSpot - 17 , 17);
-	cout << "PLAYER NAME";
+	string SPACING = "";
+	for(short i = 0; i < SPACE_BETWEEN_HEADERS; ++i)
+	{
+		SPACING += " ";
+	}
+	string headerPlayerName = "PLAYER NAME";
+	string headerScore = "SCORE";
+	string headerLevelPlayed = "LAST LEVEL PLAYED";
+	string highScoreHead = headerPlayerName + SPACING + headerScore + SPACING + headerLevelPlayed;
+
+	int highscorePrintSpot = defaultConsoleSize.X/2 - highScoreHead.length()/2;
+
 	gotoXY(highscorePrintSpot, 17);
-	cout << " SCORES ";
-	gotoXY(highscorePrintSpot + 13 , 17);
-	cout << "LEVEL";
+	cout << highScoreHead;
 
-		for(int counter = 0 ; counter < PLAYERS ; counter++)
+	for(int counter = 0 ; counter < PLAYERS ; counter++)
+	{
+		gotoXY(highscorePrintSpot, 19 + counter);
+		cout << playerScore[counter].names ;
+
+		if(playerScore[counter].score > AN_IMPOSSIBLY_LOW_SCORE)
 		{
-			gotoXY(highscorePrintSpot - 17, 19 + counter);
-			cout << playerScore[counter].names ;
-
-			if(playerScore[counter].score > 0)
-			{
-			gotoXY(highscorePrintSpot, 19 + counter);
+			gotoXY(highscorePrintSpot + headerPlayerName.length() + SPACE_BETWEEN_HEADERS, 19 + counter);
 			cout<< playerScore[counter].score ;
-			}
-
-			gotoXY(highscorePrintSpot + 13, 19 + counter);
-			cout << playerScore[counter].mapName ;
 		}
+
+		gotoXY(highscorePrintSpot + highScoreHead.length() - headerLevelPlayed.length(), 19 + counter);
+		cout << playerScore[counter].mapName ;
+	}
 }
 void highScoreTitle()
 {
@@ -149,6 +168,8 @@ void write(string fileName, playerScore * playerScore)
 }
 void highScoreBoard(int scorePoint, string mapName)
 {
+	const int AN_IMPOSSIBLY_LOW_SCORE = -10000;
+
 	string scoresDirectory = "Saves/";
 	string scoresFileName = scoresDirectory + "scores.cfg";
 
@@ -158,14 +179,14 @@ void highScoreBoard(int scorePoint, string mapName)
 	playerScore playerScore[PLAYERS];
 	for(int i = 0; i < 10 ; i++)
 	{
-		playerScore[i].names="";
-		playerScore[i].score=-1;
-		playerScore[i].mapName="";
+		playerScore[i].names = "";
+		playerScore[i].score = AN_IMPOSSIBLY_LOW_SCORE;
+		playerScore[i].mapName = "";
 	}
 
 	read(scoresFileName,playerScore);
 
-	if(scorePoint >= 0)
+	if(scorePoint > AN_IMPOSSIBLY_LOW_SCORE)
 	{
 		string playername;
 		gotoXY(40,20);
@@ -193,6 +214,8 @@ void highScoreBoard(int scorePoint, string mapName)
 
 void highScoreBoard()
 {
+	const int AN_IMPOSSIBLY_LOW_SCORE = -10000;
+
 	string scoresDirectory = "Saves/";
 	string scoresFileName = scoresDirectory + "scores.cfg";
 
@@ -201,9 +224,9 @@ void highScoreBoard()
 
 	for(int i = 0; i < 10 ; i++)
 	{
-		playerScore[i].names="";
-		playerScore[i].score=-1;
-		playerScore[i].mapName="";
+		playerScore[i].names = "";
+		playerScore[i].score = AN_IMPOSSIBLY_LOW_SCORE;
+		playerScore[i].mapName = "";
 	}
 
 	read(scoresFileName,playerScore);

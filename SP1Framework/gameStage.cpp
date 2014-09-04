@@ -1955,10 +1955,11 @@ void aboutScreen()
 		gotoXY(aboutScreenPrintSpot, 6 + i);
 		cout << title[i];
 	}
-	const size_t ABOUT_MENU_DETAILS = 5;
+	const size_t ABOUT_MENU_DETAILS = 6;
 	string aboutMenuDetails[ABOUT_MENU_DETAILS] =
 	{
 		" This game is brought to you by Team 11     ",
+		"",
 		"       Members :   Tng Kah Wei              ",
 		"                   Leng Wei Shao, Sean      ",
 		"                   Rayner Tay Yi Zhe        ",
